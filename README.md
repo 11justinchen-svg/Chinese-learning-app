@@ -4,7 +4,8 @@ The Chinese Learning App, built around real conversation for travelers. A 3D rob
 
 ## Features
 
-- **Lesson path** (`/`): a Duolingo-style path of conversational lessons for travelers, grouped into units (first words, getting around, eating well, checking in, when things go wrong). Each lesson drops you into a live roleplay with the tutor.
+- **Homepage case** (`/`): the argument for MoZhi over tile-tapping apps: character decomposition (好 = 女 + 子), phonetic series, mandatory production, tone pairs, real situations, and free vs. a paid annual commitment.
+- **Lesson path** (`/lessons`): a Duolingo-style path of conversational lessons for travelers, grouped into units (first words, getting around, eating well, checking in, when things go wrong). Each lesson drops you into a live roleplay with the tutor.
 - **Conversation practice** (`/chat`): a streaming chat with the robot tutor. Replies come in Chinese with pinyin and an English gloss, with gentle in-context corrections. The 3D robot sits beside the conversation.
 - **Hanzi component system** (`/hanzi`): a curated set of characters broken into their functional parts (meaning component, sound component, pictograph), each with an explanation and a short story of how the parts combine. Type any other character and the tutor analyzes it live.
 - **Robot-centered homepage hero** (`/`): the robot over a marquee wall of display type, with the 默知 logo set in a ring.

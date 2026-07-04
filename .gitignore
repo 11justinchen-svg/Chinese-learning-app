@@ -9,3 +9,7 @@ npm-debug.log*
 .DS_Store
 *.tsbuildinfo
 next-env.d.ts
+
+# Local tool artifacts
+.playwright-mcp/
+.claude/settings.local.json

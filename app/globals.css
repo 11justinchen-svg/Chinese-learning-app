@@ -3,7 +3,31 @@
 @tailwind utilities;
 
 @layer base {
+  /* Default: warm "sepia" paper theme — easy on the eyes for long reading. */
   :root {
+    --background: 40 33% 93%;
+    --foreground: 28 24% 15%;
+    --card: 42 40% 97%;
+    --card-foreground: 28 24% 15%;
+    --primary: 4 66% 44%;
+    --primary-foreground: 42 40% 97%;
+    --secondary: 38 26% 85%;
+    --secondary-foreground: 28 24% 20%;
+    --muted: 38 24% 87%;
+    --muted-foreground: 30 12% 38%;
+    --accent: 32 72% 38%;
+    --accent-foreground: 42 40% 97%;
+    --border: 36 20% 78%;
+    --input: 36 20% 78%;
+    --ring: 4 66% 44%;
+    --radius: 0.75rem;
+    /* Native Song/Ming serif stack: the hanzi render as ink, no font download. */
+    --font-hanzi: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC",
+      "Source Han Serif CN", "Songti TC", "SimSun", serif;
+  }
+
+  /* Interchangeable dark "ink" theme. */
+  .dark {
     --background: 240 10% 4%;
     --foreground: 0 0% 98%;
     --card: 240 10% 6%;
@@ -19,7 +43,6 @@
     --border: 240 4% 16%;
     --input: 240 4% 16%;
     --ring: 0 72% 51%;
-    --radius: 0.75rem;
   }
 }
 
@@ -32,35 +55,29 @@
   }
 }
 
-/* Homepage hero text backdrop */
-.marquee-row {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-  animation: marquee 48s linear infinite;
+/* Lesson rows settle in on load, staggered via inline animation-delay. */
+.lesson-in {
+  opacity: 0;
+  animation: lesson-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.marquee-reverse {
-  animation-direction: reverse;
-}
-
-@keyframes marquee {
+@keyframes lesson-in {
   from {
-    transform: translateX(0);
+    opacity: 0;
+    transform: translateY(12px);
   }
   to {
-    transform: translateX(-50%);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.text-hollow-black {
-  color: transparent;
-  -webkit-text-stroke: 3px #171717;
-}
-
-.text-hollow-violet {
-  color: transparent;
-  -webkit-text-stroke: 3px #7c3aed;
+@media (prefers-reduced-motion: reduce) {
+  .lesson-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
 }
 
 .loader {
