@@ -3,6 +3,17 @@
 Status as of 2026-07-05. Branch: `claude/eager-bohr-468slk` (PR #1 → main).
 Delete this file once all Phase B units have merged.
 
+## Status log
+
+- 2026-07-05: All 12 Phase B workers were spawned and immediately killed by
+  the account session limit (resets 10:40pm PT) — none opened a PR. The
+  Stage 8 worker's worktree held a complete, validator-clean rewrite; it was
+  salvaged and committed directly (`a949e70`). **Remaining units: stages
+  2, 3, 4, 5, 6, 7, 9, 10 (W1–W6, W8, W9) + progress dashboard (W10) +
+  flashcards integration (W11) + README (W12).** To resume after the limit
+  resets: tell Claude Code "resume the batch in HANDOFF.md" — the unit
+  briefs below are self-contained.
+
 ## What's done (Phase A — foundation, committed & pushed)
 
 The ten-stage HSK-1 learning path is live and fully playable:
