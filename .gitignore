@@ -13,3 +13,5 @@ next-env.d.ts
 # Local tool artifacts
 .playwright-mcp/
 .claude/settings.local.json
+public/robot.mov
+public/robot.webm
