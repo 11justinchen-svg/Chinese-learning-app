@@ -1,0 +1,108 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { Volume2 } from "lucide-react";
+import type { ReplyExercise } from "@/lib/data/stages/types";
+import { canSpeakChinese, speak } from "@/lib/speech";
+import { cn } from "@/lib/utils";
+import {
+  hashSeed,
+  optionClass,
+  seededShuffle,
+  type ExerciseChildProps,
+} from "./utils";
+
+const hanziFont = "font-[family-name:var(--font-hanzi)]";
+const displayFont = "font-[family-name:var(--font-display)]";
+
+export function ReplyExerciseView({
+  exercise,
+  phase,
+  onAnswer,
+}: ExerciseChildProps<ReplyExercise>) {
+  const [selected, setSelected] = useState<string | null>(null);
+  const [tts, setTts] = useState(false);
+  const choices = useMemo(
+    () => seededShuffle(exercise.choices, hashSeed(exercise.id)),
+    [exercise.id, exercise.choices],
+  );
+  const answering = phase === "answering";
+
+  useEffect(() => setTts(canSpeakChinese()), []);
+
+  useEffect(() => {
+    if (!answering) return;
+    const onKey = (e: KeyboardEvent) => {
+      const n = Number(e.key);
+      if (n >= 1 && n <= choices.length) {
+        setSelected(choices[n - 1].hanzi);
+        onAnswer(choices[n - 1].hanzi === exercise.answer);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [answering, choices, exercise.answer, onAnswer]);
+
+  return (
+    <div>
+      <p className="text-sm italic text-muted-foreground">{exercise.scene}</p>
+      <div className="mt-3 flex items-start gap-3 rounded-2xl rounded-tl-sm border border-border bg-secondary/50 px-4 py-3">
+        <div className="min-w-0">
+          <p className={cn("text-2xl", hanziFont)}>{exercise.line.hanzi}</p>
+          <p
+            className={cn("mt-0.5 text-xs text-muted-foreground", displayFont)}
+          >
+            {exercise.line.pinyin}
+          </p>
+        </div>
+        {tts && (
+          <button
+            type="button"
+            aria-label="Play line"
+            className="mt-1 shrink-0 rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            onClick={() => speak(exercise.line.hanzi)}
+          >
+            <Volume2 className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+      <p className="mt-4 text-sm text-muted-foreground">How do you reply?</p>
+      <div className="mt-2 space-y-2">
+        {choices.map((c, i) => {
+          const state = answering
+            ? "idle"
+            : c.hanzi === exercise.answer
+              ? "correct"
+              : c.hanzi === selected
+                ? "wrong"
+                : "idle";
+          return (
+            <button
+              key={c.hanzi}
+              type="button"
+              disabled={!answering}
+              className={optionClass(state)}
+              onClick={() => {
+                setSelected(c.hanzi);
+                onAnswer(c.hanzi === exercise.answer);
+              }}
+            >
+              <span className="mr-2 text-xs tabular-nums text-muted-foreground">
+                {i + 1}
+              </span>
+              <span className={cn("text-xl", hanziFont)}>{c.hanzi}</span>
+              <span
+                className={cn(
+                  "ml-2 text-xs text-muted-foreground",
+                  displayFont,
+                )}
+              >
+                {c.pinyin}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

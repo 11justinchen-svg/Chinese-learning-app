@@ -283,4 +283,132 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
       },
     ],
   },
+  {
+    id: "xiang-want",
+    title: "Wanting to do something with 想",
+    hanzi: "想",
+    pattern: "Subject + 想 + Verb (+ Object)",
+    summary:
+      '想 (xiǎng) before a verb means "would like to / want to" — softer than a demand. Negate with 不想.',
+    examples: [
+      {
+        hanzi: "我想喝茶。",
+        pinyin: "Wǒ xiǎng hē chá.",
+        meaning: "I'd like to drink tea.",
+      },
+      {
+        hanzi: "你想吃什么？",
+        pinyin: "Nǐ xiǎng chī shénme?",
+        meaning: "What would you like to eat?",
+      },
+    ],
+    vocab: [],
+    resources: [
+      {
+        label: "YouTube — 12 Basic Chinese Grammar Points (HSK 1)",
+        url: "https://www.youtube.com/watch?v=uSlZVM2VaFE",
+        type: "video",
+      },
+      {
+        label: 'Chinese Grammar Wiki — Expressing "would like to" with "xiang"',
+        url: 'https://resources.allsetlearning.com/chinese/grammar/Expressing_"would_like_to"_with_"xiang"',
+        type: "article",
+      },
+    ],
+  },
+  {
+    id: "tai-le",
+    title: '"Too…!" with 太…了',
+    hanzi: "太",
+    pattern: "太 + Adjective + 了",
+    summary:
+      '太 (tài) + adjective + 了 (le) means "too / so …" — excess or strong emotion. 太好了 is the everyday "great!"',
+    examples: [
+      { hanzi: "太好了！", pinyin: "Tài hǎo le!", meaning: "Great!" },
+      {
+        hanzi: "这个太大了。",
+        pinyin: "Zhège tài dà le.",
+        meaning: "This one is too big.",
+      },
+    ],
+    vocab: [],
+    resources: [
+      {
+        label: 'YouTube — Using 太…(了) to say "too" or "so"',
+        url: "https://www.youtube.com/watch?v=9_9YcJqdDHo",
+        type: "video",
+      },
+      {
+        label: 'Chinese Grammar Wiki — Expressing "excessively" with "tai"',
+        url: 'https://resources.allsetlearning.com/chinese/grammar/Expressing_"excessively"_with_"tai"',
+        type: "article",
+      },
+    ],
+  },
+  {
+    id: "hen-adjective",
+    title: "Describing things with 很",
+    hanzi: "很",
+    pattern: "Subject + 很 + Adjective",
+    summary:
+      'Adjectives link to nouns with 很 (hěn), not 是 — 很 here is closer to "is" than "very". Saying 我是高兴 is the classic beginner mistake.',
+    examples: [
+      {
+        hanzi: "我很高兴。",
+        pinyin: "Wǒ hěn gāoxìng.",
+        meaning: "I am happy.",
+      },
+      {
+        hanzi: "今天天气很好。",
+        pinyin: "Jīntiān tiānqì hěn hǎo.",
+        meaning: "The weather is nice today.",
+      },
+    ],
+    vocab: [],
+    resources: [
+      {
+        label: "YouTube — How to use 很 + adjective correctly",
+        url: "https://www.youtube.com/watch?v=IAHpFSiT5Gw",
+        type: "video",
+      },
+      {
+        label: 'Chinese Grammar Wiki — Simple "noun + adjective" sentences',
+        url: 'https://resources.allsetlearning.com/chinese/grammar/Simple_"noun_+_adjective"_sentences',
+        type: "article",
+      },
+    ],
+  },
+  {
+    id: "le-completed",
+    title: "Completed actions with 了",
+    hanzi: "了",
+    pattern: "Subject + Verb + 了 (+ Object)",
+    summary:
+      "了 (le) right after a verb marks the action as completed — Chinese has no past tense, so 了 does that work: 我看了电影 = I watched a movie.",
+    examples: [
+      {
+        hanzi: "我看了电影。",
+        pinyin: "Wǒ kàn le diànyǐng.",
+        meaning: "I watched a movie.",
+      },
+      {
+        hanzi: "他买了三本书。",
+        pinyin: "Tā mǎi le sān běn shū.",
+        meaning: "He bought three books.",
+      },
+    ],
+    vocab: [],
+    resources: [
+      {
+        label: 'YouTube — Chinese Grammar Point "了" (HSK 1), GoEast Mandarin',
+        url: "https://www.youtube.com/watch?v=CXeUCVodWv0",
+        type: "video",
+      },
+      {
+        label: 'Chinese Grammar Wiki — Expressing completion with "le"',
+        url: 'https://resources.allsetlearning.com/chinese/grammar/Expressing_completion_with_"le"',
+        type: "article",
+      },
+    ],
+  },
 ];

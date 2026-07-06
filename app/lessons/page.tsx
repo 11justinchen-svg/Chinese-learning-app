@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { HskPlan } from "@/components/hsk-plan";
+import { LearningPath } from "@/components/path/learning-path";
 
 export const metadata: Metadata = {
   title: "HSK 1 | 默知 MoZhi",
   description:
-    "A ten-set plan through all 150 HSK-1 words, with spaced-repetition flashcards and a component breakdown for every character.",
+    "A ten-stage HSK-1 path built around real-life scenarios: dialogues, interactive vocabulary and grammar drills, and checkpoints that unlock the next stage.",
 };
 
 export default function LessonsPage() {
-  return <HskPlan />;
+  return <LearningPath />;
 }
