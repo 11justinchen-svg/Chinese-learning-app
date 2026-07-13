@@ -1,0 +1,4 @@
+interface:
+  display_name: "Author Grammar Dialogues"
+  short_description: "Create guided Mandarin grammar conversations"
+  default_prompt: "Use $author-grammar-dialogues to create a step-by-step conversation for this grammar lesson."
