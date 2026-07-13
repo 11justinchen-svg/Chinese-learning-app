@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Volume2 } from "lucide-react";
 import type { TeachCard } from "@/lib/data/stages/types";
 import { findWord } from "@/lib/hsk";
-import { canSpeakChinese, onVoicesReady, speak } from "@/lib/speech";
+import { speak } from "@/lib/speech";
+import {
+  speechFallbackMessage,
+  useMandarinSpeech,
+} from "@/lib/use-mandarin-speech";
 import { cn } from "@/lib/utils";
 
 const hanziFont = "font-[family-name:var(--font-hanzi)]";
@@ -20,12 +24,9 @@ export function TeachCards({
   onDone: () => void;
 }) {
   const [pos, setPos] = useState(0);
-  const [tts, setTts] = useState(false);
-
-  useEffect(() => {
-    setTts(canSpeakChinese());
-    return onVoicesReady(() => setTts(canSpeakChinese()));
-  }, []);
+  const speech = useMandarinSpeech();
+  const tts = speech === "ready";
+  const speechFallback = speechFallbackMessage(speech);
 
   const card = cards[pos];
   const word = card ? findWord(card.wordId) : undefined;
@@ -54,6 +55,11 @@ export function TeachCards({
           style={{ width: `${((pos + 1) / cards.length) * 100}%` }}
         />
       </div>
+      {speechFallback && (
+        <p className="mt-2 text-xs text-muted-foreground" role="status">
+          {speechFallback}
+        </p>
+      )}
 
       <div className="mt-5 rounded-2xl border border-border bg-background p-6 text-center sm:p-8">
         <div className="flex items-center justify-center gap-3">

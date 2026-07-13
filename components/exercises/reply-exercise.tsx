@@ -3,7 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Volume2 } from "lucide-react";
 import type { ReplyExercise } from "@/lib/data/stages/types";
-import { canSpeakChinese, speak } from "@/lib/speech";
+import { speak } from "@/lib/speech";
+import {
+  speechFallbackMessage,
+  useMandarinSpeech,
+} from "@/lib/use-mandarin-speech";
 import { cn } from "@/lib/utils";
 import {
   hashSeed,
@@ -21,14 +25,14 @@ export function ReplyExerciseView({
   onAnswer,
 }: ExerciseChildProps<ReplyExercise>) {
   const [selected, setSelected] = useState<string | null>(null);
-  const [tts, setTts] = useState(false);
+  const speech = useMandarinSpeech();
+  const tts = speech === "ready";
+  const speechFallback = speechFallbackMessage(speech);
   const choices = useMemo(
     () => seededShuffle(exercise.choices, hashSeed(exercise.id)),
     [exercise.id, exercise.choices],
   );
   const answering = phase === "answering";
-
-  useEffect(() => setTts(canSpeakChinese()), []);
 
   useEffect(() => {
     if (!answering) return;
@@ -66,6 +70,11 @@ export function ReplyExerciseView({
           </button>
         )}
       </div>
+      {speechFallback && (
+        <p className="mt-2 text-xs text-muted-foreground" role="status">
+          {speechFallback}
+        </p>
+      )}
       <p className="mt-4 text-sm text-muted-foreground">How do you reply?</p>
       <div className="mt-2 space-y-2">
         {choices.map((c, i) => {

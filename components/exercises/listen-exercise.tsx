@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Turtle, Volume2 } from "lucide-react";
 import type { ListenExercise } from "@/lib/data/stages/types";
-import { canSpeakChinese, onVoicesReady, speak } from "@/lib/speech";
+import { speak } from "@/lib/speech";
+import { useMandarinSpeech } from "@/lib/use-mandarin-speech";
 import { cn } from "@/lib/utils";
 import {
   hashSeed,
@@ -21,17 +22,13 @@ export function ListenExerciseView({
   onAnswer,
 }: ExerciseChildProps<ListenExercise>) {
   const [selected, setSelected] = useState<string | null>(null);
-  const [tts, setTts] = useState(false);
+  const speech = useMandarinSpeech();
+  const tts = speech === "ready";
   const choices = useMemo(
     () => seededShuffle(exercise.choices, hashSeed(exercise.id)),
     [exercise.id, exercise.choices],
   );
   const answering = phase === "answering";
-
-  useEffect(() => {
-    setTts(canSpeakChinese());
-    return onVoicesReady(() => setTts(canSpeakChinese()));
-  }, []);
 
   useEffect(() => {
     if (!answering) return;
@@ -48,10 +45,16 @@ export function ListenExerciseView({
 
   return (
     <div>
-      <p className="text-sm text-muted-foreground">
+      <p
+        className="text-sm text-muted-foreground"
+        role="status"
+        aria-live="polite"
+      >
         {tts
           ? "Listen, then pick what you heard"
-          : "No Chinese voice on this device — read the pinyin instead"}
+          : speech === "loading"
+            ? "Preparing the Mandarin voice…"
+            : "No Mandarin voice is available — use the pinyin fallback"}
       </p>
 
       {tts ? (
@@ -59,7 +62,7 @@ export function ListenExerciseView({
           <button
             type="button"
             className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
-            aria-label="Play audio"
+            aria-label="Play Mandarin audio at normal speed"
             onClick={() => speak(exercise.text)}
           >
             <Volume2 className="h-7 w-7" />
@@ -67,12 +70,17 @@ export function ListenExerciseView({
           <button
             type="button"
             className="flex h-11 w-11 items-center justify-center rounded-xl border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
-            aria-label="Play slowly"
-            onClick={() => speak(exercise.text, { rate: 0.55 })}
+            aria-label="Replay Mandarin audio slowly"
+            onClick={() => speak(exercise.text, { rate: 0.68 })}
           >
             <Turtle className="h-5 w-5" />
           </button>
         </div>
+      ) : speech === "loading" ? (
+        <div
+          className="mt-4 h-16 w-16 animate-pulse rounded-2xl bg-secondary"
+          aria-hidden="true"
+        />
       ) : (
         <p className={cn("mt-4 text-3xl", displayFont)}>{exercise.pinyin}</p>
       )}

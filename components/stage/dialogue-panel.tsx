@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChevronDown, Eye, EyeOff, Volume2 } from "lucide-react";
 import type { DialogueLine } from "@/lib/data/stages/types";
-import { canSpeakChinese, onVoicesReady, speak } from "@/lib/speech";
+import { speak } from "@/lib/speech";
+import {
+  speechFallbackMessage,
+  useMandarinSpeech,
+} from "@/lib/use-mandarin-speech";
 import { cn } from "@/lib/utils";
 
 const hanziFont = "font-[family-name:var(--font-hanzi)]";
@@ -18,13 +22,10 @@ export function DialoguePanel({
 }) {
   const [revealed, setRevealed] = useState(1);
   const [showEnglish, setShowEnglish] = useState(true);
-  const [tts, setTts] = useState(false);
+  const speech = useMandarinSpeech();
+  const tts = speech === "ready";
+  const speechFallback = speechFallbackMessage(speech);
   const allShown = revealed >= dialogue.length;
-
-  useEffect(() => {
-    setTts(canSpeakChinese());
-    return onVoicesReady(() => setTts(canSpeakChinese()));
-  }, []);
 
   const speakers = [...new Set(dialogue.map((l) => l.speaker))];
 
@@ -48,6 +49,11 @@ export function DialoguePanel({
           English
         </button>
       </div>
+      {speechFallback && (
+        <p className="mt-2 text-xs text-muted-foreground" role="status">
+          {speechFallback}
+        </p>
+      )}
 
       <div className="mt-4 space-y-3">
         {dialogue.slice(0, revealed).map((line, i) => {

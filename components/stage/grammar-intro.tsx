@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { FileText, PlayCircle, Volume2 } from "lucide-react";
 import { GRAMMAR_LESSONS } from "@/lib/data/grammar";
-import { canSpeakChinese, onVoicesReady, speak } from "@/lib/speech";
+import { speak } from "@/lib/speech";
+import {
+  speechFallbackMessage,
+  useMandarinSpeech,
+} from "@/lib/use-mandarin-speech";
 import { cn } from "@/lib/utils";
 
 const hanziFont = "font-[family-name:var(--font-hanzi)]";
@@ -11,11 +14,9 @@ const displayFont = "font-[family-name:var(--font-display)]";
 
 // Compact pattern card shown right before a grammar block's drills.
 export function GrammarIntro({ lessonId }: { lessonId: string }) {
-  const [tts, setTts] = useState(false);
-  useEffect(() => {
-    setTts(canSpeakChinese());
-    return onVoicesReady(() => setTts(canSpeakChinese()));
-  }, []);
+  const speech = useMandarinSpeech();
+  const tts = speech === "ready";
+  const speechFallback = speechFallbackMessage(speech);
 
   const lesson = GRAMMAR_LESSONS.find((l) => l.id === lessonId);
   if (!lesson) return null;
@@ -34,6 +35,11 @@ export function GrammarIntro({ lessonId }: { lessonId: string }) {
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
         {lesson.summary}
       </p>
+      {speechFallback && (
+        <p className="mt-2 text-xs text-muted-foreground" role="status">
+          {speechFallback}
+        </p>
+      )}
       <div className="mt-3 space-y-1.5">
         {lesson.examples.map((ex) => (
           <div key={ex.hanzi} className="flex items-center gap-2 text-sm">

@@ -12,7 +12,8 @@ import {
   type WordStatus,
 } from "@/lib/progression";
 import { grade, loadSrs, saveSrs } from "@/lib/srs";
-import { canSpeakChinese, speak } from "@/lib/speech";
+import { speak } from "@/lib/speech";
+import { useMandarinSpeech } from "@/lib/use-mandarin-speech";
 import { cn } from "@/lib/utils";
 import { ChoiceExerciseView } from "./choice-exercise";
 import { ClozeExerciseView } from "./cloze-exercise";
@@ -82,12 +83,11 @@ export function ExercisePlayer({
   const [phase, setPhase] = useState<Phase>("answering");
   const [lastCorrect, setLastCorrect] = useState(false);
   const [done, setDone] = useState(false);
-  const [tts, setTts] = useState(false);
+  const speech = useMandarinSpeech();
+  const tts = speech === "ready";
   const firstTry = useRef<Record<string, boolean>>({});
   const reasks = useRef<Record<string, number>>({});
   const graded = useRef(false);
-
-  useEffect(() => setTts(canSpeakChinese()), []);
 
   const current = queue[pos];
 
