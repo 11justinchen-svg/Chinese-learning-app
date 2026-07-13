@@ -1,47 +1,84 @@
 # 默知 MoZhi
 
-The Chinese Learning App, built around real conversation for travelers. A 3D robot tutor, Xiao Hui (小慧), roleplays the situations a tourist actually hits (taxis, restaurants, hotels, bargaining), corrects your mistakes in context, and teaches characters by explaining the meaning of the components inside them instead of asking you to memorize strokes.
+An HSK-1 Mandarin learning app built around short, useful conversations,
+retrieval practice, and character structure.
 
 ## Features
 
-- **Lesson path** (`/`): a Duolingo-style path of conversational lessons for travelers, grouped into units (first words, getting around, eating well, checking in, when things go wrong). Each lesson drops you into a live roleplay with the tutor.
-- **Conversation practice** (`/chat`): a streaming chat with the robot tutor. Replies come in Chinese with pinyin and an English gloss, with gentle in-context corrections. The 3D robot sits beside the conversation.
-- **Hanzi component system** (`/hanzi`): a curated set of characters broken into their functional parts (meaning component, sound component, pictograph), each with an explanation and a short story of how the parts combine. Type any other character and the tutor analyzes it live.
-- **Robot-centered homepage hero** (`/`): the robot over a marquee wall of display type, with the 默知 logo set in a ring.
+- **Lesson path** (`/lessons`): ten HSK-1 stages with model dialogues,
+  vocabulary teaching, grammar drills, production tasks, and checkpoints.
+- **Role calls** (`/conversation`): speak or type through authored calls with a
+  waiter, sales associate, taxi driver, hotel clerk, or teacher. Browser speech
+  recognition and Mandarin text-to-speech are enhanced when available, but
+  every call has a deterministic text fallback.
+- **Flashcards** (`/flashcards`): spaced review of the HSK-1 vocabulary.
+- **Progress** (`/progress`): stage completion, productive-recall gates,
+  spaced-review status, and all 150 words in one dashboard.
+- **Hanzi component system** (`/hanzi`): a curated character explorer focused
+  on functional components.
 
 ## Stack
 
 - Next.js 14 (App Router) with TypeScript
-- Tailwind CSS with a shadcn-style component structure (`components/ui`, `lib/utils.ts`)
-- Spline (`@splinetool/react-spline`) for the 3D robot
-- Claude API (`@anthropic-ai/sdk`) for conversation and character analysis
+- Tailwind CSS and local React components
+- Optional Claude API calls for safe role-reply variations; no SDK required
 
 ## Setup
 
 ```bash
 npm install
-cp .env.example .env.local   # then add your ANTHROPIC_API_KEY
 npm run dev
 ```
 
 Open http://localhost:3000.
 
-The home and hanzi pages work without an API key (the curated character set is local). The chat tutor and live character analysis require `ANTHROPIC_API_KEY`.
+The complete learning path and authored role calls work without an API key.
+Set `ANTHROPIC_API_KEY` to enable constrained role-reply variations. You can
+optionally override the default model with `ANTHROPIC_MODEL`.
+
+## Learning workflow
+
+Each stage follows the same durable-learning sequence:
+
+1. Tap through a short comprehensible dialogue with Mandarin speech.
+2. Learn the stage vocabulary in context.
+3. Retrieve it through choice, listening, matching, cloze, ordering, and reply
+   tasks.
+4. Practice grammar in a linked role call with hints and correction/retry.
+5. Pass the checkpoint with at least 80% first-try accuracy, learn at least 80%
+   of the stage words, and use at least half in sentence or reply practice.
+6. Review unlocked vocabulary with the local Leitner schedule.
+
+Progress stays on the device in `mozhi.progress.v1`, SRS scheduling in
+`mozhi.srs.v1`, and custom cards in `mozhi.cards.v1`.
+
+## Verification
+
+```bash
+npm run test:speech
+npm run test:progression
+npm run validate
+npm run build
+```
+
+`npm run validate` checks frozen word allocation, vocabulary gating, exercise
+shape and learnability, plus all authored role-call paths.
 
 ## Project structure
 
 ```
 app/
-  page.tsx            homepage hero around the 3D robot
-  chat/page.tsx       conversation with the robot tutor
-  hanzi/page.tsx      character component explorer
-  api/chat/route.ts   streaming Claude conversation endpoint
-  api/hanzi/route.ts  character breakdown endpoint
+  lessons/                     HSK-1 learning path
+  conversation/page.tsx       role-call practice
+  api/conversation/route.ts   optional streamed AI reply variations
+  hanzi/page.tsx              character component explorer
 components/
-  ui/                 shadcn-style primitives (card, spotlight, splite)
-  chat.tsx            chat client
-  hanzi-explorer.tsx  hanzi browser and live lookup
+  conversation/role-call-studio.tsx  guided voice/text calls
+  exercises/                       lesson exercise renderers
+  progress/                        learner progress dashboard
+  stage/                           stage dialogue and teaching UI
 lib/
-  hanzi-data.ts       curated character breakdowns
-  utils.ts            cn() helper
+  role-calls.ts       authored personas, steps, and local evaluation
+  speech.ts           browser Mandarin text-to-speech
+  progression.ts      learning evidence, completion, and stage locks
 ```

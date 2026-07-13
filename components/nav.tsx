@@ -2,12 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MessageCircle, Library, Home } from "lucide-react";
+import { BarChart3, Headphones, Layers, Library, Route } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const links = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/chat", label: "Talk", icon: MessageCircle },
+  { href: "/lessons", label: "Lessons", icon: Route },
+  { href: "/conversation", label: "Role calls", icon: Headphones },
+  { href: "/progress", label: "Progress", icon: BarChart3 },
+  { href: "/flashcards", label: "Flashcards", icon: Layers },
   { href: "/hanzi", label: "Hanzi", icon: Library },
 ];
 
@@ -17,7 +20,7 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="flex items-baseline gap-2">
+        <Link href="/lessons" className="flex items-baseline gap-2">
           <span className="text-xl font-bold text-primary">默知</span>
           <span className="text-lg font-semibold tracking-tight">MoZhi</span>
         </Link>
@@ -28,7 +31,7 @@ export function Nav() {
               href={href}
               className={cn(
                 "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                pathname === href
+                pathname.startsWith(href)
                   ? "bg-secondary text-foreground"
                   : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
               )}
@@ -37,6 +40,9 @@ export function Nav() {
               <span className="hidden sm:inline">{label}</span>
             </Link>
           ))}
+          <div className="ml-1 border-l border-border/60 pl-1">
+            <ThemeToggle />
+          </div>
         </nav>
       </div>
     </header>
