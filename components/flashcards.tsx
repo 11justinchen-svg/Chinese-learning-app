@@ -3,6 +3,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Check, Plus, RotateCcw, Trash2 } from "lucide-react";
 import { HSK1, UNITS, findWord, type HskWord } from "@/lib/hsk";
+import { STAGES } from "@/lib/data/stages";
+import {
+  loadProgress,
+  wordStatus,
+  type ProgressStore,
+} from "@/lib/progression";
 import {
   deckStats,
   grade,
@@ -39,6 +45,7 @@ interface Deck {
 }
 
 const CARDS_KEY = "mozhi.cards.v1";
+const EMPTY_PROGRESS: ProgressStore = { version: 1, words: {}, stages: {} };
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -51,6 +58,7 @@ function shuffle<T>(arr: T[]): T[] {
 
 export function Flashcards({ initialUnit }: { initialUnit?: number }) {
   const [srs, setSrs] = useState<SrsStore>({});
+  const [progress, setProgress] = useState<ProgressStore>(EMPTY_PROGRESS);
   const [custom, setCustom] = useState<CustomCard[]>([]);
   const [ready, setReady] = useState(false);
   const [session, setSession] = useState<{
@@ -60,6 +68,7 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
 
   useEffect(() => {
     setSrs(loadSrs());
+    setProgress(loadProgress());
     try {
       setCustom(JSON.parse(localStorage.getItem(CARDS_KEY) || "[]"));
     } catch {
@@ -96,6 +105,12 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
         label: `Set ${u.index}`,
         sub: `${u.words[0].hanzi} … ${u.words[u.words.length - 1].hanzi}`,
         ids: u.words.map((w) => w.id),
+      })),
+      ...STAGES.map((stage) => ({
+        id: `stage-${stage.index}`,
+        label: `Stage ${stage.index}: ${stage.title}`,
+        sub: `${stage.hanziTitle} · ${stage.wordIds.length} words`,
+        ids: stage.wordIds,
       })),
     ];
     if (custom.length)
@@ -174,13 +189,43 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
             displayFont,
           )}
         >
-          Preset decks
+          Learning-path decks
         </h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {decks
-            .filter((d) => d.id !== "custom")
+            .filter((d) => d.id.startsWith("stage-"))
             .map((deck) => (
-              <DeckCard key={deck.id} deck={deck} srs={srs} onStart={start} />
+              <DeckCard
+                key={deck.id}
+                deck={deck}
+                srs={srs}
+                progress={progress}
+                onStart={start}
+              />
+            ))}
+        </div>
+      </section>
+
+      <section>
+        <h2
+          className={cn(
+            "mb-4 text-sm uppercase tracking-[0.2em] text-muted-foreground",
+            displayFont,
+          )}
+        >
+          Frequency decks
+        </h2>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {decks
+            .filter((d) => d.id === "all" || d.id.startsWith("unit-"))
+            .map((deck) => (
+              <DeckCard
+                key={deck.id}
+                deck={deck}
+                srs={srs}
+                progress={progress}
+                onStart={start}
+              />
             ))}
         </div>
       </section>
@@ -199,13 +244,18 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
 function DeckCard({
   deck,
   srs,
+  progress,
   onStart,
 }: {
   deck: Deck;
   srs: SrsStore;
+  progress: ProgressStore;
   onStart: (d: Deck, onlyDue: boolean) => void;
 }) {
   const stats = deckStats(srs, deck.ids);
+  const learned = deck.ids.filter((id) =>
+    ["learned", "mastered"].includes(wordStatus(id, progress, srs)),
+  ).length;
   const pct = Math.round((stats.mastered / stats.total) * 100);
   return (
     <div className="flex flex-col rounded-2xl border border-border bg-card p-5">
@@ -226,7 +276,7 @@ function DeckCard({
         />
       </div>
       <p className="mt-2 text-xs text-muted-foreground">
-        {stats.mastered}/{stats.total} mastered · {stats.due} due
+        {learned}/{stats.total} learned · {stats.mastered} mastered · {stats.due} due
       </p>
 
       <div className="mt-4 flex gap-2">
