@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Mandarin Learning"
+  short_description: "Build efficient, evidence-aligned Mandarin lessons"
+  default_prompt: "Use $design-mandarin-learning to design the next MoZhi lesson with an efficient learning sequence."
