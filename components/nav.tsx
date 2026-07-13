@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Headphones, Layers, Library, Route } from "lucide-react";
+import { BarChart3, Headphones, Layers, Library, Route } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const links = [
   { href: "/lessons", label: "Lessons", icon: Route },
   { href: "/conversation", label: "Role calls", icon: Headphones },
+  { href: "/progress", label: "Progress", icon: BarChart3 },
   { href: "/flashcards", label: "Flashcards", icon: Layers },
   { href: "/hanzi", label: "Hanzi", icon: Library },
 ];

@@ -133,7 +133,7 @@ export function ProgressDashboard() {
             icon={<ArrowRight className="h-5 w-5" />}
             label="Stages completed"
             value={`${summary.completedStages} / ${STAGES.length}`}
-            note={complete ? "HSK-1 path complete" : "Dialogue, practice, checkpoint"}
+            note={complete ? "HSK-1 path complete" : "Dialogue, production, checkpoint"}
           />
           <SummaryCard
             icon={<Clock3 className="h-5 w-5" />}
@@ -150,7 +150,8 @@ export function ProgressDashboard() {
                 Stage progress
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Checkpoints require 80% first-try accuracy and 80% learned words.
+                Finish with 80% first-try accuracy, 80% learned words, and
+                productive recall across at least half the stage vocabulary.
               </p>
             </div>
             <Link
@@ -228,6 +229,7 @@ export function ProgressDashboard() {
                   key={id}
                   href={owner ? `/lessons/${owner.id}` : "/hanzi"}
                   title={`${word.pinyin} — ${word.meaning} — ${STATUS_META[status].label}`}
+                  aria-label={`${word.hanzi}, ${word.pinyin}, ${word.meaning}: ${STATUS_META[status].label}`}
                   className={cn(
                     "rounded-xl border px-2 py-3 text-center transition-transform hover:-translate-y-0.5",
                     STATUS_META[status].chip,
@@ -237,6 +239,7 @@ export function ProgressDashboard() {
                   <span className="mt-1 block truncate text-[0.65rem] text-muted-foreground">
                     {word.pinyin}
                   </span>
+                  <span className="sr-only">{STATUS_META[status].label}</span>
                 </Link>
               );
             })}

@@ -101,11 +101,13 @@ async function readAiTurn(
   stepId: string,
   learnerText: string,
   supportLevel: SupportLevel,
+  signal: AbortSignal,
 ): Promise<RoleCallLine | null> {
   const response = await fetch("/api/conversation", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ scenarioId, stepId, learnerText, supportLevel }),
+    signal,
   });
   if (!response.ok || !response.body) return null;
 
@@ -167,6 +169,8 @@ export function RoleCallStudio({
   const [attemptedSteps, setAttemptedSteps] = useState<Set<string>>(new Set());
   const [firstAttemptCorrect, setFirstAttemptCorrect] = useState(0);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
+  const callGenerationRef = useRef(0);
+  const aiAbortRef = useRef<AbortController | null>(null);
   const transcriptEndRef = useRef<HTMLDivElement | null>(null);
   const scenario = findRoleCallScenario(selectedId) ?? ROLE_CALL_SCENARIOS[0];
   const currentStep = scenario.steps[stepIndex];
@@ -184,6 +188,8 @@ export function RoleCallStudio({
       )
       .catch(() => setAiAvailable(false));
     return () => {
+      callGenerationRef.current += 1;
+      aiAbortRef.current?.abort();
       stopListeningForVoices();
       recognitionRef.current?.stop();
     };
@@ -199,6 +205,9 @@ export function RoleCallStudio({
   );
 
   function resetCall(nextState: CallState = "idle") {
+    callGenerationRef.current += 1;
+    aiAbortRef.current?.abort();
+    aiAbortRef.current = null;
     recognitionRef.current?.stop();
     setCallState(nextState);
     setStepIndex(0);
@@ -215,7 +224,9 @@ export function RoleCallStudio({
 
   function startCall() {
     resetCall("connecting");
+    const generation = callGenerationRef.current;
     window.setTimeout(() => {
+      if (generation !== callGenerationRef.current) return;
       setTranscript([
         { ...scenario.opening, id: `${scenario.id}-opening`, speaker: "persona" },
       ]);
@@ -291,16 +302,23 @@ export function RoleCallStudio({
     setFeedback("Meaning understood — nice. Listen for the reply.");
     setHintLevel(-1);
     setCallState("thinking");
+    const generation = callGenerationRef.current;
 
     let responseLine = currentStep.response;
     if (aiAvailable) {
       try {
+        const controller = new AbortController();
+        aiAbortRef.current?.abort();
+        aiAbortRef.current = controller;
         const generatedLine = await readAiTurn(
           scenario.id,
           currentStep.id,
           text,
           supportLevel,
+          controller.signal,
         );
+        if (generation !== callGenerationRef.current) return;
+        aiAbortRef.current = null;
         if (generatedLine) {
           responseLine = generatedLine;
         } else {
@@ -308,12 +326,15 @@ export function RoleCallStudio({
           setAiAvailable(false);
         }
       } catch {
+        if (generation !== callGenerationRef.current) return;
+        aiAbortRef.current = null;
         setAiFallback(true);
         setAiAvailable(false);
       }
     }
 
     window.setTimeout(() => {
+      if (generation !== callGenerationRef.current) return;
       setTranscript((previous) => [
         ...previous,
         {

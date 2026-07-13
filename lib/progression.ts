@@ -37,6 +37,9 @@ export const WORDS_LEARNED_GATE = 0.8; // share of stage words at learned+
 export const LEARNED_CORRECT = 3;
 export const LEARNED_KINDS = 2;
 export const LEARNED_MIN_BOX = 2;
+export const PRODUCTIVE_WORD_GATE = 0.5;
+
+const PRODUCTIVE_KINDS: ExerciseKind[] = ["cloze", "order", "reply"];
 
 export function loadProgress(): ProgressStore {
   if (typeof window === "undefined") return emptyStore();
@@ -164,6 +167,8 @@ export function stampCompletionIfEarned(
   if (!best || best.score / best.total < CHECKPOINT_PASS) return p;
   const { total, learned } = stageWordStats(stage, p, srs);
   if (learned / total < WORDS_LEARNED_GATE) return p;
+  const productive = productiveWordStats(stage, p);
+  if (productive.practiced / productive.total < PRODUCTIVE_WORD_GATE) return p;
   return {
     ...p,
     stages: { ...p.stages, [stage.id]: { ...s, completedAt: now } },
@@ -178,16 +183,19 @@ export function wordStatus(
   srs: SrsStore,
 ): WordStatus {
   const box = srs[id]?.box ?? 0;
-  if (box >= MASTERED_BOX) return "mastered";
   const w = p.words[id];
-  if (!w) return "new";
+  if (!w) return box > 0 ? "seen" : "new";
   const kindCount = Object.values(w.kinds).filter((n) => (n ?? 0) > 0).length;
-  if (
+  const learned =
     w.correct >= LEARNED_CORRECT &&
     kindCount >= LEARNED_KINDS &&
-    box >= LEARNED_MIN_BOX
-  )
-    return "learned";
+    box >= LEARNED_MIN_BOX;
+  const hasProductiveRecall = PRODUCTIVE_KINDS.some(
+    (kind) => (w.kinds[kind] ?? 0) > 0,
+  );
+  if (learned && box >= MASTERED_BOX && hasProductiveRecall)
+    return "mastered";
+  if (learned) return "learned";
   if (w.correct >= 1) return "learning";
   if (w.seenAt) return "seen";
   return "new";
@@ -208,6 +216,17 @@ export function stageWordStats(
     if (st === "mastered") mastered++;
   }
   return { total: stage.wordIds.length, learned, mastered };
+}
+
+export function productiveWordStats(
+  stage: Stage,
+  p: ProgressStore,
+): { total: number; practiced: number } {
+  const practiced = stage.wordIds.filter((id) => {
+    const kinds = p.words[id]?.kinds;
+    return PRODUCTIVE_KINDS.some((kind) => (kinds?.[kind] ?? 0) > 0);
+  }).length;
+  return { total: stage.wordIds.length, practiced };
 }
 
 export function isStageComplete(stage: Stage, p: ProgressStore): boolean {
@@ -240,10 +259,19 @@ export function unlockRequirement(
   );
   const best = p.stages[prev.id]?.checkpointBest;
   const needCheckpoint = !best || best.score / best.total < CHECKPOINT_PASS;
+  const productive = productiveWordStats(prev, p);
+  const needProductive = Math.max(
+    0,
+    Math.ceil(productive.total * PRODUCTIVE_WORD_GATE) - productive.practiced,
+  );
   const parts: string[] = [];
   if (needWords > 0)
     parts.push(`learn ${needWords} more word${needWords === 1 ? "" : "s"}`);
   if (needCheckpoint) parts.push("pass the checkpoint");
+  if (needProductive > 0)
+    parts.push(
+      `use ${needProductive} more word${needProductive === 1 ? "" : "s"} in sentence or reply practice`,
+    );
   if (parts.length === 0) parts.push("finish the checkpoint");
   const req = parts.join(" and ");
   return `${req.charAt(0).toUpperCase()}${req.slice(1)} in Stage ${prev.index} to unlock.`;

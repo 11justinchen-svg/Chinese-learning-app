@@ -37,9 +37,9 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
         meaning: "I am a student.",
       },
       {
-        hanzi: "这是我们的家。",
-        pinyin: "Zhè shì wǒmen de jiā.",
-        meaning: "This is our home.",
+        hanzi: "他是老师。",
+        pinyin: "Tā shì lǎoshī.",
+        meaning: "He is a teacher.",
       },
     ],
     vocab: [{ unit: 1, words: ["是", "我", "你", "他", "这个", "我们"] }],
@@ -65,7 +65,7 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
       "的 (de) works like an apostrophe-s: noun/pronoun + 的 + noun means the first owns the second. Drop it for close relationships, like 我妈妈.",
     examples: [
       { hanzi: "我的家。", pinyin: "Wǒ de jiā.", meaning: "My home." },
-      { hanzi: "他的东西。", pinyin: "Tā de dōngxi.", meaning: "His things." },
+      { hanzi: "他的猫。", pinyin: "Tā de māo.", meaning: "His cat." },
     ],
     vocab: [{ unit: 1, words: ["的", "我", "你", "他", "我们"] }],
     resources: [
@@ -95,9 +95,9 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
         meaning: "Are you a student?",
       },
       {
-        hanzi: "你喜欢吗？",
-        pinyin: "Nǐ xǐhuan ma?",
-        meaning: "Do you like it?",
+        hanzi: "他是老师吗？",
+        pinyin: "Tā shì lǎoshī ma?",
+        meaning: "Is he a teacher?",
       },
     ],
     vocab: [{ unit: 3, words: ["吗", "怎么"] }],
@@ -123,14 +123,14 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
       "不 (bù) negates habits, states, and the future. 没 (méi) negates 有 and past actions — never put 不 in front of 有.",
     examples: [
       {
-        hanzi: "我不喜欢。",
-        pinyin: "Wǒ bù xǐhuan.",
-        meaning: "I don't like it.",
+        hanzi: "他不是老师。",
+        pinyin: "Tā bú shì lǎoshī.",
+        meaning: "He is not a teacher.",
       },
       {
-        hanzi: "我没有钱。",
-        pinyin: "Wǒ méiyǒu qián.",
-        meaning: "I don't have money.",
+        hanzi: "我没有狗。",
+        pinyin: "Wǒ méiyǒu gǒu.",
+        meaning: "I don't have a dog.",
       },
     ],
     vocab: [
@@ -222,9 +222,9 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
       '也 (yě, "also") and 都 (dōu, "all") are adverbs that sit right before the verb or adjective, not the noun they refer to — the opposite order from English.',
     examples: [
       {
-        hanzi: "他也喜欢。",
-        pinyin: "Tā yě xǐhuan.",
-        meaning: "He also likes it.",
+        hanzi: "同学都喜欢汉语。",
+        pinyin: "Tóngxué dōu xǐhuan Hànyǔ.",
+        meaning: "The classmates all like Chinese.",
       },
       {
         hanzi: "我们都是学生。",
@@ -255,9 +255,9 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
       'Time words go before the subject or right after it — never at the end of the sentence like in English. "Yesterday I went" and "I yesterday went" are both correct in Chinese.',
     examples: [
       {
-        hanzi: "我今天工作。",
-        pinyin: "Wǒ jīntiān gōngzuò.",
-        meaning: "I work today.",
+        hanzi: "我今天吃米饭。",
+        pinyin: "Wǒ jīntiān chī mǐfàn.",
+        meaning: "I eat rice today.",
       },
       {
         hanzi: "明天我们喝水。",

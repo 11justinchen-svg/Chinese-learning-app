@@ -5,6 +5,7 @@ import { ArrowLeft, Check, Plus, RotateCcw, Trash2 } from "lucide-react";
 import { HSK1, UNITS, findWord, type HskWord } from "@/lib/hsk";
 import { STAGES } from "@/lib/data/stages";
 import {
+  isStageUnlocked,
   loadProgress,
   wordStatus,
   type ProgressStore,
@@ -67,8 +68,10 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
   } | null>(null);
 
   useEffect(() => {
-    setSrs(loadSrs());
-    setProgress(loadProgress());
+    const storedSrs = loadSrs();
+    const storedProgress = loadProgress();
+    setSrs(storedSrs);
+    setProgress(storedProgress);
     try {
       setCustom(JSON.parse(localStorage.getItem(CARDS_KEY) || "[]"));
     } catch {
@@ -78,35 +81,48 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
     // Deep link from a lesson: jump straight into that set.
     if (initialUnit) {
       const u = UNITS.find((x) => x.index === initialUnit);
-      if (u)
+      const unlocked = new Set(
+        STAGES.filter((stage) =>
+          isStageUnlocked(stage.index, STAGES, storedProgress),
+        ).flatMap((stage) => stage.wordIds),
+      );
+      const ids = u?.words.map((w) => w.id).filter((id) => unlocked.has(id));
+      if (u && ids?.length)
         setSession({
           deck: {
             id: `unit-${u.index}`,
             label: `Set ${u.index}`,
             sub: "",
-            ids: u.words.map((w) => w.id),
+            ids,
           },
-          queue: shuffle(u.words.map((w) => w.id)),
+          queue: shuffle(ids),
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const decks: Deck[] = useMemo(() => {
+    const unlockedIds = new Set(
+      STAGES.filter((stage) =>
+        isStageUnlocked(stage.index, STAGES, progress),
+      ).flatMap((stage) => stage.wordIds),
+    );
     const list: Deck[] = [
       {
         id: "all",
-        label: "All HSK-1",
-        sub: "150 words",
-        ids: HSK1.map((w) => w.id),
+        label: "All unlocked words",
+        sub: `${unlockedIds.size} words`,
+        ids: HSK1.map((w) => w.id).filter((id) => unlockedIds.has(id)),
       },
       ...UNITS.map((u) => ({
         id: `unit-${u.index}`,
         label: `Set ${u.index}`,
         sub: `${u.words[0].hanzi} … ${u.words[u.words.length - 1].hanzi}`,
-        ids: u.words.map((w) => w.id),
-      })),
-      ...STAGES.map((stage) => ({
+        ids: u.words.map((w) => w.id).filter((id) => unlockedIds.has(id)),
+      })).filter((deck) => deck.ids.length > 0),
+      ...STAGES.filter((stage) =>
+        isStageUnlocked(stage.index, STAGES, progress),
+      ).map((stage) => ({
         id: `stage-${stage.index}`,
         label: `Stage ${stage.index}: ${stage.title}`,
         sub: `${stage.hanziTitle} · ${stage.wordIds.length} words`,
@@ -121,7 +137,7 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
         ids: custom.map((c) => c.id),
       });
     return list;
-  }, [custom]);
+  }, [custom, progress]);
 
   const resolve = useCallback(
     (id: string): Card => {
@@ -146,7 +162,9 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
   );
 
   function start(deck: Deck, onlyDue: boolean) {
-    const pool = onlyDue ? deck.ids.filter((id) => isDue(srs[id])) : deck.ids;
+    const pool = onlyDue
+      ? deck.ids.filter((id) => srs[id] && isDue(srs[id]))
+      : deck.ids;
     if (pool.length === 0) return;
     setSession({ deck, queue: shuffle(pool) });
   }
@@ -276,7 +294,7 @@ function DeckCard({
         />
       </div>
       <p className="mt-2 text-xs text-muted-foreground">
-        {learned}/{stats.total} learned · {stats.mastered} mastered · {stats.due} due
+        {learned}/{stats.total} learned · {stats.new} new · {stats.due} due
       </p>
 
       <div className="mt-4 flex gap-2">

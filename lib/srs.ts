@@ -56,7 +56,9 @@ export function deckStats(store: SrsStore, ids: string[], now = Date.now()) {
     const s = store[id];
     if (s) seen += 1;
     if (s && s.box >= MASTERED_BOX) mastered += 1;
-    if (isDue(s, now)) due += 1;
+    // New cards belong in "Study all". "Due" is reserved for cards the
+    // learner has already encountered and now needs to retrieve again.
+    if (s && isDue(s, now)) due += 1;
   }
-  return { total: ids.length, due, mastered, seen };
+  return { total: ids.length, due, mastered, seen, new: ids.length - seen };
 }

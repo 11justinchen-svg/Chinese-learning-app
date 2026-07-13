@@ -7,7 +7,9 @@ import type { Stage } from "@/lib/data/stages/types";
 import { buildWeakWordDrill } from "@/lib/data/stages/exercise-gen";
 import {
   CHECKPOINT_PASS,
+  PRODUCTIVE_WORD_GATE,
   loadProgress,
+  productiveWordStats,
   recordCheckpoint,
   saveProgress,
   stampCompletionIfEarned,
@@ -87,6 +89,7 @@ export function CheckpointPanel({
   const srs = loadSrs();
   const completed = Boolean(progress.stages[stage.id]?.completedAt);
   const { total, learned } = stageWordStats(stage, progress, srs);
+  const productive = productiveWordStats(stage, progress);
   const weakWords = stage.wordIds.filter(
     (id) => !["learned", "mastered"].includes(wordStatus(id, progress, srs)),
   );
@@ -94,6 +97,8 @@ export function CheckpointPanel({
   if (state.view === "result" || completed) {
     const passed = state.view === "result" ? state.passed : true;
     const wordsGateMet = learned / total >= 0.8;
+    const productiveGateMet =
+      productive.practiced / productive.total >= PRODUCTIVE_WORD_GATE;
 
     if (completed) {
       return (
@@ -156,23 +161,30 @@ export function CheckpointPanel({
           {state.view === "result" &&
             `${state.score} / ${state.total} first try — ${passed ? "passed!" : "below 80%"}`}
         </p>
-        {passed && !wordsGateMet ? (
+        {passed && (!wordsGateMet || !productiveGateMet) ? (
           <>
             <p className="mt-2 text-sm text-muted-foreground">
-              Checkpoint passed — but only {learned} of {total} words are
-              learned. Drill the {weakWords.length} weak word
-              {weakWords.length === 1 ? "" : "s"} to finish the stage.
+              {!wordsGateMet
+                ? `Checkpoint passed — but only ${learned} of ${total} words are learned.`
+                : `Checkpoint passed — now use more stage words in sentence or reply practice. Productive recall: ${productive.practiced}/${Math.ceil(productive.total * PRODUCTIVE_WORD_GATE)} required.`}
             </p>
-            <button
-              type="button"
-              className={cn(
-                "mt-5 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90",
-                displayFont,
-              )}
-              onClick={() => setState({ view: "drill", wordIds: weakWords })}
-            >
-              Drill weak words
-            </button>
+            {!wordsGateMet ? (
+              <button
+                type="button"
+                className={cn(
+                  "mt-5 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90",
+                  displayFont,
+                )}
+                onClick={() => setState({ view: "drill", wordIds: weakWords })}
+              >
+                Drill {weakWords.length} weak word
+                {weakWords.length === 1 ? "" : "s"}
+              </button>
+            ) : (
+              <p className="mt-4 text-sm font-medium">
+                Revisit the sentence and reply blocks above, then return here.
+              </p>
+            )}
           </>
         ) : (
           <>
@@ -207,7 +219,10 @@ export function CheckpointPanel({
       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
         {stage.checkpoint.length} questions, no retries mid-quiz. Score 80%
         first-try — and have 80% of the stage words learned — to unlock the next
-        stage. Words learned so far: {learned}/{total}.
+        stage. At least half the words must also succeed in sentence or reply
+        practice. Words learned: {learned}/{total} · productive recall:{" "}
+        {productive.practiced}/
+        {Math.ceil(productive.total * PRODUCTIVE_WORD_GATE)}.
       </p>
       <button
         type="button"
