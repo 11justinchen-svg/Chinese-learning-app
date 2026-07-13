@@ -1,7 +1,9 @@
 "use client";
 
-import { FileText, PlayCircle, Volume2 } from "lucide-react";
+import Link from "next/link";
+import { FileText, Headphones, PlayCircle, Volume2 } from "lucide-react";
 import { GRAMMAR_LESSONS } from "@/lib/data/grammar";
+import { findRoleCallScenarioForGrammar } from "@/lib/role-calls";
 import { speak } from "@/lib/speech";
 import {
   speechFallbackMessage,
@@ -20,6 +22,7 @@ export function GrammarIntro({ lessonId }: { lessonId: string }) {
 
   const lesson = GRAMMAR_LESSONS.find((l) => l.id === lessonId);
   if (!lesson) return null;
+  const roleScenario = findRoleCallScenarioForGrammar(lessonId);
 
   return (
     <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5 sm:p-6">
@@ -61,6 +64,15 @@ export function GrammarIntro({ lessonId }: { lessonId: string }) {
         ))}
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
+        {roleScenario && (
+          <Link
+            href={`/conversation?grammar=${encodeURIComponent(lessonId)}`}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-2.5 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <Headphones className="h-3.5 w-3.5" />
+            Practice with {roleScenario.role.toLowerCase()}
+          </Link>
+        )}
         {lesson.resources.map((r) => (
           <a
             key={r.url}
