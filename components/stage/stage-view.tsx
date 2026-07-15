@@ -14,14 +14,12 @@ import {
 import { STAGES, findStage } from "@/lib/data/stages";
 import type { ExerciseBlock } from "@/lib/data/stages/types";
 import {
-  isStageUnlocked,
   loadProgress,
   recordBlockDone,
   recordDialogueViewed,
   recordTeachSeen,
   saveProgress,
   stageWordStats,
-  unlockRequirement,
   type ProgressStore,
 } from "@/lib/progression";
 import { loadSrs, type SrsStore } from "@/lib/srs";
@@ -54,6 +52,7 @@ export function StageView({ stageId }: { stageId: string }) {
   }, []);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     refresh();
     setReady(true);
   }, [refresh]);
@@ -110,18 +109,6 @@ export function StageView({ stageId }: { stageId: string }) {
   }
   if (!ready) return <main className="min-h-screen bg-background" />;
 
-  if (!isStageUnlocked(stage.index, STAGES, progress)) {
-    const req = unlockRequirement(stage.index, STAGES, progress, srs);
-    return (
-      <Missing
-        icon={<Lock className="mx-auto h-8 w-8 text-muted-foreground" />}
-        text={req ?? "This stage is locked."}
-      >
-        <BackToPath />
-      </Missing>
-    );
-  }
-
   const { total, learned } = stageWordStats(stage, progress, srs);
   const blockById = new Map(stage.blocks.map((b) => [b.id, b]));
 
@@ -133,18 +120,21 @@ export function StageView({ stageId }: { stageId: string }) {
   }
 
   return (
-    <main className="min-h-screen bg-background pb-32 pt-10 text-foreground">
-      <div className="mx-auto max-w-3xl px-5 sm:px-8">
+    <main className="min-h-screen pb-32 pt-10 text-foreground">
+      <div className="mx-auto max-w-4xl px-5 sm:px-8">
         <BackToPath />
 
-        <header className="mt-6 border-b border-border pb-8">
+        <header className="eave-panel mt-9 overflow-hidden px-6 py-8 sm:px-9 sm:py-10">
+          <span className={cn("pointer-events-none absolute -right-3 -top-6 text-[9rem] leading-none text-accent opacity-[0.06]", hanziFont)}>
+            {stage.hanziTitle.slice(0, 1)}
+          </span>
           <p
             className={cn(
               "text-xs uppercase tracking-[0.3em] text-muted-foreground",
               displayFont,
             )}
           >
-            Stage {stage.index} · {stage.scenario}
+            第 {String(stage.index).padStart(2, "0")} 门 · {stage.scenario}
           </p>
           <div className="mt-3 flex items-baseline gap-4">
             <span className={cn("text-5xl sm:text-6xl", hanziFont)}>
@@ -158,9 +148,9 @@ export function StageView({ stageId }: { stageId: string }) {
             {stage.description}
           </p>
           <div className="mt-4 flex items-center gap-3">
-            <div className="h-1 w-40 overflow-hidden rounded-full bg-secondary">
+            <div className="h-1.5 w-40 overflow-hidden bg-secondary">
               <div
-                className="h-full rounded-full bg-primary"
+                className="h-full bg-primary"
                 style={{ width: `${(learned / total) * 100}%` }}
               />
             </div>
@@ -181,11 +171,10 @@ export function StageView({ stageId }: { stageId: string }) {
               <li
                 key={section.id}
                 className={cn(
-                  "lesson-in rounded-2xl border",
-                  isActive ? "border-primary/40" : "border-border",
+                  "border bg-card/80",
+                  isActive ? "eave-panel border-primary/40" : "border-border",
                   locked && "opacity-50",
                 )}
-                style={{ animationDelay: `${i * 40}ms` }}
               >
                 <button
                   type="button"

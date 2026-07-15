@@ -190,7 +190,7 @@ export function CheckpointPanel({
           <>
             <p className="mt-2 text-sm text-muted-foreground">
               {passed
-                ? "Almost there — keep the words fresh."
+                ? "Almost there. Keep the words fresh."
                 : "Review the blocks above, then try again. You need 80% on the first try."}
             </p>
             <button
@@ -218,9 +218,9 @@ export function CheckpointPanel({
       </p>
       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
         {stage.checkpoint.length} questions, no retries mid-quiz. Score 80%
-        first-try — and have 80% of the stage words learned — to unlock the next
+        first-try and have 80% of the stage words learned to complete this
         stage. At least half the words must also succeed in sentence or reply
-        practice. Words learned: {learned}/{total} · productive recall:{" "}
+        practice. Other lessons remain open. Words learned: {learned}/{total} · productive recall:{" "}
         {productive.practiced}/
         {Math.ceil(productive.total * PRODUCTIVE_WORD_GATE)}.
       </p>

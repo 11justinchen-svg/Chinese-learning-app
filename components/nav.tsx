@@ -7,40 +7,55 @@ import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const links = [
-  { href: "/lessons", label: "Lessons", icon: Route },
-  { href: "/conversation", label: "Role calls", icon: Headphones },
-  { href: "/progress", label: "Progress", icon: BarChart3 },
-  { href: "/flashcards", label: "Flashcards", icon: Layers },
-  { href: "/hanzi", label: "Hanzi", icon: Library },
+  { href: "/lessons", label: "Lessons", hanzi: "课", icon: Route },
+  { href: "/conversation", label: "Role calls", hanzi: "说", icon: Headphones },
+  { href: "/progress", label: "Progress", hanzi: "进", icon: BarChart3 },
+  { href: "/flashcards", label: "Flashcards", hanzi: "习", icon: Layers },
+  { href: "/hanzi", label: "Hanzi", hanzi: "字", icon: Library },
 ];
 
 export function Nav() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <Link href="/lessons" className="flex items-baseline gap-2">
-          <span className="text-xl font-bold text-primary">默知</span>
-          <span className="text-lg font-semibold tracking-tight">MoZhi</span>
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+        <Link
+          href="/lessons"
+          aria-label="MoZhi lessons"
+          className="group flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <span className="seal h-9 w-9 text-lg transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+            默
+          </span>
+          <span className="leading-tight">
+            <span className="block text-base font-bold tracking-tight">MoZhi</span>
+            <span className="hidden text-[0.62rem] tracking-[0.22em] text-muted-foreground sm:block">
+              默知 · LEARN BY SPEAKING
+            </span>
+          </span>
         </Link>
-        <nav className="flex items-center gap-1">
-          {links.map(({ href, label, icon: Icon }) => (
+        <nav aria-label="Primary navigation" className="flex items-center gap-0.5 sm:gap-1">
+          {links.map(({ href, label, hanzi, icon: Icon }) => (
             <Link
               key={href}
               href={href}
+              aria-current={pathname.startsWith(href) ? "page" : undefined}
               className={cn(
-                "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                "group relative flex min-h-11 items-center gap-2 px-2.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:px-3",
                 pathname.startsWith(href)
-                  ? "bg-secondary text-foreground"
-                  : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+                  ? "text-foreground after:absolute after:inset-x-2 after:-bottom-[0.65rem] after:h-0.5 after:bg-primary"
+                  : "text-muted-foreground hover:text-foreground",
               )}
             >
-              <Icon className="h-4 w-4" />
+              <span className="font-[family-name:var(--font-hanzi)] text-lg sm:hidden">
+                {hanzi}
+              </span>
+              <Icon className="hidden h-4 w-4 sm:block" />
               <span className="hidden sm:inline">{label}</span>
             </Link>
           ))}
-          <div className="ml-1 border-l border-border/60 pl-1">
+          <div className="ml-1 border-l border-border pl-1">
             <ThemeToggle />
           </div>
         </nav>

@@ -3,6 +3,7 @@ import type { Stage } from "../lib/data/stages/types";
 import {
   recordAnswer,
   recordCheckpoint,
+  isStageUnlocked,
   stampCompletionIfEarned,
   wordStatus,
   type ProgressStore,
@@ -59,5 +60,11 @@ assert.equal(completed.stages[stage.id]?.completedAt, 123);
 const stats = deckStats({}, ids);
 assert.equal(stats.due, 0, "Unseen cards must not appear in due-only review");
 assert.equal(stats.new, 4);
+
+assert.equal(
+  isStageUnlocked(10, [stage], { version: 1, words: {}, stages: {} }),
+  true,
+  "All lesson stages must be selectable without prior completion",
+);
 
 console.log("progression helpers: all tests passed");

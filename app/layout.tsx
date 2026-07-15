@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Nav } from "@/components/nav";
+import { ArchitecturalFrame } from "@/components/architectural-frame";
 import { display } from "@/lib/fonts";
 
 export const metadata: Metadata = {
@@ -24,7 +25,8 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen antialiased">
         <Nav />
-        {children}
+        <ArchitecturalFrame />
+        <div className="relative z-10">{children}</div>
       </body>
     </html>
   );

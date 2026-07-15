@@ -5,8 +5,9 @@ retrieval practice, and character structure.
 
 ## Features
 
-- **Lesson path** (`/lessons`): ten HSK-1 stages with model dialogues,
-  vocabulary teaching, grammar drills, production tasks, and checkpoints.
+- **Open lesson courtyard** (`/lessons`): ten HSK-1 stages available in any
+  order, with model dialogues, vocabulary teaching, grammar drills, production
+  tasks, and checkpoints.
 - **Role calls** (`/conversation`): speak or type through authored calls with a
   waiter, sales associate, taxi driver, hotel clerk, or teacher. Browser speech
   recognition and Mandarin text-to-speech are enhanced when available, but
@@ -47,7 +48,7 @@ Each stage follows the same durable-learning sequence:
 4. Practice grammar in a linked role call with hints and correction/retry.
 5. Pass the checkpoint with at least 80% first-try accuracy, learn at least 80%
    of the stage words, and use at least half in sentence or reply practice.
-6. Review unlocked vocabulary with the local Leitner schedule.
+6. Review any HSK-1 vocabulary with the local Leitner schedule.
 
 Progress stays on the device in `mozhi.progress.v1`, SRS scheduling in
 `mozhi.srs.v1`, and custom cards in `mozhi.cards.v1`.
@@ -80,5 +81,5 @@ components/
 lib/
   role-calls.ts       authored personas, steps, and local evaluation
   speech.ts           browser Mandarin text-to-speech
-  progression.ts      learning evidence, completion, and stage locks
+  progression.ts      learning evidence, completion, and open stage access
 ```

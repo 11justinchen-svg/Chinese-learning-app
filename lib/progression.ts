@@ -30,7 +30,6 @@ export interface ProgressStore {
 }
 
 const KEY = "mozhi.progress.v1";
-const DEV_KEY = "mozhi.dev.unlock";
 
 export const CHECKPOINT_PASS = 0.8; // first-try checkpoint accuracy
 export const WORDS_LEARNED_GATE = 0.8; // share of stage words at learned+
@@ -234,69 +233,24 @@ export function isStageComplete(stage: Stage, p: ProgressStore): boolean {
 }
 
 export function isStageUnlocked(
-  index: number,
-  stages: Stage[],
-  p: ProgressStore,
+  _index: number,
+  _stages: Stage[],
+  _p: ProgressStore,
 ): boolean {
-  if (index === 1 || devUnlocked()) return true;
-  const prev = stages.find((s) => s.index === index - 1);
-  return prev ? isStageComplete(prev, p) : false;
+  // Access and mastery are intentionally separate. Learners may choose any
+  // useful situation, while completion still requires the full evidence gate.
+  return true;
 }
 
 export function unlockRequirement(
-  index: number,
-  stages: Stage[],
-  p: ProgressStore,
-  srs: SrsStore,
+  _index: number,
+  _stages: Stage[],
+  _p: ProgressStore,
+  _srs: SrsStore,
 ): string | null {
-  if (isStageUnlocked(index, stages, p)) return null;
-  const prev = stages.find((s) => s.index === index - 1);
-  if (!prev) return null;
-  const { total, learned } = stageWordStats(prev, p, srs);
-  const needWords = Math.max(
-    0,
-    Math.ceil(total * WORDS_LEARNED_GATE) - learned,
-  );
-  const best = p.stages[prev.id]?.checkpointBest;
-  const needCheckpoint = !best || best.score / best.total < CHECKPOINT_PASS;
-  const productive = productiveWordStats(prev, p);
-  const needProductive = Math.max(
-    0,
-    Math.ceil(productive.total * PRODUCTIVE_WORD_GATE) - productive.practiced,
-  );
-  const parts: string[] = [];
-  if (needWords > 0)
-    parts.push(`learn ${needWords} more word${needWords === 1 ? "" : "s"}`);
-  if (needCheckpoint) parts.push("pass the checkpoint");
-  if (needProductive > 0)
-    parts.push(
-      `use ${needProductive} more word${needProductive === 1 ? "" : "s"} in sentence or reply practice`,
-    );
-  if (parts.length === 0) parts.push("finish the checkpoint");
-  const req = parts.join(" and ");
-  return `${req.charAt(0).toUpperCase()}${req.slice(1)} in Stage ${prev.index} to unlock.`;
+  return null;
 }
 
 export function hsk1Complete(stages: Stage[], p: ProgressStore): boolean {
   return stages.every((s) => isStageComplete(s, p));
-}
-
-// Dev escape hatch: /lessons?unlock=all sets it, ?unlock=off clears it.
-// Session-scoped so it can't be mistaken for real progress after a restart.
-export function devUnlocked(): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    return window.sessionStorage.getItem(DEV_KEY) === "1";
-  } catch {
-    return false;
-  }
-}
-
-export function setDevUnlocked(on: boolean) {
-  try {
-    if (on) window.sessionStorage.setItem(DEV_KEY, "1");
-    else window.sessionStorage.removeItem(DEV_KEY);
-  } catch {
-    // sessionStorage unavailable — dev unlock just won't stick.
-  }
 }
