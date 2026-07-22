@@ -4,17 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Flag, RotateCcw, Sparkles } from "lucide-react";
 import type { Stage } from "@/lib/data/stages/types";
-import { buildWeakWordDrill } from "@/lib/data/stages/exercise-gen";
 import {
   CHECKPOINT_PASS,
-  PRODUCTIVE_WORD_GATE,
   loadProgress,
-  productiveWordStats,
   recordCheckpoint,
   saveProgress,
   stampCompletionIfEarned,
-  stageWordStats,
-  wordStatus,
 } from "@/lib/progression";
 import { loadSrs } from "@/lib/srs";
 import { cn } from "@/lib/utils";
@@ -28,8 +23,7 @@ const displayFont = "font-[family-name:var(--font-display)]";
 type State =
   | { view: "intro" }
   | { view: "quiz" }
-  | { view: "result"; passed: boolean; score: number; total: number }
-  | { view: "drill"; wordIds: string[] };
+  | { view: "result"; passed: boolean; score: number; total: number };
 
 export function CheckpointPanel({
   stage,
@@ -55,14 +49,6 @@ export function CheckpointPanel({
     });
   }
 
-  function finishDrill() {
-    // Drill answers may have pushed words over the "learned" line — try again.
-    const p = stampCompletionIfEarned(loadProgress(), stage, loadSrs());
-    saveProgress(p);
-    onProgressChange();
-    setState({ view: "intro" });
-  }
-
   if (state.view === "quiz") {
     return (
       <ExercisePlayer
@@ -74,31 +60,11 @@ export function CheckpointPanel({
     );
   }
 
-  if (state.view === "drill") {
-    return (
-      <ExercisePlayer
-        title="Weak words"
-        exercises={buildWeakWordDrill(state.wordIds)}
-        mode="practice"
-        onFinish={finishDrill}
-      />
-    );
-  }
-
   const progress = loadProgress();
-  const srs = loadSrs();
   const completed = Boolean(progress.stages[stage.id]?.completedAt);
-  const { total, learned } = stageWordStats(stage, progress, srs);
-  const productive = productiveWordStats(stage, progress);
-  const weakWords = stage.wordIds.filter(
-    (id) => !["learned", "mastered"].includes(wordStatus(id, progress, srs)),
-  );
 
   if (state.view === "result" || completed) {
     const passed = state.view === "result" ? state.passed : true;
-    const wordsGateMet = learned / total >= 0.8;
-    const productiveGateMet =
-      productive.practiced / productive.total >= PRODUCTIVE_WORD_GATE;
 
     if (completed) {
       return (
@@ -108,7 +74,7 @@ export function CheckpointPanel({
             Stage {stage.index} complete!
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
-            {learned}/{total} words learned · checkpoint passed
+            Fast test passed. No retention schedule is required.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-3">
             {nextStageId ? (
@@ -124,7 +90,7 @@ export function CheckpointPanel({
               </Link>
             ) : (
               <Link
-                href="/lessons"
+                href={`/lessons?level=${stage.level ?? 1}`}
                 className={cn(
                   "inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90",
                   displayFont,
@@ -161,51 +127,22 @@ export function CheckpointPanel({
           {state.view === "result" &&
             `${state.score} / ${state.total} first try — ${passed ? "passed!" : "below 80%"}`}
         </p>
-        {passed && (!wordsGateMet || !productiveGateMet) ? (
-          <>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {!wordsGateMet
-                ? `Checkpoint passed — but only ${learned} of ${total} words are learned.`
-                : `Checkpoint passed — now use more stage words in sentence or reply practice. Productive recall: ${productive.practiced}/${Math.ceil(productive.total * PRODUCTIVE_WORD_GATE)} required.`}
-            </p>
-            {!wordsGateMet ? (
-              <button
-                type="button"
-                className={cn(
-                  "mt-5 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90",
-                  displayFont,
-                )}
-                onClick={() => setState({ view: "drill", wordIds: weakWords })}
-              >
-                Drill {weakWords.length} weak word
-                {weakWords.length === 1 ? "" : "s"}
-              </button>
-            ) : (
-              <p className="mt-4 text-sm font-medium">
-                Revisit the sentence and reply blocks above, then return here.
-              </p>
-            )}
-          </>
-        ) : (
-          <>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {passed
-                ? "Almost there. Keep the words fresh."
-                : "Review the blocks above, then try again. You need 80% on the first try."}
-            </p>
-            <button
-              type="button"
-              className={cn(
-                "mt-5 inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-semibold transition-colors hover:border-primary/50",
-                displayFont,
-              )}
-              onClick={() => setState({ view: "quiz" })}
-            >
-              <RotateCcw className="h-4 w-4" />
-              Try again
-            </button>
-          </>
-        )}
+        <p className="mt-2 text-sm text-muted-foreground">
+          {passed
+            ? "Fast test passed. This lesson is complete."
+            : "Try the five-minute lesson blocks or retake now. Every lesson stays open."}
+        </p>
+        <button
+          type="button"
+          className={cn(
+            "mt-5 inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-semibold transition-colors hover:border-primary/50",
+            displayFont,
+          )}
+          onClick={() => setState({ view: "quiz" })}
+        >
+          <RotateCcw className="h-4 w-4" />
+          Try again
+        </button>
       </div>
     );
   }
@@ -217,12 +154,9 @@ export function CheckpointPanel({
         Stage {stage.index} checkpoint
       </p>
       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-        {stage.checkpoint.length} questions, no retries mid-quiz. Score 80%
-        first-try and have 80% of the stage words learned to complete this
-        stage. At least half the words must also succeed in sentence or reply
-        practice. Other lessons remain open. Words learned: {learned}/{total} · productive recall:{" "}
-        {productive.practiced}/
-        {Math.ceil(productive.total * PRODUCTIVE_WORD_GATE)}.
+        {stage.checkpoint.length} quick questions, including a useful reply.
+        Score 80% to mark this lesson complete. No streak, waiting period, or
+        review schedule is required, and every other lesson stays open.
       </p>
       <button
         type="button"

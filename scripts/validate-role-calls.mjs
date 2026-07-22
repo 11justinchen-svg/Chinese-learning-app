@@ -52,6 +52,19 @@ assert(personalNameStep);
 assert(evaluateRoleCallAnswer(personalNameStep, "我叫 Justin。"));
 assert(!evaluateRoleCallAnswer(personalNameStep, "我叫"));
 
+const teaStep = ROLE_CALL_SCENARIOS.find(
+  (scenario) => scenario.id === "waiter",
+)?.steps[0];
+assert(teaStep);
+assert(
+  evaluateRoleCallAnswer(teaStep, "今天我想要一杯茶"),
+  "An understandable tea order should pass without exact wording",
+);
+assert(
+  !evaluateRoleCallAnswer(teaStep, "我不想喝茶"),
+  "A reply with the opposite intent must not pass",
+);
+
 console.log(
   `Role-call validation passed: ${scenarioIds.size} scenarios, ${stepIds.size} learner turns.`,
 );

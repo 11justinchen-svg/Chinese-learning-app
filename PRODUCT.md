@@ -10,7 +10,7 @@ Two segments through one sequenced funnel (see PRD.md): travelers with a China/T
 
 ## Product Purpose
 
-MoZhi (默知) teaches Chinese through real conversation instead of rote memorization. A 3D robot tutor, Xiao Hui (小慧), roleplays taxi drivers, waiters, and shop owners; corrects mistakes in context; and explains characters by the meaning of their components instead of stroke drills. Success metric: D7 retention. The product is free in v1; everything optimizes for activation and the return habit.
+MoZhi (默知) gets a beginner using HSK 1 and HSK 2 Mandarin in real situations quickly. Short, authored role calls let the learner speak with waiters, sales associates, drivers, hotel staff, and teachers; feedback confirms the intended meaning first and offers one useful correction. Hanzi study pairs visible structure with clearly labeled mnemonics and immediate tests. Success means completing a real-life communicative goal in the current session. No lesson, section, level, or test depends on a streak, spaced-retention gate, or earlier completion.
 
 ## Brand Personality
 
@@ -31,4 +31,4 @@ Playful, warm, encouraging. A friendly robot study-buddy, not a stern teacher an
 
 ## Accessibility & Inclusion
 
-WCAG AA contrast. Respect `prefers-reduced-motion`: the hero marquee, robot float/parallax, and entrance animations must pause or reduce. Pinyin always accompanies hanzi so no reader is locked out. Keyboard navigable.
+WCAG AA contrast. Respect `prefers-reduced-motion` for state transitions and feedback. Pinyin and English remain available as learner-controlled scaffolds. Every task is keyboard navigable, voice has a text fallback, and progress is never communicated by color alone.

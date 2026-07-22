@@ -43,7 +43,7 @@ function spokenText(ex: Exercise): string | null {
     case "order":
       return ex.tiles.join("");
     case "reply":
-      return ex.answer;
+      return (ex.answers ?? [ex.answer]).join(" / ");
     case "listen":
       return ex.text;
     default:

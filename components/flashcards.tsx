@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Check, Plus, RotateCcw, Trash2 } from "lucide-react";
-import { HSK1, UNITS, findWord, type HskWord } from "@/lib/hsk";
+import { HSK, HSK1, HSK2, UNITS, findWord, type HskWord } from "@/lib/hsk";
 import { STAGES } from "@/lib/data/stages";
 import {
   loadProgress,
@@ -99,9 +99,21 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
     const list: Deck[] = [
       {
         id: "all",
-        label: "All HSK 1 words",
+        label: "All HSK 1 + 2 forms",
+        sub: `${HSK.length} forms`,
+        ids: HSK.map((w) => w.id),
+      },
+      {
+        id: "hsk-1",
+        label: "HSK 1",
         sub: `${HSK1.length} words`,
-        ids: HSK1.map((w) => w.id),
+        ids: HSK1.map((word) => word.id),
+      },
+      {
+        id: "hsk-2",
+        label: "HSK 2",
+        sub: `${HSK2.length} written forms`,
+        ids: HSK2.map((word) => word.id),
       },
       ...UNITS.map((u) => ({
         id: `unit-${u.index}`,
@@ -110,8 +122,8 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
         ids: u.words.map((w) => w.id),
       })),
       ...STAGES.map((stage) => ({
-        id: `stage-${stage.index}`,
-        label: `Stage ${stage.index}: ${stage.title}`,
+        id: `stage-${stage.level ?? 1}-${stage.index}`,
+        label: `HSK ${stage.level ?? 1}, Lesson ${stage.index}: ${stage.title}`,
         sub: `${stage.hanziTitle} · ${stage.wordIds.length} words`,
         ids: stage.wordIds,
       })),
@@ -222,7 +234,7 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
         </h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {decks
-            .filter((d) => d.id === "all" || d.id.startsWith("unit-"))
+            .filter((d) => d.id === "all" || d.id.startsWith("hsk-") || d.id.startsWith("unit-"))
             .map((deck) => (
               <DeckCard
                 key={deck.id}

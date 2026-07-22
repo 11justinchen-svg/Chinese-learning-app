@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const { STAGES } = await import(path.join(root, "lib/data/stages/index.ts"));
+const { HSK1_STAGES: STAGES } = await import(path.join(root, "lib/data/stages/index.ts"));
 const { GRAMMAR_LESSONS } = await import(path.join(root, "lib/data/grammar.ts"));
 const words = JSON.parse(readFileSync(path.join(root, "lib/data/hsk1.json"), "utf8"));
 
@@ -206,6 +206,11 @@ for (const s of STAGES) {
       case "reply":
         if (!ex.choices.some((c) => c.hanzi === ex.answer))
           err(`${s.id} ${ex.id}: answer not among choices`);
+        if ((ex.answers?.length ?? 1) < 2)
+          err(`${s.id} ${ex.id}: reply needs at least two accepted natural forms`);
+        for (const answer of ex.answers ?? [ex.answer])
+          if (!ex.choices.some((choice) => choice.hanzi === answer))
+            err(`${s.id} ${ex.id}: accepted reply is not among choices: ${answer}`);
         break;
       default:
         err(`${s.id} ${ex.id}: unknown kind ${ex.kind}`);

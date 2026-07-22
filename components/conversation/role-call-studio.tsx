@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import {
-  evaluateRoleCallAnswer,
+  assessRoleCallAnswer,
   findRoleCallScenario,
   findRoleCallScenarioForGrammar,
   ROLE_CALL_SCENARIOS,
@@ -31,6 +31,22 @@ import { cn } from "@/lib/utils";
 
 type SupportLevel = "guided" | "standard" | "challenge";
 type CallState = "idle" | "connecting" | "active" | "thinking" | "complete";
+
+const ROLE_SPANS = [
+  "lg:col-span-5",
+  "lg:col-span-7",
+  "lg:col-span-4",
+  "lg:col-span-4",
+  "lg:col-span-4",
+];
+
+const ROLE_FIELDS = [
+  "bg-[oklch(var(--poster-yellow)/0.7)]",
+  "bg-[oklch(var(--poster-pink)/0.22)]",
+  "bg-[oklch(var(--poster-cyan)/0.42)]",
+  "bg-[oklch(var(--poster-blue)/0.16)]",
+  "bg-[oklch(var(--poster-green)/0.28)]",
+];
 
 interface TranscriptTurn extends RoleCallLine {
   id: string;
@@ -276,6 +292,7 @@ export function RoleCallStudio({
     event.preventDefault();
     const text = learnerText.trim();
     if (!text || !currentStep || callState !== "active") return;
+    setFeedback(null);
 
     const wasAttempted = attemptedSteps.has(currentStep.id);
     setAttemptedSteps((previous) => new Set(previous).add(currentStep.id));
@@ -291,7 +308,8 @@ export function RoleCallStudio({
     ]);
     setLearnerText("");
 
-    if (!evaluateRoleCallAnswer(currentStep, text)) {
+    const evaluation = assessRoleCallAnswer(currentStep, text);
+    if (!evaluation.accepted) {
       const nextHint = Math.min(hintLevel + 1, currentStep.hints.length - 1);
       setHintLevel(nextHint);
       setFeedback(`${currentStep.correction} ${currentStep.hints[nextHint]}`);
@@ -299,7 +317,16 @@ export function RoleCallStudio({
     }
 
     if (!wasAttempted) setFirstAttemptCorrect((value) => value + 1);
-    setFeedback("Meaning understood — nice. Listen for the reply.");
+    setFeedback(
+      [
+        evaluation.correction ?? "Meaning understood. The call keeps moving.",
+        evaluation.variation
+          ? `Another natural reply: ${evaluation.variation}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join(" "),
+    );
     setHintLevel(-1);
     setCallState("thinking");
     const generation = callGenerationRef.current;
@@ -344,7 +371,6 @@ export function RoleCallStudio({
         },
       ]);
       speak(responseLine.hanzi, { rate: 0.78 });
-      setFeedback(null);
       const nextStep = stepIndex + 1;
       if (nextStep >= scenario.steps.length) {
         setStepIndex(nextStep);
@@ -367,17 +393,18 @@ export function RoleCallStudio({
   if (callState === "idle") {
     return (
       <main className={cn("mx-auto w-full max-w-6xl px-4 py-8 sm:py-12", embedded && "px-0 py-0")}>
-        <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+        <div className="max-w-3xl border-b border-foreground pb-8">
+          <div className="inline-flex items-center gap-2 border border-foreground bg-[oklch(var(--poster-cyan))] px-3 py-1 text-xs font-semibold text-foreground">
             <Headphones className="h-3.5 w-3.5" />
-            HSK-1 role calls
+            HSK 1 + 2 ROLE CALLS
           </div>
+          <p className="mt-5 font-[family-name:var(--font-hand)] text-xl text-primary">meaning first, one useful correction</p>
           <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">
             Use your Mandarin with someone who stays in character.
           </h1>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Speak or type. Each short call has a clear goal, specific corrections,
-            and an authored path that works without an AI key.
+            Speak or type. Natural variants are welcome. If your meaning works,
+            the call continues and shows one smoother option instead of blocking you.
           </p>
         </div>
 
@@ -392,8 +419,8 @@ export function RoleCallStudio({
               {aiAvailable ? "AI reply variations ready" : "Authored offline practice"}
             </div>
           </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            {ROLE_CALL_SCENARIOS.map((option) => {
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-12">
+            {ROLE_CALL_SCENARIOS.map((option, index) => {
               const selected = option.id === selectedId;
               return (
                 <button
@@ -402,36 +429,37 @@ export function RoleCallStudio({
                   aria-pressed={selected}
                   onClick={() => setSelectedId(option.id)}
                   className={cn(
-                    "group min-h-48 rounded-2xl border bg-gradient-to-br p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                    option.accent,
-                    selected ? "border-primary shadow-sm ring-1 ring-primary" : "border-border hover:-translate-y-0.5 hover:border-primary/40",
+                    "group min-h-48 border border-foreground p-5 text-left shadow-[3px_3px_0_oklch(var(--foreground))] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    ROLE_SPANS[index],
+                    ROLE_FIELDS[index],
+                    selected ? "-translate-x-0.5 -translate-y-0.5 shadow-[5px_5px_0_oklch(var(--foreground))]" : "hover:-translate-y-0.5",
                   )}
                 >
                   <div className="flex items-start justify-between">
-                    <span className="font-[family-name:var(--font-hanzi)] text-3xl">{option.roleHanzi}</span>
-                    {selected && <span className="rounded-full bg-primary p-1 text-primary-foreground"><Check className="h-3.5 w-3.5" /></span>}
+                    <span className="font-[family-name:var(--font-hanzi-display)] text-4xl">{option.roleHanzi}</span>
+                    {selected && <span className="grid h-8 w-8 place-items-center border border-foreground bg-card"><Check className="h-3.5 w-3.5" /></span>}
                   </div>
                   <p className="mt-4 font-semibold">{option.role}</p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{option.description}</p>
-                  <p className="mt-3 text-[0.68rem] font-medium uppercase tracking-wide text-muted-foreground">Best after stage {option.recommendedStage}</p>
+                  <p className="mt-3 text-[0.68rem] font-bold uppercase tracking-wide text-muted-foreground">Open now · {option.steps.length} turns</p>
                 </button>
               );
             })}
           </div>
         </section>
 
-        <section className="mt-8 grid gap-6 rounded-3xl border border-border bg-card p-5 sm:grid-cols-[1fr_auto] sm:items-end sm:p-7">
+        <section className="poster-panel mt-8 grid gap-6 p-5 sm:grid-cols-[1fr_auto] sm:items-end sm:p-7">
           <div>
             <label htmlFor="call-support" className="text-sm font-semibold">Choose your support</label>
             <select
               id="call-support"
               value={supportLevel}
               onChange={(event) => setSupportLevel(event.target.value as SupportLevel)}
-              className="mt-2 block w-full max-w-sm rounded-xl border border-input bg-background px-3 py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="mt-2 block min-h-11 w-full max-w-sm border border-foreground bg-background px-3 py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <option value="guided">Guided — pinyin, English, and goal</option>
-              <option value="standard">Standard — pinyin, meaning on retry</option>
-              <option value="challenge">Challenge — Hanzi only</option>
+              <option value="guided">Guided: pinyin, English, and goal</option>
+              <option value="standard">Standard: pinyin, meaning on retry</option>
+              <option value="challenge">Challenge: Hanzi only</option>
             </select>
             <p className="mt-3 text-sm text-muted-foreground">
               Goal: <span className="font-medium text-foreground">{scenario.goal}</span> · {scenario.setting}
@@ -440,7 +468,7 @@ export function RoleCallStudio({
           <button
             type="button"
             onClick={startCall}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="stamp-button min-h-12"
           >
             <Phone className="h-4 w-4" /> Call {scenario.role}
           </button>
@@ -451,8 +479,8 @@ export function RoleCallStudio({
 
   return (
     <main className={cn("mx-auto flex min-h-[calc(100vh-3.5rem)] w-full max-w-5xl flex-col px-4 py-5", embedded && "min-h-[42rem] px-0 py-0")}>
-      <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
-        <header className={cn("bg-gradient-to-r p-4 sm:p-5", scenario.accent)}>
+      <div className="poster-panel overflow-hidden">
+        <header className="border-b border-foreground bg-[oklch(var(--poster-cyan)/0.38)] p-4 sm:p-5">
           <div className="flex items-center justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
               <button type="button" onClick={endCall} aria-label="Back to role selection" className="rounded-full p-2 text-muted-foreground hover:bg-background/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
@@ -509,7 +537,7 @@ export function RoleCallStudio({
               <div className="border-t border-border bg-secondary/30 p-5 text-center">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"><Check className="h-6 w-6" /></div>
                 <h2 className="mt-3 text-lg font-semibold">Call goal complete</h2>
-                <p className="mt-1 text-sm text-muted-foreground">First-try replies: {firstAttemptCorrect} of {scenario.steps.length}. Retry later with less support.</p>
+                <p className="mt-1 text-sm text-muted-foreground">First-try replies: {firstAttemptCorrect} of {scenario.steps.length}. Call again only if it is useful now.</p>
                 <div className="mt-4 flex flex-wrap justify-center gap-2">
                   <button type="button" onClick={startCall} className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2 text-sm font-semibold hover:border-primary/50"><RotateCcw className="h-4 w-4" />Call again</button>
                   <button type="button" onClick={endCall} className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"><CircleStop className="h-4 w-4" />Choose another role</button>

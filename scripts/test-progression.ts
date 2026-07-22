@@ -45,17 +45,15 @@ for (const id of ids) {
 
 assert.equal(wordStatus("a", progress, matureSrs), "learned");
 progress = recordCheckpoint(progress, stage.id, 9, 10);
+const quickCompleted = stampCompletionIfEarned(progress, stage, matureSrs, 123);
 assert.equal(
-  stampCompletionIfEarned(progress, stage, matureSrs).stages[stage.id]
-    ?.completedAt,
-  undefined,
-  "Recognition-only evidence must not complete a stage",
+  quickCompleted.stages[stage.id]?.completedAt,
+  123,
+  "An 80% fast test must complete a stage without a retention gate",
 );
 
 progress = recordAnswer(progress, ["a", "b"], "order", true);
 assert.equal(wordStatus("a", progress, matureSrs), "mastered");
-const completed = stampCompletionIfEarned(progress, stage, matureSrs, 123);
-assert.equal(completed.stages[stage.id]?.completedAt, 123);
 
 const stats = deckStats({}, ids);
 assert.equal(stats.due, 0, "Unseen cards must not appear in due-only review");

@@ -1,13 +1,14 @@
-// Build a static, API-free HSK-1 dataset.
+// Build a static, API-free HSK 2.0 level dataset.
 //
-//   source word list : scripts/sources/hsk1-words.json
-//                      (drkameleon/complete-hsk-vocabulary, HSK 2.0 level 1, 150 words)
+//   source word list : scripts/sources/hsk{level}-words.json
+//                      (drkameleon/complete-hsk-vocabulary, exclusive old level)
 //   decomposition    : the `hanzi` package (bundled CC-CEDICT + CJK decomposition, offline)
 //   component glosses : curated COMPONENT map below, CC-CEDICT fallback otherwise
 //
-// Output: lib/data/hsk1.json  — consumed directly by the app, no network, no API.
+// Output: lib/data/hsk{level}.json, consumed directly by the app.
 //
-// Run with:  node scripts/build-hsk1.mjs
+// Run with:  node scripts/build-hsk1.mjs 1
+//            node scripts/build-hsk1.mjs 2
 
 import { createRequire } from "node:module";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -19,8 +20,10 @@ const hanzi = require("hanzi");
 hanzi.start();
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
+const level = Number(process.argv[2] || 1);
+if (level !== 1 && level !== 2) throw new Error("Expected HSK level 1 or 2");
 const words = JSON.parse(
-  readFileSync(join(root, "scripts/sources/hsk1-words.json"), "utf8"),
+  readFileSync(join(root, `scripts/sources/hsk${level}-words.json`), "utf8"),
 );
 
 // Curated meanings for components — especially the bound "radical" forms that are
@@ -50,6 +53,22 @@ const COMPONENT = {
   "彳": { meaning: "step, to walk", role: "semantic" },
   "廾": { meaning: "two hands", role: "semantic" },
   "爫": { meaning: "claw, hand from above", role: "semantic", variantOf: "爪" },
+  "⺮": { meaning: "bamboo", role: "semantic", variantOf: "竹" },
+  "忄": { meaning: "heart, mind", role: "semantic", variantOf: "心" },
+  "⻊": { meaning: "foot, movement", role: "semantic", variantOf: "足" },
+  "覀": { meaning: "west / cover", role: "form", variantOf: "西" },
+  "彐": { meaning: "snout / hand shape", role: "form" },
+  "⺈": { meaning: "knife / bent stroke", role: "form", variantOf: "刀" },
+  "仌": { meaning: "two people / ice shape", role: "form" },
+  "龰": { meaning: "foot", role: "form", variantOf: "足" },
+  "𣥂": { meaning: "foot", role: "form", variantOf: "足" },
+  "𨈑": { meaning: "body", role: "form", variantOf: "身" },
+  "𢎨": { meaning: "structural strokes", role: "form" },
+  "龸": { meaning: "top strokes", role: "form" },
+  "龷": { meaning: "joined strokes", role: "form" },
+  "𠀐": { meaning: "structural strokes", role: "form" },
+  "𠃓": { meaning: "hooked stroke", role: "form" },
+  "⺙": { meaning: "wrapping stroke", role: "form" },
   "⺊": { meaning: "to divine", role: "semantic", variantOf: "卜" },
   "⺀": { meaning: "ice / split", role: "form" },
   "⺍": { meaning: "small", role: "form", variantOf: "小" },
@@ -231,6 +250,12 @@ const WORD_OVERRIDE = {
   多少: { pinyin: "duō shǎo", meaning: "how many; how much" },
   同学: { pinyin: "tóng xué", meaning: "classmate" },
   先生: { pinyin: "xiān sheng", meaning: "Mr.; sir" },
+  吧: { pinyin: "ba", meaning: "(suggestion particle); ...right?" },
+  长: { pinyin: "cháng", meaning: "long" },
+  得: { pinyin: "de / děi", meaning: "complement particle; must; have to" },
+  还: { pinyin: "hái / huán", meaning: "still; also; to return" },
+  过: { pinyin: "guo", meaning: "(past-experience particle); to pass" },
+  着: { pinyin: "zhe", meaning: "(ongoing-state particle)" },
 };
 
 function componentInfo(comp) {
@@ -302,7 +327,7 @@ const out = words.map((w, i) => {
     .filter((c) => /[一-鿿]/.test(c))
     .map((c) => ({ char: c, pinyin: charPinyin(c), ...breakdown(c) }));
   return {
-    id: `hsk1-${String(i + 1).padStart(3, "0")}`,
+    id: `hsk${level}-${String(i + 1).padStart(3, "0")}`,
     hanzi: hanziStr,
     pinyin,
     meaning: meanings[0] || "",
@@ -313,7 +338,7 @@ const out = words.map((w, i) => {
   };
 });
 
-const dest = join(root, "lib/data/hsk1.json");
+const dest = join(root, `lib/data/hsk${level}.json`);
 writeFileSync(dest, JSON.stringify(out, null, 2) + "\n", "utf8");
 
 // Coverage report so component-gloss gaps are visible, not silent.

@@ -1,0 +1,6479 @@
+[
+  {
+    "id": "hsk2-001",
+    "hanzi": "吧",
+    "pinyin": "ba",
+    "meaning": "(suggestion particle); ...right?",
+    "meanings": [
+      "(suggestion particle); ...right?"
+    ],
+    "pos": [
+      "y"
+    ],
+    "frequency": 58,
+    "characters": [
+      {
+        "char": "吧",
+        "pinyin": "ba",
+        "atomic": false,
+        "components": [
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          },
+          {
+            "char": "巴",
+            "meaning": "to long for",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-002",
+    "hanzi": "白",
+    "pinyin": "bái",
+    "meaning": "white",
+    "meanings": [
+      "white",
+      "snowy",
+      "pure",
+      "bright",
+      "empty",
+      "blank",
+      "plain",
+      "clear",
+      "to make clear",
+      "in vain",
+      "gratuitous",
+      "free of charge",
+      "reactionary",
+      "anti-communist",
+      "funeral",
+      "to stare coldly",
+      "to write wrong character",
+      "to state",
+      "to explain",
+      "vernacular",
+      "spoken lines in opera"
+    ],
+    "pos": [
+      "a",
+      "nr",
+      "d",
+      "b",
+      "v",
+      "g"
+    ],
+    "frequency": 930,
+    "characters": [
+      {
+        "char": "白",
+        "pinyin": "bái",
+        "atomic": false,
+        "components": [
+          {
+            "char": "日",
+            "meaning": "sun, day",
+            "role": "semantic"
+          },
+          {
+            "char": "㇒",
+            "meaning": "stroke",
+            "role": "form"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-003",
+    "hanzi": "百",
+    "pinyin": "bǎi",
+    "meaning": "hundred",
+    "meanings": [
+      "hundred",
+      "numerous",
+      "all kinds of"
+    ],
+    "pos": [
+      "m",
+      "t"
+    ],
+    "frequency": 2455,
+    "characters": [
+      {
+        "char": "百",
+        "pinyin": "bǎi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          },
+          {
+            "char": "白",
+            "meaning": "white",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-004",
+    "hanzi": "帮助",
+    "pinyin": "bāng zhù",
+    "meaning": "assistance; aid",
+    "meanings": [
+      "assistance; aid",
+      "to help; to assist"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 499,
+    "characters": [
+      {
+        "char": "帮",
+        "pinyin": "bāng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "邦",
+            "meaning": "a state",
+            "role": "part"
+          },
+          {
+            "char": "巾",
+            "meaning": "cloth",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "助",
+        "pinyin": "zhù",
+        "atomic": false,
+        "components": [
+          {
+            "char": "且",
+            "meaning": "and",
+            "role": "part"
+          },
+          {
+            "char": "力",
+            "meaning": "strength",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-005",
+    "hanzi": "报纸",
+    "pinyin": "bào zhǐ",
+    "meaning": "newspaper",
+    "meanings": [
+      "newspaper",
+      "newsprint"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 2232,
+    "characters": [
+      {
+        "char": "报",
+        "pinyin": "bào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "扌",
+            "meaning": "hand",
+            "role": "semantic",
+            "variantOf": "手"
+          },
+          {
+            "char": "𠬝",
+            "meaning": "to handle, to submit",
+            "role": "form"
+          }
+        ]
+      },
+      {
+        "char": "纸",
+        "pinyin": "zhǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "纟",
+            "meaning": "silk, thread",
+            "role": "semantic",
+            "variantOf": "糸"
+          },
+          {
+            "char": "氏",
+            "meaning": "clan name",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-006",
+    "hanzi": "比",
+    "pinyin": "bǐ",
+    "meaning": "to compare",
+    "meanings": [
+      "to compare",
+      "more {adj.} than {noun}",
+      "ratio",
+      "to gesture",
+      ""
+    ],
+    "pos": [
+      "p",
+      "v",
+      "n",
+      "b"
+    ],
+    "frequency": 155,
+    "characters": [
+      {
+        "char": "比",
+        "pinyin": "bǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "匕",
+            "meaning": "spoon, ladle",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-007",
+    "hanzi": "便宜",
+    "pinyin": "pián yi",
+    "meaning": "cheap",
+    "meanings": [
+      "cheap",
+      "inexpensive",
+      "small advantages",
+      "to let sb off lightly"
+    ],
+    "pos": [
+      "a",
+      "v",
+      "an"
+    ],
+    "frequency": 2814,
+    "characters": [
+      {
+        "char": "便",
+        "pinyin": "biàn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "亻",
+            "meaning": "person",
+            "role": "semantic",
+            "variantOf": "人"
+          },
+          {
+            "char": "更",
+            "meaning": "more",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "宜",
+        "pinyin": "yí",
+        "atomic": false,
+        "components": [
+          {
+            "char": "宀",
+            "meaning": "roof, house",
+            "role": "semantic"
+          },
+          {
+            "char": "且",
+            "meaning": "and",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-008",
+    "hanzi": "别",
+    "pinyin": "bié",
+    "meaning": "to leave; to part",
+    "meanings": [
+      "to leave; to part",
+      "to differentiate; to distinguish",
+      "other; another; different",
+      "don't ...!",
+      "to fasten with a pin or clip",
+      "to stick in; to insert",
+      "category"
+    ],
+    "pos": [
+      "d",
+      "v",
+      "r",
+      "vn"
+    ],
+    "frequency": 214,
+    "characters": [
+      {
+        "char": "别",
+        "pinyin": "bié",
+        "atomic": false,
+        "components": [
+          {
+            "char": "另",
+            "meaning": "other",
+            "role": "part"
+          },
+          {
+            "char": "刂",
+            "meaning": "knife",
+            "role": "semantic",
+            "variantOf": "刀"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-009",
+    "hanzi": "唱歌",
+    "pinyin": "chàng gē",
+    "meaning": "to sing a song",
+    "meanings": [
+      "to sing a song"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 2876,
+    "characters": [
+      {
+        "char": "唱",
+        "pinyin": "chàng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          },
+          {
+            "char": "昌",
+            "meaning": "prosperous",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "歌",
+        "pinyin": "gē",
+        "atomic": false,
+        "components": [
+          {
+            "char": "哥",
+            "meaning": "elder brother",
+            "role": "part"
+          },
+          {
+            "char": "欠",
+            "meaning": "to lack, yawn",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-010",
+    "hanzi": "出",
+    "pinyin": "chū",
+    "meaning": "to go out",
+    "meanings": [
+      "to go out",
+      "to come out",
+      "to occur",
+      "to produce",
+      "to go beyond",
+      "to rise",
+      "to put forth",
+      "to happen",
+      "",
+      "classifier for dramas, plays, operas etc"
+    ],
+    "pos": [
+      "v",
+      "q"
+    ],
+    "frequency": 85,
+    "characters": [
+      {
+        "char": "出",
+        "pinyin": "chū",
+        "atomic": false,
+        "components": [
+          {
+            "char": "山",
+            "meaning": "mountain",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-011",
+    "hanzi": "穿",
+    "pinyin": "chuān",
+    "meaning": "to wear",
+    "meanings": [
+      "to wear",
+      "to put on",
+      "to dress",
+      "to bore through",
+      "to pierce",
+      "to perforate",
+      "to penetrate",
+      "to pass through",
+      "to thread"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 430,
+    "characters": [
+      {
+        "char": "穿",
+        "pinyin": "chuān",
+        "atomic": false,
+        "components": [
+          {
+            "char": "穴",
+            "meaning": "cave",
+            "role": "part"
+          },
+          {
+            "char": "牙",
+            "meaning": "tooth",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-012",
+    "hanzi": "船",
+    "pinyin": "chuán",
+    "meaning": "boat",
+    "meanings": [
+      "boat",
+      "vessel",
+      "ship"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1346,
+    "characters": [
+      {
+        "char": "船",
+        "pinyin": "chuán",
+        "atomic": false,
+        "components": [
+          {
+            "char": "舟",
+            "meaning": "boat",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-013",
+    "hanzi": "次",
+    "pinyin": "cì",
+    "meaning": "next in sequence",
+    "meanings": [
+      "next in sequence",
+      "second",
+      "the second",
+      "secondary",
+      "vice-",
+      "sub-",
+      "infra-",
+      "inferior quality",
+      "substandard",
+      "order",
+      "sequence",
+      "hypo-",
+      "classifier for enumerated events: time"
+    ],
+    "pos": [
+      "qv",
+      "a",
+      "g"
+    ],
+    "frequency": 99,
+    "characters": [
+      {
+        "char": "次",
+        "pinyin": "cì",
+        "atomic": false,
+        "components": [
+          {
+            "char": "冫",
+            "meaning": "ice",
+            "role": "semantic"
+          },
+          {
+            "char": "欠",
+            "meaning": "to lack, yawn",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-014",
+    "hanzi": "从",
+    "pinyin": "cóng",
+    "meaning": "from",
+    "meanings": [
+      "from",
+      "through",
+      "via",
+      "to follow",
+      "to obey",
+      "to engage in",
+      "never",
+      "retainer",
+      "assistant",
+      "auxiliary",
+      "subordinate",
+      "related by common paternal grandfather or earlier ancestor"
+    ],
+    "pos": [
+      "p",
+      "g"
+    ],
+    "frequency": 70,
+    "characters": [
+      {
+        "char": "从",
+        "pinyin": "cóng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "人",
+            "meaning": "person",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-015",
+    "hanzi": "错",
+    "pinyin": "cuò",
+    "meaning": "mistake",
+    "meanings": [
+      "mistake",
+      "wrong",
+      "bad",
+      "interlocking",
+      "complex",
+      "to grind",
+      "to polish",
+      "to alternate",
+      "to stagger",
+      "to miss",
+      "to let slip",
+      "to evade",
+      "to inlay with gold or silver"
+    ],
+    "pos": [
+      "v",
+      "n"
+    ],
+    "frequency": 531,
+    "characters": [
+      {
+        "char": "错",
+        "pinyin": "cuò",
+        "atomic": false,
+        "components": [
+          {
+            "char": "钅",
+            "meaning": "metal",
+            "role": "semantic",
+            "variantOf": "金"
+          },
+          {
+            "char": "昔",
+            "meaning": "former times",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-016",
+    "hanzi": "打篮球",
+    "pinyin": "dǎ lán qiú",
+    "meaning": "to play basketball",
+    "meanings": [
+      "to play basketball"
+    ],
+    "pos": [],
+    "frequency": 1000000,
+    "characters": [
+      {
+        "char": "打",
+        "pinyin": "dǎ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "扌",
+            "meaning": "hand",
+            "role": "semantic",
+            "variantOf": "手"
+          },
+          {
+            "char": "丁",
+            "meaning": "fourth of 10 heavenly stems 十天干",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "篮",
+        "pinyin": "lán",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⺮",
+            "meaning": "bamboo",
+            "role": "semantic",
+            "variantOf": "竹"
+          },
+          {
+            "char": "监",
+            "meaning": "hard",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "球",
+        "pinyin": "qiú",
+        "atomic": false,
+        "components": [
+          {
+            "char": "王",
+            "meaning": "king / jade",
+            "role": "semantic"
+          },
+          {
+            "char": "求",
+            "meaning": "to seek",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-017",
+    "hanzi": "大家",
+    "pinyin": "dà jiā",
+    "meaning": "everyone",
+    "meanings": [
+      "everyone",
+      "influential family",
+      "great expert"
+    ],
+    "pos": [
+      "r",
+      "n"
+    ],
+    "frequency": 189,
+    "characters": [
+      {
+        "char": "大",
+        "pinyin": "dà",
+        "atomic": false,
+        "components": [
+          {
+            "char": "人",
+            "meaning": "person",
+            "role": "semantic"
+          },
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "家",
+        "pinyin": "jiā",
+        "atomic": false,
+        "components": [
+          {
+            "char": "宀",
+            "meaning": "roof, house",
+            "role": "semantic"
+          },
+          {
+            "char": "豕",
+            "meaning": "pig",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-018",
+    "hanzi": "但是",
+    "pinyin": "dàn shì",
+    "meaning": "but; however",
+    "meanings": [
+      "but; however"
+    ],
+    "pos": [
+      "c"
+    ],
+    "frequency": 115,
+    "characters": [
+      {
+        "char": "但",
+        "pinyin": "dàn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "亻",
+            "meaning": "person",
+            "role": "semantic",
+            "variantOf": "人"
+          },
+          {
+            "char": "旦",
+            "meaning": "dawn",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "是",
+        "pinyin": "shì",
+        "atomic": false,
+        "components": [
+          {
+            "char": "日",
+            "meaning": "sun, day",
+            "role": "semantic"
+          },
+          {
+            "char": "𤴓",
+            "meaning": "foot",
+            "role": "form",
+            "variantOf": "足"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-019",
+    "hanzi": "到",
+    "pinyin": "dào",
+    "meaning": "to reach; to arrive",
+    "meanings": [
+      "to reach; to arrive",
+      "to leave for; to go to",
+      "to ; until ; up to",
+      "",
+      "considerate; thoughtful; thorough"
+    ],
+    "pos": [
+      "v",
+      "p"
+    ],
+    "frequency": 29,
+    "characters": [
+      {
+        "char": "到",
+        "pinyin": "dào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "至",
+            "meaning": "to arrive",
+            "role": "part"
+          },
+          {
+            "char": "刂",
+            "meaning": "knife",
+            "role": "semantic",
+            "variantOf": "刀"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-020",
+    "hanzi": "得",
+    "pinyin": "de / děi",
+    "meaning": "complement particle; must; have to",
+    "meanings": [
+      "complement particle; must; have to"
+    ],
+    "pos": [
+      "u",
+      "v"
+    ],
+    "frequency": 58,
+    "characters": [
+      {
+        "char": "得",
+        "pinyin": "dé",
+        "atomic": false,
+        "components": [
+          {
+            "char": "彳",
+            "meaning": "step, to walk",
+            "role": "semantic"
+          },
+          {
+            "char": "㝵",
+            "meaning": "to obtain",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-021",
+    "hanzi": "弟弟",
+    "pinyin": "dì di",
+    "meaning": "younger brother",
+    "meanings": [
+      "younger brother"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 2424,
+    "characters": [
+      {
+        "char": "弟",
+        "pinyin": "dì",
+        "atomic": true,
+        "components": [
+          {
+            "char": "弟",
+            "meaning": "younger brother",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "弟",
+        "pinyin": "dì",
+        "atomic": true,
+        "components": [
+          {
+            "char": "弟",
+            "meaning": "younger brother",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-022",
+    "hanzi": "第一",
+    "pinyin": "dì yī",
+    "meaning": "first",
+    "meanings": [
+      "first",
+      "number one",
+      "primary"
+    ],
+    "pos": [
+      "m"
+    ],
+    "frequency": 223,
+    "characters": [
+      {
+        "char": "第",
+        "pinyin": "dì",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⺮",
+            "meaning": "bamboo",
+            "role": "semantic",
+            "variantOf": "竹"
+          },
+          {
+            "char": "𢎨",
+            "meaning": "structural strokes",
+            "role": "form"
+          }
+        ]
+      },
+      {
+        "char": "一",
+        "pinyin": "yī",
+        "atomic": true,
+        "components": [
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-023",
+    "hanzi": "懂",
+    "pinyin": "dǒng",
+    "meaning": "to understand",
+    "meanings": [
+      "to understand",
+      "to comprehend"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 669,
+    "characters": [
+      {
+        "char": "懂",
+        "pinyin": "dǒng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "忄",
+            "meaning": "heart, mind",
+            "role": "semantic",
+            "variantOf": "心"
+          },
+          {
+            "char": "董",
+            "meaning": "to supervise",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-024",
+    "hanzi": "房间",
+    "pinyin": "fáng jiān",
+    "meaning": "room",
+    "meanings": [
+      "room"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1357,
+    "characters": [
+      {
+        "char": "房",
+        "pinyin": "fáng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "户",
+            "meaning": "a household",
+            "role": "part"
+          },
+          {
+            "char": "方",
+            "meaning": "square",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "间",
+        "pinyin": "jiān",
+        "atomic": false,
+        "components": [
+          {
+            "char": "门",
+            "meaning": "door, gate",
+            "role": "semantic"
+          },
+          {
+            "char": "日",
+            "meaning": "sun, day",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-025",
+    "hanzi": "非常",
+    "pinyin": "fēi cháng",
+    "meaning": "very; really",
+    "meanings": [
+      "very; really",
+      "unusual; extraordinary"
+    ],
+    "pos": [
+      "d",
+      "b"
+    ],
+    "frequency": 194,
+    "characters": [
+      {
+        "char": "非",
+        "pinyin": "fēi",
+        "atomic": true,
+        "components": [
+          {
+            "char": "非",
+            "meaning": "to not be",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "常",
+        "pinyin": "cháng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "龸",
+            "meaning": "top strokes",
+            "role": "form"
+          },
+          {
+            "char": "吊",
+            "meaning": "to suspend",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-026",
+    "hanzi": "服务员",
+    "pinyin": "fú wù yuán",
+    "meaning": "waiter",
+    "meanings": [
+      "waiter",
+      "waitress",
+      "attendant",
+      "customer service personnel"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 5531,
+    "characters": [
+      {
+        "char": "服",
+        "pinyin": "fú",
+        "atomic": false,
+        "components": [
+          {
+            "char": "月",
+            "meaning": "moon / flesh",
+            "role": "semantic"
+          },
+          {
+            "char": "𠬝",
+            "meaning": "to handle, to submit",
+            "role": "form"
+          }
+        ]
+      },
+      {
+        "char": "务",
+        "pinyin": "wù",
+        "atomic": false,
+        "components": [
+          {
+            "char": "夂",
+            "meaning": "to follow, go",
+            "role": "semantic"
+          },
+          {
+            "char": "力",
+            "meaning": "strength",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "员",
+        "pinyin": "yuán",
+        "atomic": false,
+        "components": [
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          },
+          {
+            "char": "贝",
+            "meaning": "cowrie",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-027",
+    "hanzi": "高",
+    "pinyin": "gāo",
+    "meaning": "high",
+    "meanings": [
+      "high",
+      "tall",
+      "above average",
+      "loud",
+      "your"
+    ],
+    "pos": [
+      "a",
+      "ad",
+      "v",
+      "g"
+    ],
+    "frequency": 290,
+    "characters": [
+      {
+        "char": "高",
+        "pinyin": "gāo",
+        "atomic": true,
+        "components": [
+          {
+            "char": "高",
+            "meaning": "tall, high",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-028",
+    "hanzi": "告诉",
+    "pinyin": "gào sù",
+    "meaning": "to press charges; to file a complaint",
+    "meanings": [
+      "to press charges; to file a complaint"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 252,
+    "characters": [
+      {
+        "char": "告",
+        "pinyin": "gào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⺧",
+            "meaning": "ox",
+            "role": "semantic",
+            "variantOf": "牛"
+          },
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "诉",
+        "pinyin": "sù",
+        "atomic": false,
+        "components": [
+          {
+            "char": "讠",
+            "meaning": "speech, words",
+            "role": "semantic",
+            "variantOf": "言"
+          },
+          {
+            "char": "斥",
+            "meaning": "to blame",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-029",
+    "hanzi": "哥哥",
+    "pinyin": "gē ge",
+    "meaning": "older brother",
+    "meanings": [
+      "older brother"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1655,
+    "characters": [
+      {
+        "char": "哥",
+        "pinyin": "gē",
+        "atomic": false,
+        "components": [
+          {
+            "char": "可",
+            "meaning": "can",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "哥",
+        "pinyin": "gē",
+        "atomic": false,
+        "components": [
+          {
+            "char": "可",
+            "meaning": "can",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-030",
+    "hanzi": "给",
+    "pinyin": "gěi",
+    "meaning": "to",
+    "meanings": [
+      "to",
+      "for",
+      "for the benefit of",
+      "to give",
+      "to allow",
+      "to do sth",
+      "",
+      "",
+      ""
+    ],
+    "pos": [
+      "p",
+      "v",
+      "u"
+    ],
+    "frequency": 46,
+    "characters": [
+      {
+        "char": "给",
+        "pinyin": "gěi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "纟",
+            "meaning": "silk, thread",
+            "role": "semantic",
+            "variantOf": "糸"
+          },
+          {
+            "char": "合",
+            "meaning": "to close",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-031",
+    "hanzi": "公共汽车",
+    "pinyin": "gōng gòng qì chē",
+    "meaning": "bus",
+    "meanings": [
+      "bus"
+    ],
+    "pos": [],
+    "frequency": 13591,
+    "characters": [
+      {
+        "char": "公",
+        "pinyin": "gōng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "八",
+            "meaning": "eight / divide",
+            "role": "semantic"
+          },
+          {
+            "char": "厶",
+            "meaning": "private, self",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "共",
+        "pinyin": "gòng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "龷",
+            "meaning": "joined strokes",
+            "role": "form"
+          },
+          {
+            "char": "八",
+            "meaning": "eight / divide",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "汽",
+        "pinyin": "qì",
+        "atomic": false,
+        "components": [
+          {
+            "char": "氵",
+            "meaning": "water",
+            "role": "semantic",
+            "variantOf": "水"
+          },
+          {
+            "char": "气",
+            "meaning": "air, breath",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "车",
+        "pinyin": "chē",
+        "atomic": false,
+        "components": [
+          {
+            "char": "七",
+            "meaning": "seven",
+            "role": "part"
+          },
+          {
+            "char": "十",
+            "meaning": "ten",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-032",
+    "hanzi": "公斤",
+    "pinyin": "gōng jīn",
+    "meaning": "kilogram",
+    "meanings": [
+      "kilogram"
+    ],
+    "pos": [
+      "q"
+    ],
+    "frequency": 4784,
+    "characters": [
+      {
+        "char": "公",
+        "pinyin": "gōng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "八",
+            "meaning": "eight / divide",
+            "role": "semantic"
+          },
+          {
+            "char": "厶",
+            "meaning": "private, self",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "斤",
+        "pinyin": "jīn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⺁",
+            "meaning": "cliff",
+            "role": "semantic"
+          },
+          {
+            "char": "丅",
+            "meaning": "old variant of 下, down",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-033",
+    "hanzi": "公司",
+    "pinyin": "gōng sī",
+    "meaning": "company; firm; corporation",
+    "meanings": [
+      "company; firm; corporation"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 220,
+    "characters": [
+      {
+        "char": "公",
+        "pinyin": "gōng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "八",
+            "meaning": "eight / divide",
+            "role": "semantic"
+          },
+          {
+            "char": "厶",
+            "meaning": "private, self",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "司",
+        "pinyin": "sī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "㇆",
+            "meaning": "stroke",
+            "role": "form"
+          },
+          {
+            "char": "𠮛",
+            "meaning": "to say",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-034",
+    "hanzi": "贵",
+    "pinyin": "guì",
+    "meaning": "expensive",
+    "meanings": [
+      "expensive",
+      "noble",
+      "precious",
+      "your"
+    ],
+    "pos": [
+      "a",
+      "r",
+      "b",
+      "g"
+    ],
+    "frequency": 2239,
+    "characters": [
+      {
+        "char": "贵",
+        "pinyin": "guì",
+        "atomic": false,
+        "components": [
+          {
+            "char": "𠀐",
+            "meaning": "structural strokes",
+            "role": "form"
+          },
+          {
+            "char": "贝",
+            "meaning": "cowrie",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-035",
+    "hanzi": "还",
+    "pinyin": "hái / huán",
+    "meaning": "still; also; to return",
+    "meanings": [
+      "still; also; to return"
+    ],
+    "pos": [
+      "d",
+      "v"
+    ],
+    "frequency": 37,
+    "characters": [
+      {
+        "char": "还",
+        "pinyin": "hái",
+        "atomic": false,
+        "components": [
+          {
+            "char": "辶",
+            "meaning": "walking, movement",
+            "role": "semantic",
+            "variantOf": "辵"
+          },
+          {
+            "char": "不",
+            "meaning": "not, no",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-036",
+    "hanzi": "孩子",
+    "pinyin": "hái zi",
+    "meaning": "child",
+    "meanings": [
+      "child"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 207,
+    "characters": [
+      {
+        "char": "孩",
+        "pinyin": "hái",
+        "atomic": false,
+        "components": [
+          {
+            "char": "子",
+            "meaning": "child",
+            "role": "semantic"
+          },
+          {
+            "char": "亥",
+            "meaning": "12th earthly branch: 9-11 p.m., 10th solar month , year of the Boar",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "子",
+        "pinyin": "zǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "了",
+            "meaning": "completion, finished",
+            "role": "part"
+          },
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-037",
+    "hanzi": "好吃",
+    "pinyin": "hǎo chī",
+    "meaning": "tasty",
+    "meanings": [
+      "tasty",
+      "delicious"
+    ],
+    "pos": [
+      "a"
+    ],
+    "frequency": 2484,
+    "characters": [
+      {
+        "char": "好",
+        "pinyin": "hǎo",
+        "atomic": false,
+        "components": [
+          {
+            "char": "女",
+            "meaning": "woman",
+            "role": "semantic"
+          },
+          {
+            "char": "子",
+            "meaning": "child",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "吃",
+        "pinyin": "chī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          },
+          {
+            "char": "乞",
+            "meaning": "to beg",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-038",
+    "hanzi": "号",
+    "pinyin": "hào",
+    "meaning": "ordinal number",
+    "meanings": [
+      "ordinal number",
+      "day of a month",
+      "mark",
+      "sign",
+      "business establishment",
+      "size",
+      "ship suffix",
+      "horn",
+      "bugle call",
+      "assumed name",
+      "to take a pulse",
+      "classifier used to indicate number of people"
+    ],
+    "pos": [
+      "q",
+      "n",
+      "v"
+    ],
+    "frequency": 278,
+    "characters": [
+      {
+        "char": "号",
+        "pinyin": "hào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          },
+          {
+            "char": "丂",
+            "meaning": "\"breath\" or \"sigh\" component in Chinese characters",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-039",
+    "hanzi": "黑",
+    "pinyin": "hēi",
+    "meaning": "black",
+    "meanings": [
+      "black",
+      "dark",
+      "sinister",
+      "secret",
+      "shady",
+      "illegal",
+      "to hide away",
+      "to vilify",
+      "to hack"
+    ],
+    "pos": [
+      "a",
+      "g",
+      "b"
+    ],
+    "frequency": 724,
+    "characters": [
+      {
+        "char": "黑",
+        "pinyin": "hēi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "灬",
+            "meaning": "fire",
+            "role": "semantic",
+            "variantOf": "火"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-040",
+    "hanzi": "红",
+    "pinyin": "hóng",
+    "meaning": "red",
+    "meanings": [
+      "red",
+      "popular",
+      "revolutionary",
+      "bonus"
+    ],
+    "pos": [
+      "a",
+      "v",
+      "g"
+    ],
+    "frequency": 794,
+    "characters": [
+      {
+        "char": "红",
+        "pinyin": "hóng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "纟",
+            "meaning": "silk, thread",
+            "role": "semantic",
+            "variantOf": "糸"
+          },
+          {
+            "char": "工",
+            "meaning": "work",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-041",
+    "hanzi": "欢迎",
+    "pinyin": "huān yíng",
+    "meaning": "to welcome",
+    "meanings": [
+      "to welcome",
+      "welcome"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 796,
+    "characters": [
+      {
+        "char": "欢",
+        "pinyin": "huān",
+        "atomic": false,
+        "components": [
+          {
+            "char": "又",
+            "meaning": "again / right hand",
+            "role": "semantic"
+          },
+          {
+            "char": "欠",
+            "meaning": "to lack, yawn",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "迎",
+        "pinyin": "yíng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "辶",
+            "meaning": "walking, movement",
+            "role": "semantic",
+            "variantOf": "辵"
+          },
+          {
+            "char": "卬",
+            "meaning": "I",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-042",
+    "hanzi": "回答",
+    "pinyin": "huí dá",
+    "meaning": "to reply; to answer",
+    "meanings": [
+      "to reply; to answer",
+      "reply; answer"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 1100,
+    "characters": [
+      {
+        "char": "回",
+        "pinyin": "huí",
+        "atomic": false,
+        "components": [
+          {
+            "char": "囗",
+            "meaning": "enclosure",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "答",
+        "pinyin": "dá",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⺮",
+            "meaning": "bamboo",
+            "role": "semantic",
+            "variantOf": "竹"
+          },
+          {
+            "char": "合",
+            "meaning": "to close",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-043",
+    "hanzi": "机场",
+    "pinyin": "jī chǎng",
+    "meaning": "airport; airfield",
+    "meanings": [
+      "airport; airfield",
+      "service provider for Shadowsocks or similar software for circumventing Internet censorship"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 2308,
+    "characters": [
+      {
+        "char": "机",
+        "pinyin": "jī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "木",
+            "meaning": "tree, wood",
+            "role": "semantic"
+          },
+          {
+            "char": "几",
+            "meaning": "small table / how many",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "场",
+        "pinyin": "chǎng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "土",
+            "meaning": "earth, soil",
+            "role": "semantic"
+          },
+          {
+            "char": "𠃓",
+            "meaning": "hooked stroke",
+            "role": "form"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-044",
+    "hanzi": "鸡蛋",
+    "pinyin": "jī dàn",
+    "meaning": "egg",
+    "meanings": [
+      "egg",
+      "hen's egg"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 3501,
+    "characters": [
+      {
+        "char": "鸡",
+        "pinyin": "jī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "又",
+            "meaning": "again / right hand",
+            "role": "semantic"
+          },
+          {
+            "char": "鸟",
+            "meaning": "bird",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "蛋",
+        "pinyin": "dàn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "疋",
+            "meaning": "a bolt",
+            "role": "part"
+          },
+          {
+            "char": "虫",
+            "meaning": "worm or insect",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-045",
+    "hanzi": "件",
+    "pinyin": "jiàn",
+    "meaning": "item",
+    "meanings": [
+      "item",
+      "component",
+      "classifier for events, things, clothes etc"
+    ],
+    "pos": [
+      "q",
+      "g"
+    ],
+    "frequency": 292,
+    "characters": [
+      {
+        "char": "件",
+        "pinyin": "jiàn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "亻",
+            "meaning": "person",
+            "role": "semantic",
+            "variantOf": "人"
+          },
+          {
+            "char": "牛",
+            "meaning": "ox",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-046",
+    "hanzi": "教室",
+    "pinyin": "jiào shì",
+    "meaning": "classroom",
+    "meanings": [
+      "classroom"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 5082,
+    "characters": [
+      {
+        "char": "教",
+        "pinyin": "jiào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "孝",
+            "meaning": "filial piety or obedience",
+            "role": "part"
+          },
+          {
+            "char": "⺙",
+            "meaning": "wrapping stroke",
+            "role": "form"
+          }
+        ]
+      },
+      {
+        "char": "室",
+        "pinyin": "shì",
+        "atomic": false,
+        "components": [
+          {
+            "char": "宀",
+            "meaning": "roof, house",
+            "role": "semantic"
+          },
+          {
+            "char": "至",
+            "meaning": "to arrive",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-047",
+    "hanzi": "介绍",
+    "pinyin": "jiè shào",
+    "meaning": "to introduce",
+    "meanings": [
+      "to introduce",
+      "to give a presentation",
+      "to present",
+      "introduction"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 779,
+    "characters": [
+      {
+        "char": "介",
+        "pinyin": "jiè",
+        "atomic": false,
+        "components": [
+          {
+            "char": "人",
+            "meaning": "person",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "绍",
+        "pinyin": "shào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "纟",
+            "meaning": "silk, thread",
+            "role": "semantic",
+            "variantOf": "糸"
+          },
+          {
+            "char": "召",
+            "meaning": "to call together",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-048",
+    "hanzi": "姐姐",
+    "pinyin": "jiě jie",
+    "meaning": "older sister",
+    "meanings": [
+      "older sister"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1513,
+    "characters": [
+      {
+        "char": "姐",
+        "pinyin": "jiě",
+        "atomic": false,
+        "components": [
+          {
+            "char": "女",
+            "meaning": "woman",
+            "role": "semantic"
+          },
+          {
+            "char": "且",
+            "meaning": "and",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "姐",
+        "pinyin": "jiě",
+        "atomic": false,
+        "components": [
+          {
+            "char": "女",
+            "meaning": "woman",
+            "role": "semantic"
+          },
+          {
+            "char": "且",
+            "meaning": "and",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-049",
+    "hanzi": "近",
+    "pinyin": "jìn",
+    "meaning": "near",
+    "meanings": [
+      "near",
+      "close to",
+      "approximately"
+    ],
+    "pos": [
+      "a",
+      "v"
+    ],
+    "frequency": 822,
+    "characters": [
+      {
+        "char": "近",
+        "pinyin": "jìn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "辶",
+            "meaning": "walking, movement",
+            "role": "semantic",
+            "variantOf": "辵"
+          },
+          {
+            "char": "斤",
+            "meaning": "axe",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-050",
+    "hanzi": "进",
+    "pinyin": "jìn",
+    "meaning": "to go forward",
+    "meanings": [
+      "to go forward",
+      "to advance",
+      "to go in",
+      "to enter",
+      "to put in",
+      "to submit",
+      "to take in",
+      "to admit",
+      "base of a number system",
+      "classifier for sections in a building or residential compound"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 338,
+    "characters": [
+      {
+        "char": "进",
+        "pinyin": "jìn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "辶",
+            "meaning": "walking, movement",
+            "role": "semantic",
+            "variantOf": "辵"
+          },
+          {
+            "char": "井",
+            "meaning": "a well",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-051",
+    "hanzi": "就",
+    "pinyin": "jiù",
+    "meaning": "in that case; then",
+    "meanings": [
+      "in that case; then",
+      "as soon as; immediately after",
+      "merely; nothing else but; simply; just; precisely; exactly",
+      "only; as little as",
+      "as much as; as many as",
+      "to approach; to move towards",
+      "to undertake; to engage in",
+      "taking advantage of",
+      "to go with",
+      "with regard to; concerning",
+      "even if ... still ...",
+      "if not ... then must be ..."
+    ],
+    "pos": [
+      "d",
+      "p",
+      "c",
+      "v"
+    ],
+    "frequency": 15,
+    "characters": [
+      {
+        "char": "就",
+        "pinyin": "jiù",
+        "atomic": false,
+        "components": [
+          {
+            "char": "京",
+            "meaning": "capital city of a country",
+            "role": "part"
+          },
+          {
+            "char": "尤",
+            "meaning": "outstanding",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-052",
+    "hanzi": "觉得",
+    "pinyin": "jué de",
+    "meaning": "to think that ...; to feel that ...",
+    "meanings": [
+      "to think that ...; to feel that ...",
+      "to feel"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 161,
+    "characters": [
+      {
+        "char": "觉",
+        "pinyin": "jué",
+        "atomic": false,
+        "components": [
+          {
+            "char": "见",
+            "meaning": "to see",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "得",
+        "pinyin": "dé",
+        "atomic": false,
+        "components": [
+          {
+            "char": "彳",
+            "meaning": "step, to walk",
+            "role": "semantic"
+          },
+          {
+            "char": "㝵",
+            "meaning": "to obtain",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-053",
+    "hanzi": "咖啡",
+    "pinyin": "kā fēi",
+    "meaning": "coffee",
+    "meanings": [
+      "coffee"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1698,
+    "characters": [
+      {
+        "char": "咖",
+        "pinyin": "kā",
+        "atomic": false,
+        "components": [
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          },
+          {
+            "char": "加",
+            "meaning": "to add",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "啡",
+        "pinyin": "fēi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          },
+          {
+            "char": "非",
+            "meaning": "to not be",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-054",
+    "hanzi": "开始",
+    "pinyin": "kāi shǐ",
+    "meaning": "to begin",
+    "meanings": [
+      "to begin",
+      "beginning",
+      "to start",
+      "initial"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 132,
+    "characters": [
+      {
+        "char": "开",
+        "pinyin": "kāi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          },
+          {
+            "char": "廾",
+            "meaning": "two hands",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "始",
+        "pinyin": "shǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "女",
+            "meaning": "woman",
+            "role": "semantic"
+          },
+          {
+            "char": "台",
+            "meaning": "platform",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-055",
+    "hanzi": "考试",
+    "pinyin": "kǎo shì",
+    "meaning": "to take an exam",
+    "meanings": [
+      "to take an exam",
+      "exam"
+    ],
+    "pos": [
+      "vn",
+      "v"
+    ],
+    "frequency": 1718,
+    "characters": [
+      {
+        "char": "考",
+        "pinyin": "kǎo",
+        "atomic": false,
+        "components": [
+          {
+            "char": "耂",
+            "meaning": "old",
+            "role": "form",
+            "variantOf": "老"
+          },
+          {
+            "char": "丂",
+            "meaning": "\"breath\" or \"sigh\" component in Chinese characters",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "试",
+        "pinyin": "shì",
+        "atomic": false,
+        "components": [
+          {
+            "char": "讠",
+            "meaning": "speech, words",
+            "role": "semantic",
+            "variantOf": "言"
+          },
+          {
+            "char": "式",
+            "meaning": "type",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-056",
+    "hanzi": "可能",
+    "pinyin": "kě néng",
+    "meaning": "might",
+    "meanings": [
+      "might",
+      "possible",
+      "probable",
+      "possibility",
+      "probability",
+      "maybe",
+      "perhaps"
+    ],
+    "pos": [
+      "v",
+      "n"
+    ],
+    "frequency": 127,
+    "characters": [
+      {
+        "char": "可",
+        "pinyin": "kě",
+        "atomic": false,
+        "components": [
+          {
+            "char": "丁",
+            "meaning": "fourth of 10 heavenly stems 十天干",
+            "role": "part"
+          },
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "能",
+        "pinyin": "néng",
+        "atomic": true,
+        "components": [
+          {
+            "char": "能",
+            "meaning": "to be able to",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-057",
+    "hanzi": "可以",
+    "pinyin": "kě yǐ",
+    "meaning": "can",
+    "meanings": [
+      "can",
+      "may",
+      "possible",
+      "able to",
+      "not bad",
+      "pretty good"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 58,
+    "characters": [
+      {
+        "char": "可",
+        "pinyin": "kě",
+        "atomic": false,
+        "components": [
+          {
+            "char": "丁",
+            "meaning": "fourth of 10 heavenly stems 十天干",
+            "role": "part"
+          },
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "以",
+        "pinyin": "yǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "人",
+            "meaning": "person",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-058",
+    "hanzi": "课",
+    "pinyin": "kè",
+    "meaning": "subject",
+    "meanings": [
+      "subject",
+      "course",
+      "class",
+      "lesson",
+      "to levy",
+      "tax",
+      "form of divination"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1517,
+    "characters": [
+      {
+        "char": "课",
+        "pinyin": "kè",
+        "atomic": false,
+        "components": [
+          {
+            "char": "讠",
+            "meaning": "speech, words",
+            "role": "semantic",
+            "variantOf": "言"
+          },
+          {
+            "char": "果",
+            "meaning": "fruit",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-059",
+    "hanzi": "快",
+    "pinyin": "kuài",
+    "meaning": "rapid",
+    "meanings": [
+      "rapid",
+      "quick",
+      "speed",
+      "rate",
+      "soon",
+      "almost",
+      "to make haste",
+      "clever",
+      "sharp",
+      "forthright",
+      "plainspoken",
+      "gratified",
+      "pleased",
+      "pleasant"
+    ],
+    "pos": [
+      "a",
+      "d",
+      "g"
+    ],
+    "frequency": 153,
+    "characters": [
+      {
+        "char": "快",
+        "pinyin": "kuài",
+        "atomic": false,
+        "components": [
+          {
+            "char": "忄",
+            "meaning": "heart, mind",
+            "role": "semantic",
+            "variantOf": "心"
+          },
+          {
+            "char": "夬",
+            "meaning": "decisive",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-060",
+    "hanzi": "快乐",
+    "pinyin": "kuài lè",
+    "meaning": "happy; joyful",
+    "meanings": [
+      "happy; joyful"
+    ],
+    "pos": [
+      "a",
+      "an"
+    ],
+    "frequency": 637,
+    "characters": [
+      {
+        "char": "快",
+        "pinyin": "kuài",
+        "atomic": false,
+        "components": [
+          {
+            "char": "忄",
+            "meaning": "heart, mind",
+            "role": "semantic",
+            "variantOf": "心"
+          },
+          {
+            "char": "夬",
+            "meaning": "decisive",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "乐",
+        "pinyin": "lè",
+        "atomic": false,
+        "components": [
+          {
+            "char": "小",
+            "meaning": "small",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-061",
+    "hanzi": "累",
+    "pinyin": "lèi",
+    "meaning": "tired",
+    "meanings": [
+      "tired",
+      "weary",
+      "to strain",
+      "to wear out",
+      "to work hard"
+    ],
+    "pos": [
+      "a",
+      "v",
+      "an"
+    ],
+    "frequency": 1197,
+    "characters": [
+      {
+        "char": "累",
+        "pinyin": "lèi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "田",
+            "meaning": "field",
+            "role": "semantic"
+          },
+          {
+            "char": "糸",
+            "meaning": "fine silk",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-062",
+    "hanzi": "离",
+    "pinyin": "lí",
+    "meaning": "to leave",
+    "meanings": [
+      "to leave",
+      "to part from",
+      "to be away from",
+      "from",
+      "without",
+      "independent of",
+      "one of the Eight Trigrams 卦, symbolizing fire",
+      "☲"
+    ],
+    "pos": [
+      "v",
+      "p"
+    ],
+    "frequency": 912,
+    "characters": [
+      {
+        "char": "离",
+        "pinyin": "lí",
+        "atomic": false,
+        "components": [
+          {
+            "char": "禸",
+            "meaning": "trample",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-063",
+    "hanzi": "两",
+    "pinyin": "liǎng",
+    "meaning": "two",
+    "meanings": [
+      "two",
+      "both",
+      "some",
+      "a few",
+      "tael, unit of weight equal to 50 grams or 1⁄16 of a catty 斤"
+    ],
+    "pos": [
+      "m",
+      "t"
+    ],
+    "frequency": 81,
+    "characters": [
+      {
+        "char": "两",
+        "pinyin": "liǎng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-064",
+    "hanzi": "路",
+    "pinyin": "lù",
+    "meaning": "road",
+    "meanings": [
+      "road",
+      "journey",
+      "route",
+      "line",
+      "sort; kind"
+    ],
+    "pos": [
+      "n",
+      "qv"
+    ],
+    "frequency": 409,
+    "characters": [
+      {
+        "char": "路",
+        "pinyin": "lù",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⻊",
+            "meaning": "foot, movement",
+            "role": "semantic",
+            "variantOf": "足"
+          },
+          {
+            "char": "各",
+            "meaning": "each",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-065",
+    "hanzi": "旅游",
+    "pinyin": "lǚ yóu",
+    "meaning": "trip",
+    "meanings": [
+      "trip",
+      "journey",
+      "tourism",
+      "travel",
+      "tour",
+      "to travel"
+    ],
+    "pos": [
+      "vn",
+      "v"
+    ],
+    "frequency": 2534,
+    "characters": [
+      {
+        "char": "旅",
+        "pinyin": "lǚ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "方",
+            "meaning": "square",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "游",
+        "pinyin": "yóu",
+        "atomic": false,
+        "components": [
+          {
+            "char": "氵",
+            "meaning": "water",
+            "role": "semantic",
+            "variantOf": "水"
+          },
+          {
+            "char": "斿",
+            "meaning": "scallops along lower edge of flag",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-066",
+    "hanzi": "卖",
+    "pinyin": "mài",
+    "meaning": "to sell",
+    "meanings": [
+      "to sell",
+      "to betray",
+      "to spare no effort",
+      "to show off or flaunt"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 590,
+    "characters": [
+      {
+        "char": "卖",
+        "pinyin": "mài",
+        "atomic": false,
+        "components": [
+          {
+            "char": "十",
+            "meaning": "ten",
+            "role": "semantic"
+          },
+          {
+            "char": "买",
+            "meaning": "to buy",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-067",
+    "hanzi": "慢",
+    "pinyin": "màn",
+    "meaning": "slow",
+    "meanings": [
+      "slow"
+    ],
+    "pos": [
+      "a",
+      "ad"
+    ],
+    "frequency": 1770,
+    "characters": [
+      {
+        "char": "慢",
+        "pinyin": "màn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "忄",
+            "meaning": "heart, mind",
+            "role": "semantic",
+            "variantOf": "心"
+          },
+          {
+            "char": "曼",
+            "meaning": "handsome",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-068",
+    "hanzi": "忙",
+    "pinyin": "máng",
+    "meaning": "busy",
+    "meanings": [
+      "busy",
+      "hurriedly",
+      "to hurry",
+      "to rush"
+    ],
+    "pos": [
+      "v",
+      "a",
+      "ad",
+      "g",
+      "an"
+    ],
+    "frequency": 859,
+    "characters": [
+      {
+        "char": "忙",
+        "pinyin": "máng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "忄",
+            "meaning": "heart, mind",
+            "role": "semantic",
+            "variantOf": "心"
+          },
+          {
+            "char": "亡",
+            "meaning": "to die",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-069",
+    "hanzi": "每",
+    "pinyin": "měi",
+    "meaning": "each",
+    "meanings": [
+      "each",
+      "every"
+    ],
+    "pos": [
+      "r"
+    ],
+    "frequency": 340,
+    "characters": [
+      {
+        "char": "每",
+        "pinyin": "měi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "𠂉",
+            "meaning": "stroke component",
+            "role": "form"
+          },
+          {
+            "char": "母",
+            "meaning": "female",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-070",
+    "hanzi": "妹妹",
+    "pinyin": "mèi mei",
+    "meaning": "younger sister",
+    "meanings": [
+      "younger sister",
+      "young woman"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 2093,
+    "characters": [
+      {
+        "char": "妹",
+        "pinyin": "mèi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "女",
+            "meaning": "woman",
+            "role": "semantic"
+          },
+          {
+            "char": "未",
+            "meaning": "not yet",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "妹",
+        "pinyin": "mèi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "女",
+            "meaning": "woman",
+            "role": "semantic"
+          },
+          {
+            "char": "未",
+            "meaning": "not yet",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-071",
+    "hanzi": "门",
+    "pinyin": "mén",
+    "meaning": "gate",
+    "meanings": [
+      "gate",
+      "door",
+      "gateway",
+      "doorway",
+      "opening",
+      "valve",
+      "switch",
+      "way to do something",
+      "knack",
+      "family",
+      "house",
+      "sect",
+      "school",
+      "class",
+      "category",
+      "phylum or division",
+      "classifier for large guns",
+      "classifier for lessons, subjects, branches of technology",
+      "-gate"
+    ],
+    "pos": [
+      "n",
+      "q"
+    ],
+    "frequency": 422,
+    "characters": [
+      {
+        "char": "门",
+        "pinyin": "mén",
+        "atomic": true,
+        "components": [
+          {
+            "char": "门",
+            "meaning": "door, gate",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-072",
+    "hanzi": "男人",
+    "pinyin": "nán rén",
+    "meaning": "a man",
+    "meanings": [
+      "a man",
+      "a male",
+      "men"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 415,
+    "characters": [
+      {
+        "char": "男",
+        "pinyin": "nán",
+        "atomic": false,
+        "components": [
+          {
+            "char": "田",
+            "meaning": "field",
+            "role": "semantic"
+          },
+          {
+            "char": "力",
+            "meaning": "strength",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "人",
+        "pinyin": "rén",
+        "atomic": true,
+        "components": [
+          {
+            "char": "人",
+            "meaning": "person",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-073",
+    "hanzi": "您",
+    "pinyin": "nín",
+    "meaning": "you",
+    "meanings": [
+      "you"
+    ],
+    "pos": [
+      "r"
+    ],
+    "frequency": 357,
+    "characters": [
+      {
+        "char": "您",
+        "pinyin": "nín",
+        "atomic": false,
+        "components": [
+          {
+            "char": "你",
+            "meaning": "you",
+            "role": "part"
+          },
+          {
+            "char": "心",
+            "meaning": "heart, mind",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-074",
+    "hanzi": "牛奶",
+    "pinyin": "niú nǎi",
+    "meaning": "cow's milk",
+    "meanings": [
+      "cow's milk"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 2986,
+    "characters": [
+      {
+        "char": "牛",
+        "pinyin": "niú",
+        "atomic": true,
+        "components": [
+          {
+            "char": "牛",
+            "meaning": "ox",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "奶",
+        "pinyin": "nǎi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "女",
+            "meaning": "woman",
+            "role": "semantic"
+          },
+          {
+            "char": "乃",
+            "meaning": "to be",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-075",
+    "hanzi": "女人",
+    "pinyin": "nǚ rén",
+    "meaning": "woman",
+    "meanings": [
+      "woman"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 383,
+    "characters": [
+      {
+        "char": "女",
+        "pinyin": "nǚ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "㇛",
+            "meaning": "stroke",
+            "role": "form"
+          },
+          {
+            "char": "丆",
+            "meaning": "one of the characters used in kwukyel , an ancient Korean writing system",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "人",
+        "pinyin": "rén",
+        "atomic": true,
+        "components": [
+          {
+            "char": "人",
+            "meaning": "person",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-076",
+    "hanzi": "旁边",
+    "pinyin": "páng biān",
+    "meaning": "side; adjacent place",
+    "meanings": [
+      "side; adjacent place"
+    ],
+    "pos": [
+      "f"
+    ],
+    "frequency": 1815,
+    "characters": [
+      {
+        "char": "旁",
+        "pinyin": "páng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "方",
+            "meaning": "square",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "边",
+        "pinyin": "biān",
+        "atomic": false,
+        "components": [
+          {
+            "char": "辶",
+            "meaning": "walking, movement",
+            "role": "semantic",
+            "variantOf": "辵"
+          },
+          {
+            "char": "力",
+            "meaning": "strength",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-077",
+    "hanzi": "跑步",
+    "pinyin": "pǎo bù",
+    "meaning": "to run",
+    "meanings": [
+      "to run",
+      "to jog",
+      "to march at the double"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 7199,
+    "characters": [
+      {
+        "char": "跑",
+        "pinyin": "pǎo",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⻊",
+            "meaning": "foot, movement",
+            "role": "semantic",
+            "variantOf": "足"
+          },
+          {
+            "char": "包",
+            "meaning": "to cover",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "步",
+        "pinyin": "bù",
+        "atomic": false,
+        "components": [
+          {
+            "char": "止",
+            "meaning": "to stop, foot",
+            "role": "semantic"
+          },
+          {
+            "char": "𣥂",
+            "meaning": "foot",
+            "role": "form",
+            "variantOf": "足"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-078",
+    "hanzi": "票",
+    "pinyin": "piào",
+    "meaning": "ticket",
+    "meanings": [
+      "ticket",
+      "ballot",
+      "banknote",
+      "person held for ransom",
+      "amateur performance of Chinese opera",
+      "classifier for groups, batches, business transactions"
+    ],
+    "pos": [
+      "n",
+      "q"
+    ],
+    "frequency": 956,
+    "characters": [
+      {
+        "char": "票",
+        "pinyin": "piào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "覀",
+            "meaning": "west / cover",
+            "role": "form",
+            "variantOf": "西"
+          },
+          {
+            "char": "示",
+            "meaning": "to show",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-079",
+    "hanzi": "妻子",
+    "pinyin": "qī zǐ",
+    "meaning": "wife and children",
+    "meanings": [
+      "wife and children"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1187,
+    "characters": [
+      {
+        "char": "妻",
+        "pinyin": "qī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "女",
+            "meaning": "woman",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "子",
+        "pinyin": "zǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "了",
+            "meaning": "completion, finished",
+            "role": "part"
+          },
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-080",
+    "hanzi": "起床",
+    "pinyin": "qǐ chuáng",
+    "meaning": "to get out of bed",
+    "meanings": [
+      "to get out of bed",
+      "to get up"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 2645,
+    "characters": [
+      {
+        "char": "起",
+        "pinyin": "qǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "走",
+            "meaning": "to walk, run",
+            "role": "semantic"
+          },
+          {
+            "char": "己",
+            "meaning": "self",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "床",
+        "pinyin": "chuáng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "广",
+            "meaning": "shelter, building",
+            "role": "semantic"
+          },
+          {
+            "char": "木",
+            "meaning": "tree, wood",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-081",
+    "hanzi": "千",
+    "pinyin": "qiān",
+    "meaning": "thousand",
+    "meanings": [
+      "thousand"
+    ],
+    "pos": [
+      "m",
+      "t"
+    ],
+    "frequency": 1728,
+    "characters": [
+      {
+        "char": "千",
+        "pinyin": "qiān",
+        "atomic": false,
+        "components": [
+          {
+            "char": "㇒",
+            "meaning": "stroke",
+            "role": "form"
+          },
+          {
+            "char": "十",
+            "meaning": "ten",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-082",
+    "hanzi": "晴",
+    "pinyin": "qíng",
+    "meaning": "clear",
+    "meanings": [
+      "clear",
+      "fine"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 9343,
+    "characters": [
+      {
+        "char": "晴",
+        "pinyin": "qíng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "日",
+            "meaning": "sun, day",
+            "role": "semantic"
+          },
+          {
+            "char": "青",
+            "meaning": "nature's color",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-083",
+    "hanzi": "去年",
+    "pinyin": "qù nián",
+    "meaning": "last year",
+    "meanings": [
+      "last year"
+    ],
+    "pos": [
+      "t"
+    ],
+    "frequency": 933,
+    "characters": [
+      {
+        "char": "去",
+        "pinyin": "qù",
+        "atomic": false,
+        "components": [
+          {
+            "char": "土",
+            "meaning": "earth, soil",
+            "role": "semantic"
+          },
+          {
+            "char": "厶",
+            "meaning": "private, self",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "年",
+        "pinyin": "nián",
+        "atomic": false,
+        "components": [
+          {
+            "char": "𠂉",
+            "meaning": "stroke component",
+            "role": "form"
+          },
+          {
+            "char": "㐄",
+            "meaning": "component in Chinese characters, mirror image of 夂[zhi3]",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-084",
+    "hanzi": "让",
+    "pinyin": "ràng",
+    "meaning": "to yield",
+    "meanings": [
+      "to yield",
+      "to permit",
+      "to let sb do sth",
+      "to have sb do sth",
+      "to make sb",
+      "by"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 54,
+    "characters": [
+      {
+        "char": "让",
+        "pinyin": "ràng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "讠",
+            "meaning": "speech, words",
+            "role": "semantic",
+            "variantOf": "言"
+          },
+          {
+            "char": "上",
+            "meaning": "on top",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-085",
+    "hanzi": "上班",
+    "pinyin": "shàng bān",
+    "meaning": "to go to work",
+    "meanings": [
+      "to go to work",
+      "to be on duty",
+      "to start work",
+      "to go to the office"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 1495,
+    "characters": [
+      {
+        "char": "上",
+        "pinyin": "shàng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⺊",
+            "meaning": "to divine",
+            "role": "semantic",
+            "variantOf": "卜"
+          },
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "班",
+        "pinyin": "bān",
+        "atomic": false,
+        "components": [
+          {
+            "char": "玨",
+            "meaning": "gems mounted together",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-086",
+    "hanzi": "身体",
+    "pinyin": "shēn tǐ",
+    "meaning": "the body",
+    "meanings": [
+      "the body",
+      "one's health",
+      "in person"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 731,
+    "characters": [
+      {
+        "char": "身",
+        "pinyin": "shēn",
+        "atomic": true,
+        "components": [
+          {
+            "char": "身",
+            "meaning": "body",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "体",
+        "pinyin": "tǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "亻",
+            "meaning": "person",
+            "role": "semantic",
+            "variantOf": "人"
+          },
+          {
+            "char": "本",
+            "meaning": "roots or stems of plants",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-087",
+    "hanzi": "生病",
+    "pinyin": "shēng bìng",
+    "meaning": "to fall ill",
+    "meanings": [
+      "to fall ill"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 4336,
+    "characters": [
+      {
+        "char": "生",
+        "pinyin": "shēng",
+        "atomic": true,
+        "components": [
+          {
+            "char": "生",
+            "meaning": "to grow, life",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "病",
+        "pinyin": "bìng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "疒",
+            "meaning": "sick",
+            "role": "part"
+          },
+          {
+            "char": "丙",
+            "meaning": "third of 10 heavenly stems 十天干",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-088",
+    "hanzi": "生日",
+    "pinyin": "shēng rì",
+    "meaning": "birthday",
+    "meanings": [
+      "birthday"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1506,
+    "characters": [
+      {
+        "char": "生",
+        "pinyin": "shēng",
+        "atomic": true,
+        "components": [
+          {
+            "char": "生",
+            "meaning": "to grow, life",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "日",
+        "pinyin": "rì",
+        "atomic": false,
+        "components": [
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          },
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-089",
+    "hanzi": "时间",
+    "pinyin": "shí jiān",
+    "meaning": "time",
+    "meanings": [
+      "time",
+      "period"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 127,
+    "characters": [
+      {
+        "char": "时",
+        "pinyin": "shí",
+        "atomic": false,
+        "components": [
+          {
+            "char": "日",
+            "meaning": "sun, day",
+            "role": "semantic"
+          },
+          {
+            "char": "寸",
+            "meaning": "inch, a little",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "间",
+        "pinyin": "jiān",
+        "atomic": false,
+        "components": [
+          {
+            "char": "门",
+            "meaning": "door, gate",
+            "role": "semantic"
+          },
+          {
+            "char": "日",
+            "meaning": "sun, day",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-090",
+    "hanzi": "事情",
+    "pinyin": "shì qing",
+    "meaning": "affair; matter; thing; business",
+    "meanings": [
+      "affair; matter; thing; business"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 271,
+    "characters": [
+      {
+        "char": "事",
+        "pinyin": "shì",
+        "atomic": true,
+        "components": [
+          {
+            "char": "事",
+            "meaning": "matter",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "情",
+        "pinyin": "qíng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "忄",
+            "meaning": "heart, mind",
+            "role": "semantic",
+            "variantOf": "心"
+          },
+          {
+            "char": "青",
+            "meaning": "nature's color",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-091",
+    "hanzi": "手表",
+    "pinyin": "shǒu biǎo",
+    "meaning": "wristwatch",
+    "meanings": [
+      "wristwatch"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 6179,
+    "characters": [
+      {
+        "char": "手",
+        "pinyin": "shǒu",
+        "atomic": false,
+        "components": [
+          {
+            "char": "㇒",
+            "meaning": "stroke",
+            "role": "form"
+          },
+          {
+            "char": "扌",
+            "meaning": "hand",
+            "role": "semantic",
+            "variantOf": "手"
+          }
+        ]
+      },
+      {
+        "char": "表",
+        "pinyin": "biǎo",
+        "atomic": true,
+        "components": [
+          {
+            "char": "表",
+            "meaning": "exterior surface",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-092",
+    "hanzi": "手机",
+    "pinyin": "shǒu jī",
+    "meaning": "cell phone",
+    "meanings": [
+      "cell phone",
+      "mobile phone"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 857,
+    "characters": [
+      {
+        "char": "手",
+        "pinyin": "shǒu",
+        "atomic": false,
+        "components": [
+          {
+            "char": "㇒",
+            "meaning": "stroke",
+            "role": "form"
+          },
+          {
+            "char": "扌",
+            "meaning": "hand",
+            "role": "semantic",
+            "variantOf": "手"
+          }
+        ]
+      },
+      {
+        "char": "机",
+        "pinyin": "jī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "木",
+            "meaning": "tree, wood",
+            "role": "semantic"
+          },
+          {
+            "char": "几",
+            "meaning": "small table / how many",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-093",
+    "hanzi": "送",
+    "pinyin": "sòng",
+    "meaning": "to send; to deliver; to transmit",
+    "meanings": [
+      "to send; to deliver; to transmit",
+      "to give",
+      "to see off",
+      "to accompany; to go along with"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 370,
+    "characters": [
+      {
+        "char": "送",
+        "pinyin": "sòng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "辶",
+            "meaning": "walking, movement",
+            "role": "semantic",
+            "variantOf": "辵"
+          },
+          {
+            "char": "关",
+            "meaning": "mountain pass",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-094",
+    "hanzi": "所以",
+    "pinyin": "suǒ yǐ",
+    "meaning": "therefore",
+    "meanings": [
+      "therefore",
+      "as a result",
+      "so",
+      "the reason why"
+    ],
+    "pos": [
+      "c"
+    ],
+    "frequency": 157,
+    "characters": [
+      {
+        "char": "所",
+        "pinyin": "suǒ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "戶",
+            "meaning": "a household",
+            "role": "part"
+          },
+          {
+            "char": "斤",
+            "meaning": "axe",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "以",
+        "pinyin": "yǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "人",
+            "meaning": "person",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-095",
+    "hanzi": "它",
+    "pinyin": "tā",
+    "meaning": "it",
+    "meanings": [
+      "it"
+    ],
+    "pos": [
+      "r"
+    ],
+    "frequency": 114,
+    "characters": [
+      {
+        "char": "它",
+        "pinyin": "tā",
+        "atomic": false,
+        "components": [
+          {
+            "char": "宀",
+            "meaning": "roof, house",
+            "role": "semantic"
+          },
+          {
+            "char": "匕",
+            "meaning": "spoon, ladle",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-096",
+    "hanzi": "踢",
+    "pinyin": "tī",
+    "meaning": "to kick",
+    "meanings": [
+      "to kick",
+      "to play",
+      "butch"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 2330,
+    "characters": [
+      {
+        "char": "踢",
+        "pinyin": "tī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⻊",
+            "meaning": "foot, movement",
+            "role": "semantic",
+            "variantOf": "足"
+          },
+          {
+            "char": "易",
+            "meaning": "easy",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-097",
+    "hanzi": "题",
+    "pinyin": "tí",
+    "meaning": "topic",
+    "meanings": [
+      "topic",
+      "problem for discussion",
+      "exam question",
+      "subject",
+      "to inscribe",
+      "to mention"
+    ],
+    "pos": [
+      "n",
+      "v"
+    ],
+    "frequency": 2690,
+    "characters": [
+      {
+        "char": "题",
+        "pinyin": "tí",
+        "atomic": false,
+        "components": [
+          {
+            "char": "是",
+            "meaning": "is",
+            "role": "part"
+          },
+          {
+            "char": "页",
+            "meaning": "page",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-098",
+    "hanzi": "跳舞",
+    "pinyin": "tiào wǔ",
+    "meaning": "to dance",
+    "meanings": [
+      "to dance"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 3920,
+    "characters": [
+      {
+        "char": "跳",
+        "pinyin": "tiào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⻊",
+            "meaning": "foot, movement",
+            "role": "semantic",
+            "variantOf": "足"
+          },
+          {
+            "char": "兆",
+            "meaning": "omen",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "舞",
+        "pinyin": "wǔ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "舛",
+            "meaning": "mistaken",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-099",
+    "hanzi": "外",
+    "pinyin": "wài",
+    "meaning": "outside",
+    "meanings": [
+      "outside",
+      "in addition",
+      "foreign",
+      "external"
+    ],
+    "pos": [
+      "f"
+    ],
+    "frequency": 489,
+    "characters": [
+      {
+        "char": "外",
+        "pinyin": "wài",
+        "atomic": false,
+        "components": [
+          {
+            "char": "夕",
+            "meaning": "evening",
+            "role": "semantic"
+          },
+          {
+            "char": "卜",
+            "meaning": "to divine",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-100",
+    "hanzi": "完",
+    "pinyin": "wán",
+    "meaning": "to finish",
+    "meanings": [
+      "to finish",
+      "to be over",
+      "whole",
+      "complete",
+      "entire"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 395,
+    "characters": [
+      {
+        "char": "完",
+        "pinyin": "wán",
+        "atomic": false,
+        "components": [
+          {
+            "char": "宀",
+            "meaning": "roof, house",
+            "role": "semantic"
+          },
+          {
+            "char": "元",
+            "meaning": "Chinese monetary unit",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-101",
+    "hanzi": "玩",
+    "pinyin": "wán",
+    "meaning": "to play",
+    "meanings": [
+      "to play",
+      "to have fun",
+      "to trifle with",
+      "toy",
+      "sth used for amusement",
+      "curio or antique",
+      "to keep sth for entertainment"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 415,
+    "characters": [
+      {
+        "char": "玩",
+        "pinyin": "wán",
+        "atomic": false,
+        "components": [
+          {
+            "char": "王",
+            "meaning": "king / jade",
+            "role": "semantic"
+          },
+          {
+            "char": "元",
+            "meaning": "Chinese monetary unit",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-102",
+    "hanzi": "晚上",
+    "pinyin": "wǎn shang",
+    "meaning": "evening",
+    "meanings": [
+      "evening",
+      "night",
+      "in the evening"
+    ],
+    "pos": [
+      "t"
+    ],
+    "frequency": 502,
+    "characters": [
+      {
+        "char": "晚",
+        "pinyin": "wǎn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "日",
+            "meaning": "sun, day",
+            "role": "semantic"
+          },
+          {
+            "char": "免",
+            "meaning": "to excuse sb",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "上",
+        "pinyin": "shàng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⺊",
+            "meaning": "to divine",
+            "role": "semantic",
+            "variantOf": "卜"
+          },
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-103",
+    "hanzi": "为",
+    "pinyin": "wéi",
+    "meaning": "as",
+    "meanings": [
+      "as",
+      "to take sth as",
+      "to act as",
+      "to serve as",
+      "to behave as",
+      "to become",
+      "to be",
+      "to do",
+      "by"
+    ],
+    "pos": [
+      "p",
+      "v"
+    ],
+    "frequency": 58,
+    "characters": [
+      {
+        "char": "为",
+        "pinyin": "wéi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "力",
+            "meaning": "strength",
+            "role": "semantic"
+          },
+          {
+            "char": "⺀",
+            "meaning": "ice / split",
+            "role": "form"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-104",
+    "hanzi": "问",
+    "pinyin": "wèn",
+    "meaning": "to ask; to inquire",
+    "meanings": [
+      "to ask; to inquire"
+    ],
+    "pos": [
+      "v",
+      "g",
+      "vn"
+    ],
+    "frequency": 246,
+    "characters": [
+      {
+        "char": "问",
+        "pinyin": "wèn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "门",
+            "meaning": "door, gate",
+            "role": "semantic"
+          },
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-105",
+    "hanzi": "问题",
+    "pinyin": "wèn tí",
+    "meaning": "question",
+    "meanings": [
+      "question",
+      "problem",
+      "issue",
+      "topic"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 109,
+    "characters": [
+      {
+        "char": "问",
+        "pinyin": "wèn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "门",
+            "meaning": "door, gate",
+            "role": "semantic"
+          },
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "题",
+        "pinyin": "tí",
+        "atomic": false,
+        "components": [
+          {
+            "char": "是",
+            "meaning": "is",
+            "role": "part"
+          },
+          {
+            "char": "页",
+            "meaning": "page",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-106",
+    "hanzi": "希望",
+    "pinyin": "xī wàng",
+    "meaning": "to hope",
+    "meanings": [
+      "to hope",
+      "a hope; a wish"
+    ],
+    "pos": [
+      "v",
+      "n",
+      "vn"
+    ],
+    "frequency": 182,
+    "characters": [
+      {
+        "char": "希",
+        "pinyin": "xī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "乂",
+            "meaning": "to regulate",
+            "role": "part"
+          },
+          {
+            "char": "布",
+            "meaning": "cloth",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "望",
+        "pinyin": "wàng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "肓",
+            "meaning": "region between heart and diaphragm",
+            "role": "part"
+          },
+          {
+            "char": "王",
+            "meaning": "king / jade",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-107",
+    "hanzi": "洗",
+    "pinyin": "xǐ",
+    "meaning": "to wash; to bathe",
+    "meanings": [
+      "to wash; to bathe",
+      "to develop",
+      "to shuffle",
+      "to erase"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 1298,
+    "characters": [
+      {
+        "char": "洗",
+        "pinyin": "xǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "氵",
+            "meaning": "water",
+            "role": "semantic",
+            "variantOf": "水"
+          },
+          {
+            "char": "先",
+            "meaning": "early",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-108",
+    "hanzi": "西瓜",
+    "pinyin": "xī guā",
+    "meaning": "watermelon",
+    "meanings": [
+      "watermelon"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 9098,
+    "characters": [
+      {
+        "char": "西",
+        "pinyin": "xī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "兀",
+            "meaning": "cut off the feet",
+            "role": "part"
+          },
+          {
+            "char": "囗",
+            "meaning": "enclosure",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "瓜",
+        "pinyin": "guā",
+        "atomic": false,
+        "components": [
+          {
+            "char": "厶",
+            "meaning": "private, self",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-109",
+    "hanzi": "向",
+    "pinyin": "xiàng",
+    "meaning": "towards",
+    "meanings": [
+      "towards",
+      "to face",
+      "to turn towards",
+      "direction",
+      "to support",
+      "to side with",
+      "shortly before",
+      "formerly",
+      "always",
+      "all along",
+      "suitable for ...",
+      "oriented to ..."
+    ],
+    "pos": [
+      "p",
+      "v",
+      "g"
+    ],
+    "frequency": 165,
+    "characters": [
+      {
+        "char": "向",
+        "pinyin": "xiàng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "宀",
+            "meaning": "roof, house",
+            "role": "semantic"
+          },
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-110",
+    "hanzi": "小时",
+    "pinyin": "xiǎo shí",
+    "meaning": "hour",
+    "meanings": [
+      "hour"
+    ],
+    "pos": [
+      "n",
+      "q"
+    ],
+    "frequency": 389,
+    "characters": [
+      {
+        "char": "小",
+        "pinyin": "xiǎo",
+        "atomic": false,
+        "components": [
+          {
+            "char": "亅",
+            "meaning": "hook stroke",
+            "role": "form"
+          },
+          {
+            "char": "八",
+            "meaning": "eight / divide",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "时",
+        "pinyin": "shí",
+        "atomic": false,
+        "components": [
+          {
+            "char": "日",
+            "meaning": "sun, day",
+            "role": "semantic"
+          },
+          {
+            "char": "寸",
+            "meaning": "inch, a little",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-111",
+    "hanzi": "笑",
+    "pinyin": "xiào",
+    "meaning": "to laugh; to smile",
+    "meanings": [
+      "to laugh; to smile",
+      "to laugh at"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 382,
+    "characters": [
+      {
+        "char": "笑",
+        "pinyin": "xiào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⺮",
+            "meaning": "bamboo",
+            "role": "semantic",
+            "variantOf": "竹"
+          },
+          {
+            "char": "夭",
+            "meaning": "tender",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-112",
+    "hanzi": "新",
+    "pinyin": "xīn",
+    "meaning": "new",
+    "meanings": [
+      "new",
+      "newly",
+      "meso-"
+    ],
+    "pos": [
+      "a",
+      "d",
+      "b"
+    ],
+    "frequency": 150,
+    "characters": [
+      {
+        "char": "新",
+        "pinyin": "xīn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "亲",
+            "meaning": "parent",
+            "role": "part"
+          },
+          {
+            "char": "斤",
+            "meaning": "axe",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-113",
+    "hanzi": "姓",
+    "pinyin": "xìng",
+    "meaning": "family name",
+    "meanings": [
+      "family name",
+      "surname",
+      "to be surnamed"
+    ],
+    "pos": [
+      "v",
+      "n"
+    ],
+    "frequency": 3576,
+    "characters": [
+      {
+        "char": "姓",
+        "pinyin": "xìng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "女",
+            "meaning": "woman",
+            "role": "semantic"
+          },
+          {
+            "char": "生",
+            "meaning": "to grow, life",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-114",
+    "hanzi": "休息",
+    "pinyin": "xiū xi",
+    "meaning": "rest",
+    "meanings": [
+      "rest",
+      "to rest"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 1225,
+    "characters": [
+      {
+        "char": "休",
+        "pinyin": "xiū",
+        "atomic": false,
+        "components": [
+          {
+            "char": "亻",
+            "meaning": "person",
+            "role": "semantic",
+            "variantOf": "人"
+          },
+          {
+            "char": "木",
+            "meaning": "tree, wood",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "息",
+        "pinyin": "xī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "自",
+            "meaning": "from",
+            "role": "part"
+          },
+          {
+            "char": "心",
+            "meaning": "heart, mind",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-115",
+    "hanzi": "雪",
+    "pinyin": "xuě",
+    "meaning": "snow",
+    "meanings": [
+      "snow",
+      "to wipe away"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1971,
+    "characters": [
+      {
+        "char": "雪",
+        "pinyin": "xuě",
+        "atomic": false,
+        "components": [
+          {
+            "char": "雨",
+            "meaning": "rain",
+            "role": "semantic"
+          },
+          {
+            "char": "彐",
+            "meaning": "snout / hand shape",
+            "role": "form"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-116",
+    "hanzi": "颜色",
+    "pinyin": "yán sè",
+    "meaning": "color",
+    "meanings": [
+      "color",
+      "countenance",
+      "appearance",
+      "facial expression",
+      "pigment",
+      "dyestuff"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1880,
+    "characters": [
+      {
+        "char": "颜",
+        "pinyin": "yán",
+        "atomic": false,
+        "components": [
+          {
+            "char": "彦",
+            "meaning": "accomplished",
+            "role": "part"
+          },
+          {
+            "char": "页",
+            "meaning": "page",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "色",
+        "pinyin": "sè",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⺈",
+            "meaning": "knife / bent stroke",
+            "role": "form",
+            "variantOf": "刀"
+          },
+          {
+            "char": "巴",
+            "meaning": "to long for",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-117",
+    "hanzi": "眼睛",
+    "pinyin": "yǎn jing",
+    "meaning": "eye",
+    "meanings": [
+      "eye"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 814,
+    "characters": [
+      {
+        "char": "眼",
+        "pinyin": "yǎn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "目",
+            "meaning": "eye",
+            "role": "semantic"
+          },
+          {
+            "char": "艮",
+            "meaning": "blunt",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "睛",
+        "pinyin": "jīng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "目",
+            "meaning": "eye",
+            "role": "semantic"
+          },
+          {
+            "char": "青",
+            "meaning": "nature's color",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-118",
+    "hanzi": "羊肉",
+    "pinyin": "yáng ròu",
+    "meaning": "mutton",
+    "meanings": [
+      "mutton",
+      "goat meat"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 11336,
+    "characters": [
+      {
+        "char": "羊",
+        "pinyin": "yáng",
+        "atomic": true,
+        "components": [
+          {
+            "char": "羊",
+            "meaning": "sheep",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "肉",
+        "pinyin": "ròu",
+        "atomic": false,
+        "components": [
+          {
+            "char": "仌",
+            "meaning": "two people / ice shape",
+            "role": "form"
+          },
+          {
+            "char": "冂",
+            "meaning": "borders, open box",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-119",
+    "hanzi": "药",
+    "pinyin": "yào",
+    "meaning": "medicine",
+    "meanings": [
+      "medicine",
+      "drug",
+      "substance used for a specific purpose",
+      "to poison"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 701,
+    "characters": [
+      {
+        "char": "药",
+        "pinyin": "yào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "艹",
+            "meaning": "grass, plant",
+            "role": "semantic",
+            "variantOf": "艸"
+          },
+          {
+            "char": "约",
+            "meaning": "to make an appointment",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-120",
+    "hanzi": "要",
+    "pinyin": "yào",
+    "meaning": "to want; to need; to ask for",
+    "meanings": [
+      "to want; to need; to ask for",
+      "will; shall; about to",
+      "need to; should",
+      "if",
+      "important"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 19,
+    "characters": [
+      {
+        "char": "要",
+        "pinyin": "yào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "覀",
+            "meaning": "west / cover",
+            "role": "form",
+            "variantOf": "西"
+          },
+          {
+            "char": "女",
+            "meaning": "woman",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-121",
+    "hanzi": "也",
+    "pinyin": "yě",
+    "meaning": "also; both ... and ...",
+    "meanings": [
+      "also; both ... and ...",
+      "particle having functions similar to 啊"
+    ],
+    "pos": [
+      "d",
+      "y",
+      "u",
+      "b"
+    ],
+    "frequency": 23,
+    "characters": [
+      {
+        "char": "也",
+        "pinyin": "yě",
+        "atomic": true,
+        "components": [
+          {
+            "char": "也",
+            "meaning": "also",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-122",
+    "hanzi": "一起",
+    "pinyin": "yī qǐ",
+    "meaning": "in the same place",
+    "meanings": [
+      "in the same place",
+      "together",
+      "with",
+      "altogether"
+    ],
+    "pos": [
+      "s",
+      "d",
+      "nr"
+    ],
+    "frequency": 172,
+    "characters": [
+      {
+        "char": "一",
+        "pinyin": "yī",
+        "atomic": true,
+        "components": [
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "起",
+        "pinyin": "qǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "走",
+            "meaning": "to walk, run",
+            "role": "semantic"
+          },
+          {
+            "char": "己",
+            "meaning": "self",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-123",
+    "hanzi": "已经",
+    "pinyin": "yǐ jīng",
+    "meaning": "already",
+    "meanings": [
+      "already"
+    ],
+    "pos": [
+      "d"
+    ],
+    "frequency": 85,
+    "characters": [
+      {
+        "char": "已",
+        "pinyin": "yǐ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "己",
+            "meaning": "self",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "经",
+        "pinyin": "jīng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "纟",
+            "meaning": "silk, thread",
+            "role": "semantic",
+            "variantOf": "糸"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-124",
+    "hanzi": "意思",
+    "pinyin": "yì si",
+    "meaning": "idea",
+    "meanings": [
+      "idea",
+      "opinion",
+      "meaning",
+      "wish",
+      "desire",
+      "interest",
+      "fun",
+      "token of appreciation, affection etc",
+      "to give as a small token",
+      "to do sth as a gesture of goodwill etc"
+    ],
+    "pos": [
+      "n",
+      "v"
+    ],
+    "frequency": 988,
+    "characters": [
+      {
+        "char": "意",
+        "pinyin": "yì",
+        "atomic": false,
+        "components": [
+          {
+            "char": "音",
+            "meaning": "sound",
+            "role": "part"
+          },
+          {
+            "char": "心",
+            "meaning": "heart, mind",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "思",
+        "pinyin": "sī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "田",
+            "meaning": "field",
+            "role": "semantic"
+          },
+          {
+            "char": "心",
+            "meaning": "heart, mind",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-125",
+    "hanzi": "因为",
+    "pinyin": "yīn wèi",
+    "meaning": "because",
+    "meanings": [
+      "because",
+      "owing to",
+      "on account of"
+    ],
+    "pos": [
+      "p",
+      "c"
+    ],
+    "frequency": 91,
+    "characters": [
+      {
+        "char": "因",
+        "pinyin": "yīn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "囗",
+            "meaning": "enclosure",
+            "role": "semantic"
+          },
+          {
+            "char": "大",
+            "meaning": "big",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "为",
+        "pinyin": "wéi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "力",
+            "meaning": "strength",
+            "role": "semantic"
+          },
+          {
+            "char": "⺀",
+            "meaning": "ice / split",
+            "role": "form"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-126",
+    "hanzi": "阴",
+    "pinyin": "yīn",
+    "meaning": "overcast",
+    "meanings": [
+      "overcast",
+      "cloudy",
+      "shady",
+      "Yin",
+      "negative",
+      "feminine",
+      "moon",
+      "implicit",
+      "hidden",
+      "genitalia"
+    ],
+    "pos": [
+      "a",
+      "g",
+      "ad",
+      "b"
+    ],
+    "frequency": 4058,
+    "characters": [
+      {
+        "char": "阴",
+        "pinyin": "yīn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "阝",
+            "meaning": "place / mound",
+            "role": "semantic"
+          },
+          {
+            "char": "月",
+            "meaning": "moon / flesh",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-127",
+    "hanzi": "游泳",
+    "pinyin": "yóu yǒng",
+    "meaning": "swimming",
+    "meanings": [
+      "swimming",
+      "to swim"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 3695,
+    "characters": [
+      {
+        "char": "游",
+        "pinyin": "yóu",
+        "atomic": false,
+        "components": [
+          {
+            "char": "氵",
+            "meaning": "water",
+            "role": "semantic",
+            "variantOf": "水"
+          },
+          {
+            "char": "斿",
+            "meaning": "scallops along lower edge of flag",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "泳",
+        "pinyin": "yǒng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "氵",
+            "meaning": "water",
+            "role": "semantic",
+            "variantOf": "水"
+          },
+          {
+            "char": "永",
+            "meaning": "forever",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-128",
+    "hanzi": "右边",
+    "pinyin": "yòu bian",
+    "meaning": "right side",
+    "meanings": [
+      "right side",
+      "right, to the right"
+    ],
+    "pos": [
+      "f"
+    ],
+    "frequency": 2906,
+    "characters": [
+      {
+        "char": "右",
+        "pinyin": "yòu",
+        "atomic": false,
+        "components": [
+          {
+            "char": "𠂇",
+            "meaning": "left hand",
+            "role": "semantic"
+          },
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "边",
+        "pinyin": "biān",
+        "atomic": false,
+        "components": [
+          {
+            "char": "辶",
+            "meaning": "walking, movement",
+            "role": "semantic",
+            "variantOf": "辵"
+          },
+          {
+            "char": "力",
+            "meaning": "strength",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-129",
+    "hanzi": "鱼",
+    "pinyin": "yú",
+    "meaning": "fish",
+    "meanings": [
+      "fish"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1189,
+    "characters": [
+      {
+        "char": "鱼",
+        "pinyin": "yú",
+        "atomic": false,
+        "components": [
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-130",
+    "hanzi": "元",
+    "pinyin": "yuán",
+    "meaning": "currency unit",
+    "meanings": [
+      "currency unit",
+      "first",
+      "original",
+      "primary",
+      "fundamental",
+      "constituent",
+      "part",
+      "era",
+      "meta-",
+      "argument",
+      "variable",
+      "eon"
+    ],
+    "pos": [
+      "q",
+      "tg"
+    ],
+    "frequency": 744,
+    "characters": [
+      {
+        "char": "元",
+        "pinyin": "yuán",
+        "atomic": false,
+        "components": [
+          {
+            "char": "二",
+            "meaning": "two",
+            "role": "semantic"
+          },
+          {
+            "char": "儿",
+            "meaning": "legs, child",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-131",
+    "hanzi": "远",
+    "pinyin": "yuǎn",
+    "meaning": "far",
+    "meanings": [
+      "far",
+      "distant",
+      "remote",
+      "by far",
+      "much"
+    ],
+    "pos": [
+      "a",
+      "ad"
+    ],
+    "frequency": 635,
+    "characters": [
+      {
+        "char": "远",
+        "pinyin": "yuǎn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "辶",
+            "meaning": "walking, movement",
+            "role": "semantic",
+            "variantOf": "辵"
+          },
+          {
+            "char": "元",
+            "meaning": "Chinese monetary unit",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-132",
+    "hanzi": "运动",
+    "pinyin": "yùn dòng",
+    "meaning": "to move",
+    "meanings": [
+      "to move",
+      "to exercise",
+      "sports",
+      "exercise",
+      "motion",
+      "movement",
+      "campaign"
+    ],
+    "pos": [
+      "vn",
+      "n",
+      "v"
+    ],
+    "frequency": 1138,
+    "characters": [
+      {
+        "char": "运",
+        "pinyin": "yùn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "辶",
+            "meaning": "walking, movement",
+            "role": "semantic",
+            "variantOf": "辵"
+          },
+          {
+            "char": "云",
+            "meaning": "cloud",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "动",
+        "pinyin": "dòng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "云",
+            "meaning": "cloud",
+            "role": "part"
+          },
+          {
+            "char": "力",
+            "meaning": "strength",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-133",
+    "hanzi": "再",
+    "pinyin": "zài",
+    "meaning": "again; once more; re-",
+    "meanings": [
+      "again; once more; re-",
+      "second; another",
+      "then",
+      "no matter how ... 也 or 都 for emphasis)"
+    ],
+    "pos": [
+      "d",
+      "g"
+    ],
+    "frequency": 91,
+    "characters": [
+      {
+        "char": "再",
+        "pinyin": "zài",
+        "atomic": false,
+        "components": [
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          },
+          {
+            "char": "冉",
+            "meaning": "passing",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-134",
+    "hanzi": "早上",
+    "pinyin": "zǎo shang",
+    "meaning": "early morning",
+    "meanings": [
+      "early morning"
+    ],
+    "pos": [
+      "t"
+    ],
+    "frequency": 1092,
+    "characters": [
+      {
+        "char": "早",
+        "pinyin": "zǎo",
+        "atomic": false,
+        "components": [
+          {
+            "char": "日",
+            "meaning": "sun, day",
+            "role": "semantic"
+          },
+          {
+            "char": "十",
+            "meaning": "ten",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "上",
+        "pinyin": "shàng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "⺊",
+            "meaning": "to divine",
+            "role": "semantic",
+            "variantOf": "卜"
+          },
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-135",
+    "hanzi": "张",
+    "pinyin": "zhāng",
+    "meaning": "to open up",
+    "meanings": [
+      "to open up",
+      "to spread",
+      "sheet of paper",
+      "classifier for flat objects, sheet",
+      "classifier for votes"
+    ],
+    "pos": [
+      "q",
+      "nr",
+      "v",
+      "g"
+    ],
+    "frequency": 316,
+    "characters": [
+      {
+        "char": "张",
+        "pinyin": "zhāng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "弓",
+            "meaning": "a bow",
+            "role": "part"
+          },
+          {
+            "char": "长",
+            "meaning": "chief",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-136",
+    "hanzi": "长",
+    "pinyin": "cháng",
+    "meaning": "long",
+    "meanings": [
+      "long"
+    ],
+    "pos": [
+      "a",
+      "v",
+      "ad",
+      "g"
+    ],
+    "frequency": 246,
+    "characters": [
+      {
+        "char": "长",
+        "pinyin": "zhǎng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-137",
+    "hanzi": "丈夫",
+    "pinyin": "zhàng fu",
+    "meaning": "husband",
+    "meanings": [
+      "husband"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 1376,
+    "characters": [
+      {
+        "char": "丈",
+        "pinyin": "zhàng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "十",
+            "meaning": "ten",
+            "role": "semantic"
+          },
+          {
+            "char": "乂",
+            "meaning": "to regulate",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "夫",
+        "pinyin": "fū",
+        "atomic": false,
+        "components": [
+          {
+            "char": "人",
+            "meaning": "person",
+            "role": "semantic"
+          },
+          {
+            "char": "二",
+            "meaning": "two",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-138",
+    "hanzi": "找",
+    "pinyin": "zhǎo",
+    "meaning": "to try to find",
+    "meanings": [
+      "to try to find",
+      "to look for",
+      "to call on sb",
+      "to find",
+      "to seek",
+      "to return",
+      "to give change"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 152,
+    "characters": [
+      {
+        "char": "找",
+        "pinyin": "zhǎo",
+        "atomic": false,
+        "components": [
+          {
+            "char": "扌",
+            "meaning": "hand",
+            "role": "semantic",
+            "variantOf": "手"
+          },
+          {
+            "char": "戈",
+            "meaning": "dagger-axe, spear",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-139",
+    "hanzi": "着",
+    "pinyin": "zhe",
+    "meaning": "(ongoing-state particle)",
+    "meanings": [
+      "(ongoing-state particle)"
+    ],
+    "pos": [
+      "u",
+      "v",
+      "n",
+      "q"
+    ],
+    "frequency": 38,
+    "characters": [
+      {
+        "char": "着",
+        "pinyin": "zháo",
+        "atomic": false,
+        "components": [
+          {
+            "char": "羊",
+            "meaning": "sheep",
+            "role": "semantic"
+          },
+          {
+            "char": "目",
+            "meaning": "eye",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-140",
+    "hanzi": "真",
+    "pinyin": "zhēn",
+    "meaning": "really",
+    "meanings": [
+      "really",
+      "truly",
+      "indeed",
+      "real",
+      "true",
+      "genuine"
+    ],
+    "pos": [
+      "d",
+      "a",
+      "g"
+    ],
+    "frequency": 76,
+    "characters": [
+      {
+        "char": "真",
+        "pinyin": "zhēn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "十",
+            "meaning": "ten",
+            "role": "semantic"
+          },
+          {
+            "char": "具",
+            "meaning": "tool",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-141",
+    "hanzi": "正在",
+    "pinyin": "zhèng zài",
+    "meaning": "just at",
+    "meanings": [
+      "just at",
+      "right in",
+      "right in the middle of"
+    ],
+    "pos": [
+      "d"
+    ],
+    "frequency": 420,
+    "characters": [
+      {
+        "char": "正",
+        "pinyin": "zhèng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "一",
+            "meaning": "one / a line",
+            "role": "semantic"
+          },
+          {
+            "char": "止",
+            "meaning": "to stop, foot",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "在",
+        "pinyin": "zài",
+        "atomic": false,
+        "components": [
+          {
+            "char": "𠂇",
+            "meaning": "left hand",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-142",
+    "hanzi": "知道",
+    "pinyin": "zhī dào",
+    "meaning": "to know; to become aware of",
+    "meanings": [
+      "to know; to become aware of",
+      "also pr. [zhī dao]"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 105,
+    "characters": [
+      {
+        "char": "知",
+        "pinyin": "zhī",
+        "atomic": false,
+        "components": [
+          {
+            "char": "矢",
+            "meaning": "arrow",
+            "role": "semantic"
+          },
+          {
+            "char": "口",
+            "meaning": "mouth",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "道",
+        "pinyin": "dào",
+        "atomic": false,
+        "components": [
+          {
+            "char": "辶",
+            "meaning": "walking, movement",
+            "role": "semantic",
+            "variantOf": "辵"
+          },
+          {
+            "char": "首",
+            "meaning": "head",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-143",
+    "hanzi": "准备",
+    "pinyin": "zhǔn bèi",
+    "meaning": "preparation",
+    "meanings": [
+      "preparation",
+      "to prepare",
+      "to intend",
+      "to be about to",
+      "reserve"
+    ],
+    "pos": [
+      "v",
+      "vn"
+    ],
+    "frequency": 333,
+    "characters": [
+      {
+        "char": "准",
+        "pinyin": "zhǔn",
+        "atomic": false,
+        "components": [
+          {
+            "char": "冫",
+            "meaning": "ice",
+            "role": "semantic"
+          },
+          {
+            "char": "隹",
+            "meaning": "short-tailed bird",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "备",
+        "pinyin": "bèi",
+        "atomic": false,
+        "components": [
+          {
+            "char": "夂",
+            "meaning": "to follow, go",
+            "role": "semantic"
+          },
+          {
+            "char": "田",
+            "meaning": "field",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-144",
+    "hanzi": "自行车",
+    "pinyin": "zì xíng chē",
+    "meaning": "bicycle; bike",
+    "meanings": [
+      "bicycle; bike"
+    ],
+    "pos": [
+      "n"
+    ],
+    "frequency": 3400,
+    "characters": [
+      {
+        "char": "自",
+        "pinyin": "zì",
+        "atomic": false,
+        "components": [
+          {
+            "char": "目",
+            "meaning": "eye",
+            "role": "semantic"
+          },
+          {
+            "char": "丶",
+            "meaning": "dot",
+            "role": "form"
+          }
+        ]
+      },
+      {
+        "char": "行",
+        "pinyin": "xíng",
+        "atomic": false,
+        "components": [
+          {
+            "char": "彳",
+            "meaning": "step, to walk",
+            "role": "semantic"
+          },
+          {
+            "char": "亍",
+            "meaning": "step with the right foot",
+            "role": "part"
+          }
+        ]
+      },
+      {
+        "char": "车",
+        "pinyin": "chē",
+        "atomic": false,
+        "components": [
+          {
+            "char": "七",
+            "meaning": "seven",
+            "role": "part"
+          },
+          {
+            "char": "十",
+            "meaning": "ten",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-145",
+    "hanzi": "走",
+    "pinyin": "zǒu",
+    "meaning": "to walk",
+    "meanings": [
+      "to walk",
+      "to go",
+      "to run",
+      "to move",
+      "to visit",
+      "to leave",
+      "to go away",
+      "to die",
+      "from",
+      "through",
+      "away",
+      "to change"
+    ],
+    "pos": [
+      "v"
+    ],
+    "frequency": 109,
+    "characters": [
+      {
+        "char": "走",
+        "pinyin": "zǒu",
+        "atomic": false,
+        "components": [
+          {
+            "char": "土",
+            "meaning": "earth, soil",
+            "role": "semantic"
+          },
+          {
+            "char": "龰",
+            "meaning": "foot",
+            "role": "form",
+            "variantOf": "足"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-146",
+    "hanzi": "最",
+    "pinyin": "zuì",
+    "meaning": "most",
+    "meanings": [
+      "most",
+      "the most",
+      "-est"
+    ],
+    "pos": [
+      "d",
+      "g"
+    ],
+    "frequency": 89,
+    "characters": [
+      {
+        "char": "最",
+        "pinyin": "zuì",
+        "atomic": false,
+        "components": [
+          {
+            "char": "曰",
+            "meaning": "to speak",
+            "role": "part"
+          },
+          {
+            "char": "取",
+            "meaning": "to take",
+            "role": "part"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hsk2-147",
+    "hanzi": "左边",
+    "pinyin": "zuǒ bian",
+    "meaning": "left",
+    "meanings": [
+      "left",
+      "the left side",
+      "to the left of"
+    ],
+    "pos": [
+      "f"
+    ],
+    "frequency": 4584,
+    "characters": [
+      {
+        "char": "左",
+        "pinyin": "zuǒ",
+        "atomic": false,
+        "components": [
+          {
+            "char": "𠂇",
+            "meaning": "left hand",
+            "role": "semantic"
+          },
+          {
+            "char": "工",
+            "meaning": "work",
+            "role": "semantic"
+          }
+        ]
+      },
+      {
+        "char": "边",
+        "pinyin": "biān",
+        "atomic": false,
+        "components": [
+          {
+            "char": "辶",
+            "meaning": "walking, movement",
+            "role": "semantic",
+            "variantOf": "辵"
+          },
+          {
+            "char": "力",
+            "meaning": "strength",
+            "role": "semantic"
+          }
+        ]
+      }
+    ]
+  }
+]

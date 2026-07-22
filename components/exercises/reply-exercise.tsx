@@ -32,6 +32,10 @@ export function ReplyExerciseView({
     () => seededShuffle(exercise.choices, hashSeed(exercise.id)),
     [exercise.id, exercise.choices],
   );
+  const accepted = useMemo(
+    () => new Set(exercise.answers ?? [exercise.answer]),
+    [exercise.answer, exercise.answers],
+  );
   const answering = phase === "answering";
 
   useEffect(() => {
@@ -40,12 +44,12 @@ export function ReplyExerciseView({
       const n = Number(e.key);
       if (n >= 1 && n <= choices.length) {
         setSelected(choices[n - 1].hanzi);
-        onAnswer(choices[n - 1].hanzi === exercise.answer);
+        onAnswer(accepted.has(choices[n - 1].hanzi));
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [answering, choices, exercise.answer, onAnswer]);
+  }, [accepted, answering, choices, onAnswer]);
 
   return (
     <div>
@@ -80,7 +84,7 @@ export function ReplyExerciseView({
         {choices.map((c, i) => {
           const state = answering
             ? "idle"
-            : c.hanzi === exercise.answer
+            : accepted.has(c.hanzi)
               ? "correct"
               : c.hanzi === selected
                 ? "wrong"
@@ -93,7 +97,7 @@ export function ReplyExerciseView({
               className={optionClass(state)}
               onClick={() => {
                 setSelected(c.hanzi);
-                onAnswer(c.hanzi === exercise.answer);
+                onAnswer(accepted.has(c.hanzi));
               }}
             >
               <span className="mr-2 text-xs tabular-nums text-muted-foreground">

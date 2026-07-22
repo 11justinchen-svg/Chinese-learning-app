@@ -1,4 +1,5 @@
-import raw from "@/lib/data/hsk1.json";
+import rawHsk1 from "@/lib/data/hsk1.json";
+import rawHsk2 from "@/lib/data/hsk2.json";
 
 export type ComponentRole = "semantic" | "part" | "form";
 
@@ -27,12 +28,23 @@ export interface HskWord {
   characters: HanziChar[];
 }
 
-export const HSK1: HskWord[] = raw as HskWord[];
+export type HskLevel = 1 | 2;
+
+export const HSK1: HskWord[] = rawHsk1 as HskWord[];
+export const HSK2: HskWord[] = rawHsk2 as HskWord[];
+export const HSK: HskWord[] = [...HSK1, ...HSK2];
 
 // Learning order: most frequent first (lower frequency rank = more common).
 export const HSK1_BY_FREQUENCY: HskWord[] = [...HSK1].sort(
   (a, b) => (a.frequency ?? 9999) - (b.frequency ?? 9999),
 );
+export const HSK2_BY_FREQUENCY: HskWord[] = [...HSK2].sort(
+  (a, b) => (a.frequency ?? 9999) - (b.frequency ?? 9999),
+);
+export const HSK_BY_FREQUENCY: HskWord[] = [
+  ...HSK1_BY_FREQUENCY,
+  ...HSK2_BY_FREQUENCY,
+];
 
 export const UNIT_SIZE = 15;
 
@@ -42,18 +54,22 @@ export interface HskUnit {
   words: HskWord[];
 }
 
-// Ten preset study sets of 15 words, ordered by frequency.
+// Stable 15-word study sets: HSK 1 is sets 1–10, HSK 2 starts at set 11.
 export const UNITS: HskUnit[] = Array.from(
-  { length: Math.ceil(HSK1_BY_FREQUENCY.length / UNIT_SIZE) },
+  { length: Math.ceil(HSK_BY_FREQUENCY.length / UNIT_SIZE) },
   (_, i) => ({
     index: i + 1,
     title: `Set ${i + 1}`,
-    words: HSK1_BY_FREQUENCY.slice(i * UNIT_SIZE, (i + 1) * UNIT_SIZE),
+    words: HSK_BY_FREQUENCY.slice(i * UNIT_SIZE, (i + 1) * UNIT_SIZE),
   }),
 );
 
 export function findWord(id: string): HskWord | undefined {
-  return HSK1.find((w) => w.id === id);
+  return HSK.find((w) => w.id === id);
+}
+
+export function wordsForLevel(level: HskLevel): HskWord[] {
+  return level === 1 ? HSK1 : HSK2;
 }
 
 export function findUnit(index: number): HskUnit | undefined {
@@ -61,13 +77,13 @@ export function findUnit(index: number): HskUnit | undefined {
 }
 
 // Distinct components across HSK-1, most frequent first (for the radical key).
-export function componentFrequency(): {
+export function componentFrequency(level?: HskLevel): {
   char: string;
   meaning: string;
   count: number;
 }[] {
   const map = new Map<string, { meaning: string; count: number }>();
-  for (const w of HSK1)
+  for (const w of level ? wordsForLevel(level) : HSK)
     for (const c of w.characters)
       for (const k of c.components) {
         if (k.role === "form") continue;

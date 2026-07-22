@@ -57,6 +57,8 @@ export interface ReplyExercise extends ExerciseBase {
   choices: { hanzi: string; pinyin: string }[];
   /** Hanzi of the correct choice. */
   answer: string;
+  /** Other natural choices that accomplish the same communicative goal. */
+  answers?: string[];
 }
 
 export interface ListenExercise extends ExerciseBase {
@@ -101,11 +103,14 @@ export interface ExerciseBlock {
 
 export interface Stage {
   id: string; // "hsk1-stage-03"
+  level?: 1 | 2;
   index: number; // 1..10
   title: string;
   hanziTitle: string;
   scenario: string;
   description: string;
+  estimatedMinutes?: number;
+  goal?: string;
   wordIds: string[];
   grammarLessonIds: string[];
   dialogue: DialogueLine[];

@@ -157,17 +157,13 @@ export function recordCheckpoint(
 export function stampCompletionIfEarned(
   p: ProgressStore,
   stage: Stage,
-  srs: SrsStore,
+  _srs: SrsStore,
   now = Date.now(),
 ): ProgressStore {
   const s = stageEntry(p, stage.id);
   if (s.completedAt) return p;
   const best = s.checkpointBest;
   if (!best || best.score / best.total < CHECKPOINT_PASS) return p;
-  const { total, learned } = stageWordStats(stage, p, srs);
-  if (learned / total < WORDS_LEARNED_GATE) return p;
-  const productive = productiveWordStats(stage, p);
-  if (productive.practiced / productive.total < PRODUCTIVE_WORD_GATE) return p;
   return {
     ...p,
     stages: { ...p.stages, [stage.id]: { ...s, completedAt: now } },

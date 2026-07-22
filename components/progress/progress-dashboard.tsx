@@ -2,13 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Clock3, RotateCcw, Trophy } from "lucide-react";
+import { ArrowRight, CheckCircle2, Clock3, RotateCcw } from "lucide-react";
 import { STAGES, stageForWord } from "@/lib/data/stages";
-import { findWord } from "@/lib/hsk";
+import { findWord, HSK } from "@/lib/hsk";
 import {
-  hsk1Complete,
   loadProgress,
-  stageWordStats,
   wordStatus,
   type ProgressStore,
   type WordStatus,
@@ -78,17 +76,19 @@ export function ProgressDashboard() {
         if (srs[id] && isDue(srs[id])) due += 1;
       }
     }
-    const retained = counts.learned + counts.mastered;
+    const tried = STAGES.flatMap((stage) => stage.wordIds).filter((id) => {
+      const word = progress.words[id];
+      return Boolean(word?.seenAt || word?.correct || word?.wrong);
+    }).length;
     const completedStages = STAGES.filter(
       (stage) => progress.stages[stage.id]?.completedAt,
     ).length;
-    return { counts, due, retained, completedStages };
+    return { counts, due, tried, completedStages };
   }, [progress, srs]);
 
   if (!ready) return <main className="min-h-screen bg-background" />;
 
-  const complete = hsk1Complete(STAGES, progress);
-  const percent = Math.round((summary.retained / 150) * 100);
+  const percent = Math.round((summary.tried / HSK.length) * 100);
 
   return (
     <main className="min-h-screen bg-background pb-24 pt-12 text-foreground">
@@ -100,44 +100,43 @@ export function ProgressDashboard() {
               displayFont,
             )}
           >
-            默知 · Your HSK 1
+            默知 · HSK 1 + 2 practice log
           </p>
           <div className="mt-3 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
             <div>
               <h1 className={cn("text-4xl font-bold sm:text-5xl", displayFont)}>
-                Progress you can use
+                What you have tried
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                A word becomes learned only after repeated first-try recall
-                across different exercise types and spaced review. Finishing a
-                card once is not mastery.
+                This is a lightweight history, not a retention obligation. Open
+                any lesson, skip any section, or use cards only when they help.
               </p>
             </div>
             <Link
               href="/flashcards"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
             >
-              Review due words <ArrowRight className="h-4 w-4" />
+              Optional flashcards <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </header>
 
         <section className="mt-8 grid gap-4 sm:grid-cols-3">
           <SummaryCard
-            icon={<Trophy className="h-5 w-5" />}
-            label="Words retained"
-            value={`${summary.retained} / 150`}
-            note={`${percent}% learned or mastered`}
+            icon={<CheckCircle2 className="h-5 w-5" />}
+            label="Words tried"
+            value={`${summary.tried} / ${HSK.length}`}
+            note={`${percent}% opened or practiced`}
           />
           <SummaryCard
             icon={<ArrowRight className="h-5 w-5" />}
             label="Stages completed"
             value={`${summary.completedStages} / ${STAGES.length}`}
-            note={complete ? "HSK-1 path complete" : "Dialogue, production, checkpoint"}
+            note="20 independent, always-open scenes"
           />
           <SummaryCard
             icon={<Clock3 className="h-5 w-5" />}
-            label="Reviews due"
+            label="Optional reviews"
             value={String(summary.due)}
             note="Previously seen cards due now"
           />
@@ -150,8 +149,8 @@ export function ProgressDashboard() {
                 Stage progress
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Finish with 80% first-try accuracy, 80% learned words, and
-                productive recall across at least half the stage vocabulary.
+                A lesson is marked complete by its immediate fast test. No
+                spaced-review or earlier-stage gate is required.
               </p>
             </div>
             <Link
@@ -164,9 +163,12 @@ export function ProgressDashboard() {
 
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             {STAGES.map((stage) => {
-              const stats = stageWordStats(stage, progress, srs);
               const stageProgress = progress.stages[stage.id];
-              const pct = Math.round((stats.learned / stats.total) * 100);
+              const tried = stage.wordIds.filter((id) => {
+                const word = progress.words[id];
+                return Boolean(word?.seenAt || word?.correct || word?.wrong);
+              }).length;
+              const pct = Math.round((tried / stage.wordIds.length) * 100);
               const checkpoint = stageProgress?.checkpointBest;
               const checkpointPct = checkpoint
                 ? Math.round((checkpoint.score / checkpoint.total) * 100)
@@ -180,7 +182,7 @@ export function ProgressDashboard() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                        Stage {stage.index}
+                        HSK {stage.level ?? 1} · Lesson {stage.index}
                       </p>
                       <p className="mt-1 font-semibold">
                         {stage.title}{" "}
@@ -198,7 +200,7 @@ export function ProgressDashboard() {
                     />
                   </div>
                   <p className="mt-2 text-xs text-muted-foreground">
-                    {stats.learned}/{stats.total} learned · checkpoint {checkpoint ? `${checkpointPct}% best` : "not attempted"}
+                    {tried}/{stage.wordIds.length} tried · fast test {checkpoint ? `${checkpointPct}% best` : "not attempted"}
                   </p>
                 </Link>
               );
@@ -208,7 +210,7 @@ export function ProgressDashboard() {
 
         <section className="mt-12">
           <h2 className={cn("text-2xl font-bold", displayFont)}>
-            All 150 words
+            All {HSK.length} written forms
           </h2>
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
             {(Object.keys(STATUS_META) as WordStatus[]).map((status) => (
@@ -248,7 +250,7 @@ export function ProgressDashboard() {
 
         <p className="mt-8 flex items-center gap-2 text-xs text-muted-foreground">
           <RotateCcw className="h-3.5 w-3.5" />
-          Missed words return sooner; successful words are scheduled farther out.
+          Card scheduling is optional and never locks a lesson or level.
         </p>
       </div>
     </main>

@@ -4,7 +4,7 @@ import { Flashcards } from "@/components/flashcards";
 export const metadata: Metadata = {
   title: "Flashcards | 默知 MoZhi",
   description:
-    "Spaced-repetition flashcards for HSK-1: preset decks of all 150 words plus cards you build yourself. Everything is stored on your device.",
+    "Optional HSK 1 and HSK 2 flashcards, lesson decks, and custom cards stored on your device.",
 };
 
 export default function FlashcardsPage({
@@ -16,12 +16,14 @@ export default function FlashcardsPage({
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-      <div className="mb-8 max-w-2xl">
-        <h1 className="text-3xl font-bold sm:text-4xl">Flashcards</h1>
+      <div className="mb-8 max-w-2xl border-b border-foreground pb-7">
+        <p className="font-[family-name:var(--font-hand)] text-xl text-primary">
+          optional, never a gate
+        </p>
+        <h1 className="mt-1 text-3xl font-bold sm:text-4xl">Flashcards</h1>
         <p className="mt-3 text-muted-foreground">
-          Review by spaced repetition: cards you know come back less often,
-          cards you miss come back soon. Progress is saved on this device, no
-          account needed.
+          Use HSK 1, HSK 2, lesson, or custom decks when they help. Card
+          scheduling never locks a lesson, level, or fast test.
         </p>
       </div>
       <Flashcards
