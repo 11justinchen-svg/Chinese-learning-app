@@ -12,6 +12,8 @@ Two segments through one sequenced funnel (see PRD.md): travelers with a China/T
 
 MoZhi (默知) gets a beginner using HSK 1 and HSK 2 Mandarin in real situations quickly. Learners can choose one Hanzi, build a custom set, or open real-life sets such as shopping and small talk. Hanzi progress separates form and meaning, sound, and contextual use before calling a word proficient. Short, authored role calls accept Hanzi, pinyin, or recognized speech; optional AI wording feedback confirms the intended meaning first and offers one useful correction without pretending to hear pronunciation details that are not available. Success means completing a useful communicative goal in the current session. No lesson, section, level, set, or test depends on a streak, spaced-retention gate, or earlier completion.
 
+When a local Ollama model is available, role-call feedback stays on-device by default. Anthropic remains an optional cloud provider, and every provider failure returns to deterministic authored feedback without interrupting the conversation.
+
 ## Brand Personality
 
 Playful, warm, encouraging. A friendly robot study-buddy, not a stern teacher and not a corporate platform. Bold color and big type used with confidence; celebratory, never childish. The hanzi themselves are the visual heroes: the brand treats Chinese characters as beautiful, decodable design objects.

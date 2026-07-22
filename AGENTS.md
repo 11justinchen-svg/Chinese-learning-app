@@ -105,6 +105,9 @@ grammar from typed or recognized text, but must never claim to have evaluated
 tones, accent, fluency, or acoustic pronunciation without an actual audio
 signal and a pronunciation-capable evaluator. Provider failure or missing
 credits must fall back to the authored correction without blocking the call.
+When Ollama is running with the configured model, prefer its private on-device
+feedback by default; an explicit `AI_FEEDBACK_PROVIDER=anthropic` may prefer
+the cloud while retaining Ollama as fallback.
 
 Core authored paths must work offline. AI may widen semantic acceptance and
 feedback, but it cannot be required for a lesson to function.

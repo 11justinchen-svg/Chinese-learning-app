@@ -36,6 +36,7 @@ import { cn } from "@/lib/utils";
 
 type SupportLevel = "guided" | "standard" | "challenge";
 type CallState = "idle" | "connecting" | "active" | "thinking" | "complete";
+type AiProvider = "anthropic" | "ollama";
 
 const ROLE_SPANS = [
   "lg:col-span-5",
@@ -67,6 +68,7 @@ interface AiCoachFeedback {
 interface AiRoleResponse {
   turn: RoleCallLine | null;
   feedback: AiCoachFeedback | null;
+  provider: AiProvider | null;
 }
 
 interface SpeechRecognitionResultLike {
@@ -141,13 +143,15 @@ async function readAiResponse(
     body: JSON.stringify({ scenarioId, stepId, learnerText, supportLevel }),
     signal,
   });
-  if (!response.ok || !response.body) return { turn: null, feedback: null };
+  if (!response.ok || !response.body)
+    return { turn: null, feedback: null, provider: null };
 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
   let line: RoleCallLine | null = null;
   let feedback: AiCoachFeedback | null = null;
+  let provider: AiProvider | null = null;
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
@@ -161,16 +165,20 @@ async function readAiResponse(
           type: string;
           turn?: RoleCallLine;
           feedback?: AiCoachFeedback;
+          provider?: string;
         };
         if (event.type === "turn" && event.turn) line = event.turn;
-        if (event.type === "feedback" && event.feedback)
+        if (event.type === "feedback" && event.feedback) {
           feedback = event.feedback;
+          if (event.provider === "anthropic" || event.provider === "ollama")
+            provider = event.provider;
+        }
       } catch {
         // An incomplete optional AI event never blocks the authored call.
       }
     }
   }
-  return { turn: line, feedback };
+  return { turn: line, feedback, provider };
 }
 
 function formatAiFeedback(feedback: AiCoachFeedback): string {
@@ -201,12 +209,14 @@ export function RoleCallStudio({
   const [hintLevel, setHintLevel] = useState(-1);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [feedbackSource, setFeedbackSource] = useState<"authored" | "ai">("authored");
+  const [feedbackProvider, setFeedbackProvider] = useState<AiProvider | null>(null);
   const [warmupOpen, setWarmupOpen] = useState(false);
   const [micError, setMicError] = useState<string | null>(null);
   const [isListening, setIsListening] = useState(false);
   const [recognitionSupported, setRecognitionSupported] = useState(false);
   const [ttsSupported, setTtsSupported] = useState(false);
   const [aiAvailable, setAiAvailable] = useState(false);
+  const [aiProvider, setAiProvider] = useState<AiProvider | null>(null);
   const [aiFallback, setAiFallback] = useState(false);
   const [attemptedSteps, setAttemptedSteps] = useState<Set<string>>(new Set());
   const [firstAttemptCorrect, setFirstAttemptCorrect] = useState(0);
@@ -225,10 +235,19 @@ export function RoleCallStudio({
     );
     fetch("/api/conversation", { method: "GET" })
       .then((response) => (response.ok ? response.json() : null))
-      .then((data: { aiAvailable?: boolean } | null) =>
-        setAiAvailable(Boolean(data?.aiAvailable)),
+      .then(
+        (data: {
+          aiAvailable?: boolean;
+          preferredProvider?: AiProvider | null;
+        } | null) => {
+          setAiAvailable(Boolean(data?.aiAvailable));
+          setAiProvider(data?.preferredProvider ?? null);
+        },
       )
-      .catch(() => setAiAvailable(false));
+      .catch(() => {
+        setAiAvailable(false);
+        setAiProvider(null);
+      });
     return () => {
       callGenerationRef.current += 1;
       aiAbortRef.current?.abort();
@@ -258,6 +277,7 @@ export function RoleCallStudio({
     setHintLevel(-1);
     setFeedback(null);
     setFeedbackSource("authored");
+    setFeedbackProvider(null);
     setMicError(null);
     setIsListening(false);
     setAiFallback(false);
@@ -368,6 +388,7 @@ export function RoleCallStudio({
             if (response.feedback) {
               setFeedback(formatAiFeedback(response.feedback));
               setFeedbackSource("ai");
+              setFeedbackProvider(response.provider);
             } else {
               setAiFallback(true);
               setAiAvailable(false);
@@ -417,6 +438,7 @@ export function RoleCallStudio({
         if (generated.feedback) {
           setFeedback(formatAiFeedback(generated.feedback));
           setFeedbackSource("ai");
+          setFeedbackProvider(generated.provider);
         }
         if (generated.turn) {
           responseLine = generated.turn;
@@ -488,7 +510,11 @@ export function RoleCallStudio({
             </div>
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               {aiAvailable ? <Sparkles className="h-3.5 w-3.5 text-primary" /> : <WifiOff className="h-3.5 w-3.5" />}
-              {aiAvailable ? "AI wording feedback configured" : "Authored offline feedback"}
+              {aiAvailable
+                ? aiProvider === "ollama"
+                  ? "Private local AI feedback ready"
+                  : "Cloud AI feedback ready"
+                : "Authored offline feedback"}
             </div>
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-12">
@@ -655,7 +681,13 @@ export function RoleCallStudio({
                 {micError && <p role="alert" className="mb-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-foreground">{micError}</p>}
                 {feedback && (
                   <div role="status" className="mb-2 border border-primary/30 bg-primary/10 px-3 py-2 text-sm">
-                    <p className="text-[0.65rem] font-bold uppercase tracking-wide text-muted-foreground">{feedbackSource === "ai" ? "AI wording feedback" : "Authored feedback"}</p>
+                    <p className="text-[0.65rem] font-bold uppercase tracking-wide text-muted-foreground">
+                      {feedbackSource === "ai"
+                        ? feedbackProvider === "ollama"
+                          ? "Local AI wording feedback"
+                          : "AI wording feedback"
+                        : "Authored feedback"}
+                    </p>
                     <p className="mt-1">{feedback}</p>
                   </div>
                 )}
@@ -706,7 +738,14 @@ export function RoleCallStudio({
             )}
             <div className="mt-5 space-y-2 text-xs text-muted-foreground">
               <p className="flex items-center gap-2">{ttsSupported ? <Volume2 className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5 opacity-40" />}{ttsSupported ? "Mandarin voice on" : "Text and pinyin fallback"}</p>
-              <p className="flex items-center gap-2">{aiAvailable && !aiFallback ? <Sparkles className="h-3.5 w-3.5" /> : <WifiOff className="h-3.5 w-3.5" />}{aiAvailable && !aiFallback ? "AI wording feedback configured" : "Authored feedback active"}</p>
+              <p className="flex items-center gap-2">
+                {aiAvailable && !aiFallback ? <Sparkles className="h-3.5 w-3.5" /> : <WifiOff className="h-3.5 w-3.5" />}
+                {aiAvailable && !aiFallback
+                  ? aiProvider === "ollama"
+                    ? "Private local AI ready"
+                    : "Cloud AI feedback ready"
+                  : "Authored feedback active"}
+              </p>
             </div>
           </aside>
         </div>
