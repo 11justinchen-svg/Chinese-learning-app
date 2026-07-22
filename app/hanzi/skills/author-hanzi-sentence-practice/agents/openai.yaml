@@ -1,0 +1,4 @@
+interface:
+  display_name: "Author Hanzi Sentence Practice"
+  short_description: "Build gated beginner Hanzi sentence exercises"
+  default_prompt: "Use $author-hanzi-sentence-practice to author a beginner Hanzi sentence-building exercise set."

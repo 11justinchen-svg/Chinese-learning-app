@@ -1,0 +1,4 @@
+interface:
+  display_name: "Assess Hanzi Mastery"
+  short_description: "Measure written, spoken, and contextual Hanzi use"
+  default_prompt: "Use $assess-hanzi-mastery to design an evidence-based Hanzi assessment and progress model."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Chinese Architecture UI"
+  short_description: "Translate architecture into accessible UI motifs"
+  default_prompt: "Use $design-chinese-architecture-ui to turn a Chinese architectural reference into an original, accessible web interface."

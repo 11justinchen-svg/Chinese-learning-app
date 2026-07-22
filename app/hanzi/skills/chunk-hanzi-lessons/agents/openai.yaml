@@ -1,0 +1,4 @@
+interface:
+  display_name: "Chunk Hanzi Lessons"
+  short_description: "Build cumulative HSK Hanzi lesson chunks"
+  default_prompt: "Use $chunk-hanzi-lessons to design and implement cumulative, all-unlocked HSK Hanzi lesson chunks."

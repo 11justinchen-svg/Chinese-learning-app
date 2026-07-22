@@ -1,0 +1,4 @@
+interface:
+  display_name: "Animate Learning Journeys"
+  short_description: "Build accessible scroll-driven learning paths"
+  default_prompt: "Use $animate-learning-journeys to design a restrained, accessible scroll-driven lesson journey."
