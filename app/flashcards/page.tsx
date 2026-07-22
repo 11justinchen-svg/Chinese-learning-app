@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default async function FlashcardsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ unit?: string }>;
+  searchParams: Promise<{ unit?: string; stage?: string }>;
 }) {
   const query = await searchParams;
   const unit = query.unit ? Number(query.unit) : undefined;
@@ -29,6 +29,7 @@ export default async function FlashcardsPage({
       </div>
       <Flashcards
         initialUnit={unit && !Number.isNaN(unit) ? unit : undefined}
+        initialStageId={query.stage}
       />
     </main>
   );

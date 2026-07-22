@@ -2,10 +2,15 @@ import assert from "node:assert/strict";
 import { HSK } from "../lib/hsk";
 import {
   HANZI_TOPIC_SETS,
+  makeHanziLessonMatchPractice,
+  makeHanziLessonUsePractice,
   makeHanziSetTest,
   makeHanziWordTest,
 } from "../lib/hanzi-practice";
+import { HANZI_LESSON_CHUNKS } from "../lib/hanzi-lessons";
+import { STAGES } from "../lib/data/stages";
 import {
+  hanziLessonStats,
   hanziProficiency,
   recordAnswer,
   recordTeachSeen,
@@ -14,6 +19,53 @@ import {
 
 const allIds = new Set(HSK.map((word) => word.id));
 const topicIds = new Set<string>();
+
+assert.equal(HANZI_LESSON_CHUNKS.length, 20);
+assert.equal(HANZI_LESSON_CHUNKS[0].title, "Describe people");
+assert.equal(
+  new Set(HANZI_LESSON_CHUNKS.map((lesson) => lesson.id)).size,
+  HANZI_LESSON_CHUNKS.length,
+  "Hanzi lesson IDs must reuse unique canonical stage IDs",
+);
+
+for (const lesson of HANZI_LESSON_CHUNKS) {
+  const stage = STAGES.find((candidate) => candidate.id === lesson.id);
+  assert(stage, `${lesson.id} must map to a canonical stage`);
+  assert.deepEqual(lesson.wordIds, stage.wordIds, `${lesson.id} word allocation drifted`);
+  assert(
+    lesson.cumulativeWordIds.length >= lesson.wordIds.length,
+    `${lesson.id} must include its current forms in cumulative review`,
+  );
+  assert.equal(
+    new Set(lesson.cumulativeWordIds).size,
+    lesson.cumulativeWordIds.length,
+    `${lesson.id} cumulative review repeats a word`,
+  );
+
+  const matching = makeHanziLessonMatchPractice(lesson.wordIds, 3);
+  assert(matching.length >= 5, `${lesson.id} needs a substantial match practice`);
+  assert.equal(
+    matching.filter((exercise) => exercise.kind === "match").length,
+    2,
+    `${lesson.id} must match both meaning and sound`,
+  );
+
+  const use = makeHanziLessonUsePractice(lesson.id, 2);
+  assert(use.length >= 4, `${lesson.id} needs sentence and reply practice`);
+  assert(
+    use.some((exercise) => exercise.kind === "reply"),
+    `${lesson.id} needs a communicative response`,
+  );
+  assert(
+    use.every((exercise) => ["cloze", "order", "reply"].includes(exercise.kind)),
+    `${lesson.id} use practice must require contextual retrieval`,
+  );
+  assert.equal(
+    new Set(use.map((exercise) => exercise.id)).size,
+    use.length,
+    `${lesson.id} use practice repeats an exercise ID`,
+  );
+}
 
 assert(HANZI_TOPIC_SETS.some((topic) => topic.id === "shopping"));
 assert(HANZI_TOPIC_SETS.some((topic) => topic.id === "small-talk"));
@@ -72,7 +124,11 @@ const used = recordAnswer(sound, [wordId], "reply", true);
 const proficient = hanziProficiency(wordId, used);
 assert.equal(proficient.status, "proficient");
 assert.equal(proficient.score, 100);
+const lessonStats = hanziLessonStats([wordId, "hsk1-011"], used);
+assert.equal(lessonStats.total, 2);
+assert.equal(lessonStats.proficient, 1);
+assert.equal(lessonStats.evidence.sound, 50);
 
 console.log(
-  `Hanzi practice passed: ${HANZI_TOPIC_SETS.length} topic sets, ${HSK.length} focused tests, evidence model verified.`,
+  `Hanzi practice passed: ${HANZI_LESSON_CHUNKS.length} lesson chunks, ${HANZI_TOPIC_SETS.length} topic sets, ${HSK.length} focused tests, evidence model verified.`,
 );

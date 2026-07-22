@@ -4,9 +4,11 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, CheckCircle2, Clock3, RotateCcw } from "lucide-react";
 import { STAGES } from "@/lib/data/stages";
+import { HANZI_LESSON_CHUNKS } from "@/lib/hanzi-lessons";
 import { HSK } from "@/lib/hsk";
 import {
   hanziProficiency,
+  hanziLessonStats,
   loadProgress,
   type HanziProficiencyStatus,
   type ProgressStore,
@@ -132,48 +134,39 @@ export function ProgressDashboard() {
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
             <div>
               <h2 className={cn("text-2xl font-bold", displayFont)}>
-                Stage progress
+                Hanzi lesson chunks
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                A lesson is marked complete by its immediate fast test. No
-                spaced-review or earlier-stage gate is required.
+                Each lesson keeps separate form, sound, and contextual-use
+                evidence. All twenty remain open regardless of this score.
               </p>
             </div>
             <Link
-              href="/lessons"
+              href="/hanzi"
               className="text-sm font-semibold text-primary hover:underline"
             >
-              Continue the learning path
+              Open Hanzi courtyards
             </Link>
           </div>
 
           <div className="mt-5 grid gap-3 md:grid-cols-2">
-            {STAGES.map((stage) => {
-              const stageProgress = progress.stages[stage.id];
-              const tried = stage.wordIds.filter((id) => {
-                const word = progress.words[id];
-                return Boolean(word?.seenAt || word?.correct || word?.wrong);
-              }).length;
-              const pct = Math.round((tried / stage.wordIds.length) * 100);
-              const checkpoint = stageProgress?.checkpointBest;
-              const checkpointPct = checkpoint
-                ? Math.round((checkpoint.score / checkpoint.total) * 100)
-                : 0;
+            {HANZI_LESSON_CHUNKS.map((lesson) => {
+              const stats = hanziLessonStats(lesson.wordIds, progress);
               return (
                 <Link
-                  key={stage.id}
-                  href={`/lessons/${stage.id}`}
+                  key={lesson.id}
+                  href={`/hanzi?lesson=${lesson.id}`}
                   className="group rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary/40"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                        HSK {stage.level ?? 1} · Lesson {stage.index}
+                        HSK {lesson.level} · Lesson {lesson.index}
                       </p>
                       <p className="mt-1 font-semibold">
-                        {stage.title}{" "}
+                        {lesson.title}{" "}
                         <span className={cn("ml-1 text-xl text-muted-foreground", hanziFont)}>
-                          {stage.hanziTitle}
+                          {lesson.hanziTitle}
                         </span>
                       </p>
                     </div>
@@ -182,11 +175,11 @@ export function ProgressDashboard() {
                   <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-secondary">
                     <div
                       className="h-full rounded-full bg-primary"
-                      style={{ width: `${pct}%` }}
+                      style={{ width: `${stats.score}%` }}
                     />
                   </div>
                   <p className="mt-2 text-xs text-muted-foreground">
-                    {tried}/{stage.wordIds.length} tried · fast test {checkpoint ? `${checkpointPct}% best` : "not attempted"}
+                    {stats.tried}/{stats.total} tried · {stats.proficient} proficient · form {stats.evidence.formMeaning}% · sound {stats.evidence.sound}% · use {stats.evidence.use}%
                   </p>
                 </Link>
               );

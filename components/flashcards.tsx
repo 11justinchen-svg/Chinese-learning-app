@@ -56,7 +56,13 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-export function Flashcards({ initialUnit }: { initialUnit?: number }) {
+export function Flashcards({
+  initialUnit,
+  initialStageId,
+}: {
+  initialUnit?: number;
+  initialStageId?: string;
+}) {
   const [srs, setSrs] = useState<SrsStore>({});
   const [progress, setProgress] = useState<ProgressStore>(EMPTY_PROGRESS);
   const [custom, setCustom] = useState<CustomCard[]>([]);
@@ -77,8 +83,21 @@ export function Flashcards({ initialUnit }: { initialUnit?: number }) {
       setCustom([]);
     }
     setReady(true);
-    // Deep link from a lesson: jump straight into that set.
-    if (initialUnit) {
+    // Deep link from a Hanzi lesson: jump straight into the canonical stage deck.
+    const requestedStage = initialStageId
+      ? STAGES.find((stage) => stage.id === initialStageId)
+      : undefined;
+    if (requestedStage) {
+      setSession({
+        deck: {
+          id: `stage-${requestedStage.level ?? 1}-${requestedStage.index}`,
+          label: `HSK ${requestedStage.level ?? 1}, Lesson ${requestedStage.index}: ${requestedStage.title}`,
+          sub: `${requestedStage.hanziTitle} · ${requestedStage.wordIds.length} words`,
+          ids: requestedStage.wordIds,
+        },
+        queue: shuffle(requestedStage.wordIds),
+      });
+    } else if (initialUnit) {
       const u = UNITS.find((x) => x.index === initialUnit);
       const ids = u?.words.map((w) => w.id);
       if (u && ids?.length)

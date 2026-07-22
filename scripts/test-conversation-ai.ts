@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import {
   conversationAiProviderOrder,
   parseCoachPayload,
+  parseOpenCoachPayload,
   runConversationAiProviders,
   type ConversationAiProvider,
 } from "../lib/conversation-ai";
@@ -20,20 +21,40 @@ const response = {
 assert.deepEqual(
   conversationAiProviderOrder({
     hasAnthropicKey: true,
+    hasGeminiKey: true,
     ollamaAvailable: true,
   }),
-  ["ollama", "anthropic"],
+  ["ollama", "gemini", "anthropic"],
   "Local AI should be the private, no-credit default when it is installed",
 );
 assert.deepEqual(
   conversationAiProviderOrder({
     hasAnthropicKey: true,
+    hasGeminiKey: true,
     ollamaAvailable: true,
     preferred: "anthropic",
   }),
-  ["anthropic", "ollama"],
+  ["anthropic", "ollama", "gemini"],
   "An explicit cloud preference should still retain local fallback",
 );
+
+const open = parseOpenCoachPayload(
+  JSON.stringify({
+    accepted: true,
+    feedback: {
+      note: "Your meaning is clear. Use 请 for a polite request.",
+      betterHanzi: "请给我一杯茶。",
+      betterPinyin: "Qǐng gěi wǒ yì bēi chá.",
+    },
+    turn: {
+      hanzi: "好的。您还要什么？",
+      pinyin: "Hǎo de. Nín hái yào shénme?",
+      english: "Okay. What else would you like?",
+    },
+  }),
+);
+assert.equal(open.accepted, true);
+assert.equal(open.turn?.hanzi, "好的。您还要什么？");
 
 const valid = parseCoachPayload(
   JSON.stringify({

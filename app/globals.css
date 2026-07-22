@@ -267,6 +267,147 @@
 .word-tile:nth-child(5n + 2) { transform: rotate(0.35deg); }
 .word-tile:nth-child(7n + 3) { transform: rotate(-0.35deg); }
 
+/* Hanzi lesson courtyards: roof silhouette, timber rhythm, and lattice are
+   treated as structure instead of decorative clip art. */
+.hanzi-scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 55;
+  height: 3px;
+  pointer-events: none;
+  background: oklch(var(--foreground) / 0.08);
+}
+
+.hanzi-scroll-progress > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: left;
+  background: oklch(var(--primary));
+  transition: transform 100ms linear;
+  will-change: transform;
+}
+
+.hanzi-courtyard-hero {
+  position: relative;
+  box-shadow: 7px 7px 0 oklch(var(--foreground));
+}
+
+.hanzi-courtyard-hero::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0 0 auto;
+  height: 0.72rem;
+  background: oklch(var(--primary));
+  clip-path: polygon(0 100%, 4% 0, 10% 62%, 50% 10%, 90% 62%, 96% 0, 100% 100%);
+}
+
+.hanzi-lesson-gate {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid oklch(var(--foreground));
+  background:
+    linear-gradient(90deg, transparent 0 48%, oklch(var(--foreground) / 0.035) 48% 52%, transparent 52%),
+    oklch(var(--card));
+  box-shadow: 3px 3px 0 oklch(var(--foreground));
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 240ms ease;
+}
+
+.hanzi-lesson-gate::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.5rem;
+  background: oklch(var(--primary));
+  clip-path: polygon(0 100%, 5% 0, 11% 64%, 50% 12%, 89% 64%, 95% 0, 100% 100%);
+  opacity: 0.78;
+}
+
+.hanzi-lesson-gate::after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: 4.25rem;
+  height: 4.25rem;
+  opacity: 0.07;
+  background-image:
+    linear-gradient(oklch(var(--foreground)) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(var(--foreground)) 1px, transparent 1px),
+    linear-gradient(45deg, transparent 47%, oklch(var(--foreground)) 48% 52%, transparent 53%);
+  background-size: 0.85rem 0.85rem;
+}
+
+.hanzi-lesson-gate:hover,
+.hanzi-lesson-gate.is-selected {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 oklch(var(--foreground));
+}
+
+.hanzi-lesson-gate.is-selected {
+  background-color: oklch(var(--primary) / 0.09);
+}
+
+.hanzi-lesson-gate:focus-visible,
+.hanzi-practice-action:focus-visible {
+  outline: 2px solid oklch(var(--ring));
+  outline-offset: 4px;
+}
+
+.hanzi-practice-action {
+  display: flex;
+  min-height: 4.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid oklch(var(--foreground));
+  background: oklch(var(--background));
+  padding: 0.8rem 0.9rem;
+  text-align: left;
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 180ms ease;
+}
+
+.hanzi-practice-action:hover {
+  transform: translateY(-2px);
+  background: oklch(var(--primary) / 0.1);
+}
+
+.hanzi-practice-action:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.hanzi-practice-action span,
+.hanzi-practice-action strong,
+.hanzi-practice-action small {
+  display: block;
+}
+
+.hanzi-practice-action strong { font-size: 0.82rem; }
+.hanzi-practice-action small {
+  margin-top: 0.1rem;
+  color: oklch(var(--muted-foreground));
+  font-size: 0.67rem;
+}
+
+.hanzi-inview {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 650ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+    transform 650ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+  will-change: transform, opacity;
+}
+
+.hanzi-inview.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+
 @media (max-width: 640px) {
   .architecture-corner { width: 8.5rem; opacity: 0.65; }
   .architecture-lattice { display: none; }
@@ -294,6 +435,18 @@
     opacity: 1;
     transform: none;
     animation: none;
+  }
+
+  .hanzi-inview {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hanzi-scroll-progress > span,
+  .hanzi-lesson-gate,
+  .hanzi-practice-action {
+    transition: none;
   }
 }
 

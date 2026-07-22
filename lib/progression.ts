@@ -23,6 +23,19 @@ export interface HanziProficiency {
   };
 }
 
+export interface HanziLessonStats {
+  total: number;
+  tried: number;
+  building: number;
+  proficient: number;
+  score: number;
+  evidence: {
+    formMeaning: number;
+    sound: number;
+    use: number;
+  };
+}
+
 export interface WordProgress {
   seenAt?: number;
   /** First-attempt counts only — retries after a miss never count. */
@@ -243,6 +256,48 @@ export function hanziProficiency(
   )
     status = "proficient";
   return { status, score, accuracy, attempts, evidence };
+}
+
+/** Aggregate the existing word evidence for a lesson without adding a second
+ * progress store. Percentages are derived, so old saves and stable IDs remain
+ * valid when the Hanzi UI groups words into lesson chunks. */
+export function hanziLessonStats(
+  wordIds: string[],
+  progress: ProgressStore,
+): HanziLessonStats {
+  if (wordIds.length === 0) {
+    return {
+      total: 0,
+      tried: 0,
+      building: 0,
+      proficient: 0,
+      score: 0,
+      evidence: { formMeaning: 0, sound: 0, use: 0 },
+    };
+  }
+
+  const values = wordIds.map((id) => hanziProficiency(id, progress));
+  const count = (test: (value: HanziProficiency) => boolean) =>
+    values.filter(test).length;
+  const pct = (test: (value: HanziProficiency) => boolean) =>
+    Math.round((count(test) / wordIds.length) * 100);
+
+  return {
+    total: wordIds.length,
+    tried: count((value) => value.status !== "untested"),
+    building: count(
+      (value) => value.status === "building" || value.status === "proficient",
+    ),
+    proficient: count((value) => value.status === "proficient"),
+    score: Math.round(
+      values.reduce((total, value) => total + value.score, 0) / values.length,
+    ),
+    evidence: {
+      formMeaning: pct((value) => value.evidence.formMeaning),
+      sound: pct((value) => value.evidence.sound),
+      use: pct((value) => value.evidence.use),
+    },
+  };
 }
 
 const LEARNED_OR_BETTER: WordStatus[] = ["learned", "mastered"];

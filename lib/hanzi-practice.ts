@@ -359,6 +359,74 @@ function matchExercise(words: HskWord[], id: string): MatchExercise {
   };
 }
 
+function meaningMatchExercise(words: HskWord[], id: string): MatchExercise {
+  return {
+    id,
+    kind: "match",
+    matchType: "meaning",
+    wordIds: words.map((word) => word.id),
+    pairs: words.map((word) => ({
+      hanzi: word.hanzi,
+      match: shortMeaning(word),
+    })),
+    explain: "Connect each written form to the meaning it carries here.",
+  };
+}
+
+export function makeHanziLessonMatchPractice(
+  wordIds: string[],
+  seed: number,
+): Exercise[] {
+  const words = sampleWords(wordIds, seed, 5);
+  if (words.length < 3) return makeHanziSetTest(wordIds, seed);
+  return [
+    meaningMatchExercise(words, `hanzi-lesson-match-${seed}-meaning`),
+    matchExercise(words, `hanzi-lesson-match-${seed}-sound`),
+    ...words.slice(0, 3).map((word, index) =>
+      index % 2 === 0
+        ? meaningExercise(word, `hanzi-lesson-match-${seed}-${index}-meaning`)
+        : formExercise(word, `hanzi-lesson-match-${seed}-${index}-form`),
+    ),
+  ];
+}
+
+export function makeHanziLessonUsePractice(
+  stageId: string,
+  seed: number,
+  count = 6,
+): Exercise[] {
+  const stage = STAGES.find((candidate) => candidate.id === stageId);
+  if (!stage) return [];
+  const authored = [
+    ...stage.blocks.flatMap((block) => block.exercises),
+    ...stage.checkpoint,
+  ].filter((exercise) => ["cloze", "order", "reply"].includes(exercise.kind));
+  const unique = authored.filter(
+    (exercise, index) => authored.findIndex((item) => item.id === exercise.id) === index,
+  );
+  const start = unique.length > 0 ? (seed * 5) % unique.length : 0;
+  const selected = Array.from(
+    { length: Math.min(count, unique.length) },
+    (_, index) => unique[(start + index) % unique.length],
+  );
+
+  if (selected.length < Math.min(4, count)) {
+    for (const wordId of stage.wordIds) {
+      if (selected.length >= count) break;
+      const exercise = contextualExercise(
+        wordId,
+        `hanzi-lesson-${stage.id}-${seed}-fallback-${selected.length}`,
+      );
+      if (exercise) selected.push(exercise);
+    }
+  }
+
+  return selected.map((exercise, index) => ({
+    ...exercise,
+    id: `hanzi-lesson-${stage.id}-${seed}-use-${index}`,
+  }));
+}
+
 export function makeHanziWordTest(wordId: string, seed: number): Exercise[] {
   const word = findWord(wordId);
   if (!word) return [];

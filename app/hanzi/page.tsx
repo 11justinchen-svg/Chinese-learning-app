@@ -1,37 +1,38 @@
 import type { Metadata } from "next";
 import { HanziExplorer } from "@/components/hanzi-explorer";
+import { HanziScrollProgress } from "@/components/hanzi/scroll-progress";
 
 export const metadata: Metadata = {
   title: "Hanzi | 默知 MoZhi",
   description:
-    "Build and test HSK 1 and HSK 2 Hanzi sets with pinyin, audio, real-life topics, and visible proficiency evidence.",
+    "Learn HSK 1 and HSK 2 Hanzi in open lesson chunks with flashcards, audio, matching, sentence building, replies, and visible proficiency evidence.",
 };
 
 export default async function HanziPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ word?: string; set?: string }>;
+  searchParams?: Promise<{ word?: string; set?: string; lesson?: string }>;
 }) {
   const query = (await searchParams) ?? {};
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <div className="mb-8 max-w-3xl border-b border-foreground pb-7">
-        <p className="font-[family-name:var(--font-hand)] text-xl text-primary">
-          character field notes
-        </p>
-        <h1 className="mt-1 text-4xl font-bold sm:text-5xl">
-          See it. Say it. Test it.
-        </h1>
-        <p className="mt-3 text-muted-foreground">
-          Pick one Hanzi, build your own set, or start with shopping, small
-          talk, food, travel, or hotel language. Progress shows separate
-          evidence for form and meaning, sound, and real use.
-        </p>
-      </div>
-      <HanziExplorer
-        initialWordId={query.word}
-        initialSetId={query.set}
-      />
+    <main className="mx-auto max-w-7xl px-4 pb-24 pt-8 sm:px-6 sm:pt-11">
+      <HanziScrollProgress />
+      <header className="eave-panel mb-10 overflow-hidden p-6 sm:p-8">
+        <span aria-hidden="true" className="absolute -right-8 -top-12 font-[family-name:var(--font-hanzi-display)] text-[13rem] leading-none opacity-[0.055]">字</span>
+        <div className="relative flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+          <div>
+            <div className="flex items-center gap-3">
+              <span className="seal h-10 w-10 text-xl">习</span>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">默知 · Hanzi courtyards</p>
+            </div>
+            <h1 className="mt-5 max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">Hanzi, built for use.</h1>
+          </div>
+          <p className="max-w-md text-sm leading-6 text-muted-foreground">
+            Preview the form. Hear it. Retrieve it. Build a sentence. Give a useful reply. Every lesson is open; progress follows evidence.
+          </p>
+        </div>
+      </header>
+      <HanziExplorer initialWordId={query.word} initialSetId={query.set} initialLessonId={query.lesson} />
     </main>
   );
 }

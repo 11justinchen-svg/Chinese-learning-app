@@ -6,7 +6,10 @@ import {
   BookOpenText,
   Check,
   CheckSquare2,
+  Landmark,
+  LayoutGrid,
   MessageCircle,
+  Route,
   Search,
   Square,
   Volume2,
@@ -23,13 +26,21 @@ import {
 import {
   HANZI_TOPIC_SETS,
   findHanziTopic,
+  makeHanziLessonMatchPractice,
+  makeHanziLessonUsePractice,
   makeHanziSetTest,
   makeHanziWordTest,
   wordsForTopic,
   type HanziTopicId,
 } from "@/lib/hanzi-practice";
 import { stageForWord } from "@/lib/data/stages";
+import type { Exercise } from "@/lib/data/stages/types";
+import type { HanziLessonChunk } from "@/lib/hanzi-lessons";
 import { ExercisePlayer, type PlayerResults } from "@/components/exercises/exercise-player";
+import {
+  HanziLessonPath,
+  type HanziLessonPractice,
+} from "@/components/hanzi/lesson-path";
 import {
   hanziProficiency,
   loadProgress,
@@ -44,6 +55,8 @@ import { speechFallbackMessage, useMandarinSpeech } from "@/lib/use-mandarin-spe
 import { cn } from "@/lib/utils";
 
 type CollectionId = "hsk1" | "hsk2" | HanziTopicId;
+type HanziView = "lessons" | "overview" | "sets";
+type PracticeKind = "standard" | "match" | "use";
 
 const hanziFont = "font-[family-name:var(--font-hanzi-display)]";
 const readingHanziFont = "font-[family-name:var(--font-hanzi)]";
@@ -221,9 +234,11 @@ function Breakdown({
 export function HanziExplorer({
   initialWordId,
   initialSetId,
+  initialLessonId,
 }: {
   initialWordId?: string;
   initialSetId?: string;
+  initialLessonId?: string;
 }) {
   const initialCollection: CollectionId =
     initialSetId && (initialSetId === "hsk1" || initialSetId === "hsk2" || findHanziTopic(initialSetId))
@@ -232,6 +247,13 @@ export function HanziExplorer({
         ? "hsk2"
         : "hsk1";
   const [collectionId, setCollectionId] = useState<CollectionId>(initialCollection);
+  const [view, setView] = useState<HanziView>(
+    initialWordId
+      ? "overview"
+      : initialSetId && findHanziTopic(initialSetId)
+        ? "sets"
+        : "lessons",
+  );
   const words = useMemo(() => collectionWords(collectionId), [collectionId]);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(
@@ -240,6 +262,9 @@ export function HanziExplorer({
   const [customIds, setCustomIds] = useState<string[]>([]);
   const [testSeed, setTestSeed] = useState(0);
   const [testWordIds, setTestWordIds] = useState<string[]>([]);
+  const [testStageId, setTestStageId] = useState<string | null>(null);
+  const [practiceKind, setPracticeKind] = useState<PracticeKind>("standard");
+  const [playerMode, setPlayerMode] = useState<"practice" | "quiz">("quiz");
   const [testTitle, setTestTitle] = useState("");
   const [testOpen, setTestOpen] = useState(false);
   const [testResult, setTestResult] = useState<PlayerResults | null>(null);
@@ -250,11 +275,11 @@ export function HanziExplorer({
   const selected = findWord(selectedId) ?? words[0];
 
   useEffect(() => {
-    if (!selected) return;
+    if (!selected || view === "lessons") return;
     const next = recordTeachSeen(loadProgress(), [selected.id]);
     saveProgress(next);
     setProgress(next);
-  }, [selected]);
+  }, [selected, view]);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -269,11 +294,16 @@ export function HanziExplorer({
   }, [query, words]);
 
   const test = useMemo(
-    () =>
-      testWordIds.length === 1
+    (): Exercise[] => {
+      if (practiceKind === "match")
+        return makeHanziLessonMatchPractice(testWordIds, testSeed);
+      if (practiceKind === "use" && testStageId)
+        return makeHanziLessonUsePractice(testStageId, testSeed);
+      return testWordIds.length === 1
         ? makeHanziWordTest(testWordIds[0], testSeed)
-        : makeHanziSetTest(testWordIds, testSeed),
-    [testSeed, testWordIds],
+        : makeHanziSetTest(testWordIds, testSeed);
+    },
+    [practiceKind, testSeed, testStageId, testWordIds],
   );
   const topic = findHanziTopic(collectionId);
 
@@ -286,13 +316,60 @@ export function HanziExplorer({
     setTestResult(null);
   }
 
-  function startTest(ids: string[], title: string) {
+  function revealPractice() {
+    window.requestAnimationFrame(() => {
+      document.getElementById("hanzi-practice-panel")?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+        block: "start",
+      });
+    });
+  }
+
+  function startTest(
+    ids: string[],
+    title: string,
+    mode: "practice" | "quiz" = "quiz",
+  ) {
     if (ids.length === 0) return;
     setTestWordIds(ids);
+    setTestStageId(null);
+    setPracticeKind("standard");
+    setPlayerMode(mode);
     setTestTitle(title);
     setTestSeed((value) => value + 1);
     setTestResult(null);
     setTestOpen(true);
+    revealPractice();
+  }
+
+  function startLessonPractice(
+    kind: HanziLessonPractice,
+    lesson: HanziLessonChunk,
+  ) {
+    setTestWordIds(
+      kind === "review" ? lesson.cumulativeWordIds : lesson.wordIds,
+    );
+    setTestStageId(lesson.id);
+    setPracticeKind(kind === "review" ? "standard" : kind);
+    setPlayerMode("practice");
+    setTestTitle(
+      kind === "match"
+        ? `Lesson ${lesson.index}: match form, meaning, and sound`
+        : kind === "use"
+          ? `Lesson ${lesson.index}: build and respond`
+          : `Lesson ${lesson.index}: cumulative review`,
+    );
+    setTestSeed((value) => value + 1);
+    setTestResult(null);
+    setTestOpen(true);
+    revealPractice();
+  }
+
+  function retakeTest() {
+    setTestSeed((value) => value + 1);
+    setTestResult(null);
   }
 
   function finishTest(result: PlayerResults) {
@@ -308,57 +385,46 @@ export function HanziExplorer({
     );
   }
 
+  function chooseView(next: HanziView) {
+    setView(next);
+    if (next === "sets" && !findHanziTopic(collectionId)) {
+      chooseCollection("shopping");
+    }
+    if (next === "overview" && findHanziTopic(collectionId)) {
+      chooseCollection(initialWordId?.startsWith("hsk2-") ? "hsk2" : "hsk1");
+    }
+  }
+
   return (
     <div className={cn(collectionId === "hsk2" ? "level-hsk2" : "level-hsk1")}>
-      <section className="border-b border-foreground pb-7" aria-labelledby="collections-heading">
-        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-          <div>
-            <p id="collections-heading" className="font-[family-name:var(--font-hand)] text-xl text-primary">choose a character field</p>
-            <div className="mt-2 inline-flex border border-foreground" role="group" aria-label="HSK level">
-              {(["hsk1", "hsk2"] as const).map((id, index) => (
-                <button key={id} type="button" aria-pressed={collectionId === id} onClick={() => chooseCollection(id)} className={cn("min-h-11 px-5 text-sm font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring", index > 0 && "border-l border-foreground", collectionId === id ? "bg-primary text-primary-foreground" : "bg-card hover:bg-secondary") }>
-                  {id === "hsk1" ? "HSK 1" : "HSK 2"}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={() => startTest(words.map((word) => word.id), `${collectionTitle(collectionId)} mixed test`)} className="stamp-button min-h-11">
-              <Zap className="h-4 w-4" /> General test
-            </button>
-            <button type="button" disabled={customIds.length === 0} onClick={() => startTest(customIds, `Your ${customIds.length}-Hanzi test`)} className="inline-flex min-h-11 items-center gap-2 border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-45">
-              <CheckSquare2 className="h-4 w-4" /> Test selected ({customIds.length})
-            </button>
-          </div>
-        </div>
-
-        <div className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-5" aria-label="Real-life Hanzi sets">
-          {HANZI_TOPIC_SETS.map((set, index) => (
-            <button key={set.id} type="button" aria-pressed={collectionId === set.id} onClick={() => chooseCollection(set.id)} className={cn("min-h-28 border border-foreground p-3 text-left transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring", collectionId === set.id ? "bg-[oklch(var(--poster-yellow))] shadow-[3px_3px_0_oklch(var(--foreground))]" : index % 2 === 0 ? "bg-[oklch(var(--poster-cyan)/0.25)]" : "bg-card") }>
-              <span className={cn("block text-2xl", hanziFont)}>{set.hanziTitle}</span>
-              <span className="mt-2 block text-sm font-bold">{set.title}</span>
-              <span className="mt-1 block text-[0.68rem] text-muted-foreground">{set.wordIds.length} useful forms</span>
+      <nav className="mb-9 border-y border-foreground bg-card" aria-label="Hanzi study areas">
+        <div className="grid sm:grid-cols-3" role="tablist">
+          {([
+            ["lessons", Route, "Lesson courtyards", "Build skills in focused chunks"],
+            ["overview", LayoutGrid, "General overview", "Browse and test every form"],
+            ["sets", Landmark, "Real-life sets", "Shop, travel, eat, and check in"],
+          ] as const).map(([id, Icon, label, note], index) => (
+            <button
+              key={id}
+              type="button"
+              role="tab"
+              aria-selected={view === id}
+              onClick={() => chooseView(id)}
+              className={cn(
+                "flex min-h-20 items-center gap-3 px-4 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring sm:px-5",
+                index > 0 && "border-t border-foreground sm:border-l sm:border-t-0",
+                view === id ? "bg-foreground text-background" : "hover:bg-secondary",
+              )}
+            >
+              <Icon className="h-5 w-5 shrink-0" />
+              <span><strong className="block text-sm">{label}</strong><small className={cn("mt-0.5 block text-[0.68rem]", view === id ? "opacity-70" : "text-muted-foreground")}>{note}</small></span>
             </button>
           ))}
         </div>
-
-        {topic && (
-          <div className="mt-5 grid gap-4 border border-foreground bg-[oklch(var(--poster-yellow)/0.16)] p-4 sm:grid-cols-[1fr_auto] sm:items-center">
-            <div>
-              <p className="text-sm font-bold">{topic.goal}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{topic.description}</p>
-            </div>
-            {topic.scenarioId && (
-              <Link href={`/conversation?scenario=${topic.scenarioId}`} className="inline-flex min-h-11 items-center justify-center gap-2 border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary">
-                <MessageCircle className="h-4 w-4" /> Speak this set
-              </Link>
-            )}
-          </div>
-        )}
-      </section>
+      </nav>
 
       {testOpen && (
-        <section className="poster-panel my-8 p-5 sm:p-7" aria-label={testTitle}>
+        <section id="hanzi-practice-panel" className="poster-panel my-8 scroll-mt-20 p-5 sm:p-7" aria-label={testTitle}>
           <div className="mb-5 flex items-center justify-between border-b border-border pb-4">
             <div>
               <p className="font-[family-name:var(--font-hand)] text-lg text-primary">form, sound, use</p>
@@ -372,50 +438,108 @@ export function HanziExplorer({
               <p className={cn("mt-3 text-5xl", hanziFont)}>{testResult.firstTryCorrect} / {testResult.total}</p>
               <p className="mt-2 max-w-xl text-sm text-muted-foreground">Your evidence map has been updated. A word becomes proficient only after form/meaning, sound, and contextual use are all demonstrated.</p>
               <div className="mt-5 flex flex-wrap gap-2">
-                <button type="button" onClick={() => startTest(testWordIds, testTitle)} className="stamp-button">Retake with a new mix</button>
+                <button type="button" onClick={retakeTest} className="stamp-button">Retake with a new mix</button>
                 <button type="button" onClick={() => setTestOpen(false)} className="inline-flex min-h-11 items-center border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary">Return to the set</button>
               </div>
             </div>
           ) : (
-            <ExercisePlayer title={testTitle} exercises={test} mode="quiz" onFinish={finishTest} />
+            <ExercisePlayer key={`${practiceKind}-${testStageId}-${testSeed}`} title={testTitle} exercises={test} mode={playerMode} onFinish={finishTest} />
           )}
         </section>
       )}
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,390px)_1fr]">
-        <div className="lg:sticky lg:top-20 lg:self-start">
-          <Breakdown word={selected} progress={progress} onTest={() => startTest([selected.id], `${selected.hanzi} focused test`)} />
-        </div>
-        <div>
-          <div className="relative mb-3">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`Search ${words.length} forms, pinyin, or meaning`} className="min-h-12 w-full border border-foreground bg-card py-2.5 pl-10 pr-4 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-ring" />
-          </div>
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{results.length} written forms</p>
-            <p className="text-xs text-muted-foreground">Use the square to build your own test</p>
-          </div>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4">
-            {results.map((word) => {
-              const proficiency = hanziProficiency(word.id, progress);
-              const selectedForTest = customIds.includes(word.id);
-              return (
-                <div key={word.id} className={cn("relative border bg-card transition-colors hover:border-primary", word.id === selected.id ? "border-primary bg-primary/10" : "border-border") }>
-                  <button type="button" onClick={() => setSelectedId(word.id)} className="min-h-32 w-full p-3 pr-10 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring">
-                    <div className={cn("text-4xl leading-none", hanziFont)}>{word.hanzi}</div>
-                    <div className={cn("mt-2 text-xs text-muted-foreground", displayFont)}>{word.pinyin}</div>
-                    <div className="truncate text-xs text-muted-foreground">{word.meaning}</div>
-                    <span className="mt-2 block text-[0.65rem] font-bold uppercase tracking-wide text-muted-foreground">{PROFICIENCY_META[proficiency.status].label} · {proficiency.score}%</span>
-                  </button>
-                  <button type="button" aria-pressed={selectedForTest} aria-label={`${selectedForTest ? "Remove" : "Add"} ${word.hanzi} ${selectedForTest ? "from" : "to"} custom test`} onClick={() => toggleCustom(word.id)} className={cn("absolute right-2 top-2 grid h-9 w-9 place-items-center border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring", selectedForTest ? "border-foreground bg-[oklch(var(--poster-yellow))]" : "border-border bg-background hover:border-primary") }>
-                    {selectedForTest ? <CheckSquare2 className="h-4 w-4" /> : <Square className="h-4 w-4" />}
-                  </button>
+      {view === "lessons" ? (
+        <HanziLessonPath
+          progress={progress}
+          initialLessonId={initialLessonId}
+          onPractice={startLessonPractice}
+        />
+      ) : (
+        <>
+          <section className="border-b border-foreground pb-7" aria-labelledby="collections-heading">
+            <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+              <div>
+                <p id="collections-heading" className="font-[family-name:var(--font-hand)] text-xl text-primary">
+                  {view === "overview" ? "the whole character field" : "language for a real place"}
+                </p>
+                <div className="mt-2 inline-flex border border-foreground" role="group" aria-label="HSK level">
+                  {(["hsk1", "hsk2"] as const).map((id, index) => (
+                    <button key={id} type="button" aria-pressed={collectionId === id} onClick={() => chooseCollection(id)} className={cn("min-h-11 px-5 text-sm font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring", index > 0 && "border-l border-foreground", collectionId === id ? "bg-primary text-primary-foreground" : "bg-card hover:bg-secondary") }>
+                      {id === "hsk1" ? "HSK 1" : "HSK 2"}
+                    </button>
+                  ))}
                 </div>
-              );
-            })}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button type="button" onClick={() => startTest(words.map((word) => word.id), `${collectionTitle(collectionId)} mixed test`)} className="stamp-button min-h-11">
+                  <Zap className="h-4 w-4" /> {view === "overview" ? "General test" : "Test this set"}
+                </button>
+                <button type="button" disabled={customIds.length === 0} onClick={() => startTest(customIds, `Your ${customIds.length}-Hanzi test`, "practice")} className="inline-flex min-h-11 items-center gap-2 border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-45">
+                  <CheckSquare2 className="h-4 w-4" /> Test selected ({customIds.length})
+                </button>
+              </div>
+            </div>
+
+            {view === "sets" && (
+              <div className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-5" aria-label="Real-life Hanzi sets">
+                {HANZI_TOPIC_SETS.map((set, index) => (
+                  <button key={set.id} type="button" aria-pressed={collectionId === set.id} onClick={() => chooseCollection(set.id)} className={cn("min-h-28 border border-foreground p-3 text-left transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring", collectionId === set.id ? "bg-[oklch(var(--poster-yellow))] shadow-[3px_3px_0_oklch(var(--foreground))]" : index % 2 === 0 ? "bg-[oklch(var(--poster-cyan)/0.25)]" : "bg-card") }>
+                    <span className={cn("block text-2xl", hanziFont)}>{set.hanziTitle}</span>
+                    <span className="mt-2 block text-sm font-bold">{set.title}</span>
+                    <span className="mt-1 block text-[0.68rem] text-muted-foreground">{set.wordIds.length} useful forms</span>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {view === "sets" && topic && (
+              <div className="mt-5 grid gap-4 border border-foreground bg-[oklch(var(--poster-yellow)/0.16)] p-4 sm:grid-cols-[1fr_auto] sm:items-center">
+                <div><p className="text-sm font-bold">{topic.goal}</p><p className="mt-1 text-xs text-muted-foreground">{topic.description}</p></div>
+                {topic.scenarioId && (
+                  <Link href={`/conversation?scenario=${topic.scenarioId}`} className="inline-flex min-h-11 items-center justify-center gap-2 border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary">
+                    <MessageCircle className="h-4 w-4" /> Speak this set
+                  </Link>
+                )}
+              </div>
+            )}
+          </section>
+
+          <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,390px)_1fr]">
+            <div className="lg:sticky lg:top-20 lg:self-start">
+              <Breakdown word={selected} progress={progress} onTest={() => startTest([selected.id], `${selected.hanzi} focused test`, "practice")} />
+            </div>
+            <div>
+              <div className="relative mb-3">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <input value={query} onChange={(event) => setQuery(event.target.value)} aria-label="Search Hanzi, pinyin, or meaning" placeholder={`Search ${words.length} forms, pinyin, or meaning`} className="min-h-12 w-full border border-foreground bg-card py-2.5 pl-10 pr-4 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-ring" />
+              </div>
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{results.length} written forms</p>
+                <p className="text-xs text-muted-foreground">Use the square to build your own test</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4">
+                {results.map((word) => {
+                  const proficiency = hanziProficiency(word.id, progress);
+                  const selectedForTest = customIds.includes(word.id);
+                  return (
+                    <div key={word.id} className={cn("word-tile relative border bg-card transition-colors hover:border-primary", word.id === selected.id ? "border-primary bg-primary/10" : "border-border") }>
+                      <button type="button" onClick={() => setSelectedId(word.id)} className="min-h-32 w-full p-3 pr-10 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring">
+                        <div className={cn("text-4xl leading-none", hanziFont)}>{word.hanzi}</div>
+                        <div className={cn("mt-2 text-xs text-muted-foreground", displayFont)}>{word.pinyin}</div>
+                        <div className="truncate text-xs text-muted-foreground">{word.meaning}</div>
+                        <span className="mt-2 block text-[0.65rem] font-bold uppercase tracking-wide text-muted-foreground">{PROFICIENCY_META[proficiency.status].label} · {proficiency.score}%</span>
+                      </button>
+                      <button type="button" aria-pressed={selectedForTest} aria-label={`${selectedForTest ? "Remove" : "Add"} ${word.hanzi} ${selectedForTest ? "from" : "to"} custom test`} onClick={() => toggleCustom(word.id)} className={cn("absolute right-2 top-2 grid h-9 w-9 place-items-center border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring", selectedForTest ? "border-foreground bg-[oklch(var(--poster-yellow))]" : "border-border bg-background hover:border-primary") }>
+                        {selectedForTest ? <CheckSquare2 className="h-4 w-4" /> : <Square className="h-4 w-4" />}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }

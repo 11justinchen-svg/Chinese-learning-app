@@ -26,6 +26,7 @@ import {
   type RoleCallLine,
   type RoleCallPersonaId,
 } from "@/lib/role-calls";
+import { LiveTranslateAssist } from "@/components/conversation/live-translate-assist";
 import { canSpeakChinese, onVoicesReady, speak } from "@/lib/speech";
 import {
   loadProgress,
@@ -36,7 +37,7 @@ import { cn } from "@/lib/utils";
 
 type SupportLevel = "guided" | "standard" | "challenge";
 type CallState = "idle" | "connecting" | "active" | "thinking" | "complete";
-type AiProvider = "anthropic" | "ollama";
+type AiProvider = "anthropic" | "gemini" | "ollama";
 
 const ROLE_SPANS = [
   "lg:col-span-5",
@@ -69,6 +70,7 @@ interface AiRoleResponse {
   turn: RoleCallLine | null;
   feedback: AiCoachFeedback | null;
   provider: AiProvider | null;
+  openEnded: boolean;
 }
 
 interface SpeechRecognitionResultLike {
@@ -132,19 +134,36 @@ function speechErrorMessage(error: string): string {
 
 async function readAiResponse(
   scenarioId: RoleCallPersonaId,
-  stepId: string,
+  stepId: string | undefined,
   learnerText: string,
   supportLevel: SupportLevel,
   signal: AbortSignal,
+  options: {
+    continueOpen?: boolean;
+    history?: readonly TranscriptTurn[];
+    mode?: "authored" | "open";
+  } = {},
 ): Promise<AiRoleResponse> {
   const response = await fetch("/api/conversation", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ scenarioId, stepId, learnerText, supportLevel }),
+    body: JSON.stringify({
+      scenarioId,
+      stepId,
+      learnerText,
+      supportLevel,
+      continueOpen: options.continueOpen,
+      history: options.history?.slice(-10).map(({ speaker, hanzi, english }) => ({
+        speaker,
+        hanzi,
+        english,
+      })),
+      mode: options.mode,
+    }),
     signal,
   });
   if (!response.ok || !response.body)
-    return { turn: null, feedback: null, provider: null };
+    return { turn: null, feedback: null, provider: null, openEnded: false };
 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
@@ -152,6 +171,7 @@ async function readAiResponse(
   let line: RoleCallLine | null = null;
   let feedback: AiCoachFeedback | null = null;
   let provider: AiProvider | null = null;
+  let openEnded = false;
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
@@ -166,11 +186,19 @@ async function readAiResponse(
           turn?: RoleCallLine;
           feedback?: AiCoachFeedback;
           provider?: string;
+          openEnded?: boolean;
         };
-        if (event.type === "turn" && event.turn) line = event.turn;
+        if (event.type === "turn" && event.turn) {
+          line = event.turn;
+          openEnded = event.openEnded === true;
+        }
         if (event.type === "feedback" && event.feedback) {
           feedback = event.feedback;
-          if (event.provider === "anthropic" || event.provider === "ollama")
+          if (
+            event.provider === "anthropic" ||
+            event.provider === "gemini" ||
+            event.provider === "ollama"
+          )
             provider = event.provider;
         }
       } catch {
@@ -178,7 +206,7 @@ async function readAiResponse(
       }
     }
   }
-  return { turn: line, feedback, provider };
+  return { turn: line, feedback, provider, openEnded };
 }
 
 function formatAiFeedback(feedback: AiCoachFeedback): string {
@@ -217,6 +245,9 @@ export function RoleCallStudio({
   const [ttsSupported, setTtsSupported] = useState(false);
   const [aiAvailable, setAiAvailable] = useState(false);
   const [aiProvider, setAiProvider] = useState<AiProvider | null>(null);
+  const [openEndedAvailable, setOpenEndedAvailable] = useState(false);
+  const [liveTranslateAvailable, setLiveTranslateAvailable] = useState(false);
+  const [openEnded, setOpenEnded] = useState(false);
   const [aiFallback, setAiFallback] = useState(false);
   const [attemptedSteps, setAttemptedSteps] = useState<Set<string>>(new Set());
   const [firstAttemptCorrect, setFirstAttemptCorrect] = useState(0);
@@ -238,15 +269,21 @@ export function RoleCallStudio({
       .then(
         (data: {
           aiAvailable?: boolean;
+          liveTranslateAvailable?: boolean;
+          openEndedAvailable?: boolean;
           preferredProvider?: AiProvider | null;
         } | null) => {
           setAiAvailable(Boolean(data?.aiAvailable));
           setAiProvider(data?.preferredProvider ?? null);
+          setOpenEndedAvailable(Boolean(data?.openEndedAvailable));
+          setLiveTranslateAvailable(Boolean(data?.liveTranslateAvailable));
         },
       )
       .catch(() => {
         setAiAvailable(false);
         setAiProvider(null);
+        setOpenEndedAvailable(false);
+        setLiveTranslateAvailable(false);
       });
     return () => {
       callGenerationRef.current += 1;
@@ -281,6 +318,7 @@ export function RoleCallStudio({
     setMicError(null);
     setIsListening(false);
     setAiFallback(false);
+    setOpenEnded(false);
     setAttemptedSteps(new Set());
     setFirstAttemptCorrect(0);
   }
@@ -338,7 +376,12 @@ export function RoleCallStudio({
   async function submitReply(event: FormEvent) {
     event.preventDefault();
     const text = learnerText.trim();
-    if (!text || !currentStep || callState !== "active") return;
+    if (!text || callState !== "active") return;
+    if (openEnded) {
+      await submitOpenReply(text);
+      return;
+    }
+    if (!currentStep) return;
     setFeedback(null);
 
     const wasAttempted = attemptedSteps.has(currentStep.id);
@@ -381,6 +424,7 @@ export function RoleCallStudio({
           text,
           supportLevel,
           controller.signal,
+          { history: transcript },
         )
           .then((response) => {
             if (generation !== callGenerationRef.current) return;
@@ -421,6 +465,7 @@ export function RoleCallStudio({
     const generation = callGenerationRef.current;
 
     let responseLine = currentStep.response;
+    let generatedOpenEnded = false;
     if (aiAvailable) {
       try {
         const controller = new AbortController();
@@ -432,6 +477,11 @@ export function RoleCallStudio({
           text,
           supportLevel,
           controller.signal,
+          {
+            continueOpen:
+              openEndedAvailable && stepIndex === scenario.steps.length - 1,
+            history: transcript,
+          },
         );
         if (generation !== callGenerationRef.current) return;
         aiAbortRef.current = null;
@@ -442,6 +492,7 @@ export function RoleCallStudio({
         }
         if (generated.turn) {
           responseLine = generated.turn;
+          generatedOpenEnded = generated.openEnded;
         } else {
           setAiFallback(true);
           setAiAvailable(false);
@@ -468,17 +519,76 @@ export function RoleCallStudio({
       const nextStep = stepIndex + 1;
       if (nextStep >= scenario.steps.length) {
         setStepIndex(nextStep);
-        setCallState("complete");
         onComplete?.({
           scenarioId: scenario.id,
           firstAttemptCorrect: firstAttemptCorrect + (wasAttempted ? 0 : 1),
           totalSteps: scenario.steps.length,
         });
+        if (generatedOpenEnded) {
+          setOpenEnded(true);
+          setCallState("active");
+        } else {
+          setCallState("complete");
+        }
       } else {
         setStepIndex(nextStep);
         setCallState("active");
       }
     }, 350);
+  }
+
+  async function submitOpenReply(text: string) {
+    const learnerTurn: TranscriptTurn = {
+      id: `open-learner-${Date.now()}`,
+      speaker: "learner",
+      hanzi: text,
+      pinyin: "",
+      english: "Your reply",
+    };
+    const nextHistory = [...transcript, learnerTurn];
+    setTranscript(nextHistory);
+    setLearnerText("");
+    setFeedback(null);
+    setCallState("thinking");
+    const generation = callGenerationRef.current;
+    try {
+      const controller = new AbortController();
+      aiAbortRef.current?.abort();
+      aiAbortRef.current = controller;
+      const generated = await readAiResponse(
+        scenario.id,
+        undefined,
+        text,
+        supportLevel,
+        controller.signal,
+        { history: nextHistory, mode: "open" },
+      );
+      if (generation !== callGenerationRef.current) return;
+      aiAbortRef.current = null;
+      if (!generated.turn) throw new Error("Open conversation returned no role line");
+      const roleLine = generated.turn;
+      if (generated.feedback) {
+        setFeedback(formatAiFeedback(generated.feedback));
+        setFeedbackSource("ai");
+        setFeedbackProvider(generated.provider);
+      }
+      setTranscript((previous) => [
+        ...previous,
+        {
+          ...roleLine,
+          id: `open-persona-${Date.now()}`,
+          speaker: "persona",
+        },
+      ]);
+      speak(roleLine.hanzi, { rate: 0.78 });
+      setCallState("active");
+    } catch {
+      if (generation !== callGenerationRef.current) return;
+      aiAbortRef.current = null;
+      setFeedback("The open roleplay paused. Your reply is still here—send it again in a moment or end the call.");
+      setFeedbackSource("authored");
+      setCallState("active");
+    }
   }
 
   const showPinyin = supportLevel !== "challenge";
@@ -497,8 +607,8 @@ export function RoleCallStudio({
             Use your Mandarin with someone who stays in character.
           </h1>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Speak, type Hanzi, or type pinyin. Natural variants are welcome. If
-            your meaning works, the call continues and gives one useful note.
+            Speak, type Hanzi, or type pinyin. Natural variants are welcome. Finish
+            the authored mission, then keep talking as long as you want when Gemini is configured.
           </p>
         </div>
 
@@ -542,7 +652,7 @@ export function RoleCallStudio({
                   </div>
                   <p className="mt-4 font-semibold">{option.role}</p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{option.description}</p>
-                  <p className="mt-3 text-[0.68rem] font-bold uppercase tracking-wide text-muted-foreground">Open now · {option.steps.length} turns</p>
+                  <p className="mt-3 text-[0.68rem] font-bold uppercase tracking-wide text-muted-foreground">Open now · {option.steps.length} coached turns{openEndedAvailable ? " + free talk" : ""}</p>
                 </button>
               );
             })}
@@ -624,7 +734,7 @@ export function RoleCallStudio({
                 <h1 className="truncate font-semibold">{scenario.role} · {scenario.roleHanzi}</h1>
                 <div className="mt-0.5 flex items-center gap-1.5 text-xs text-muted-foreground">
                   <Signal className="h-3 w-3" />
-                  {callState === "connecting" ? "Connecting…" : callState === "thinking" ? "Thinking…" : callState === "complete" ? "Call complete" : "On the call"}
+                  {callState === "connecting" ? "Connecting…" : callState === "thinking" ? "Thinking…" : callState === "complete" ? "Call complete" : openEnded ? "Open conversation" : "On the call"}
                 </div>
               </div>
             </div>
@@ -632,7 +742,7 @@ export function RoleCallStudio({
               <PhoneOff className="h-4 w-4" /><span className="hidden sm:inline">End</span>
             </button>
           </div>
-          <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-background/60" aria-label={`${Math.round(progress * 100)}% complete`}>
+          <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-background/60" aria-label={openEnded ? "Authored mission complete; open conversation active" : `${Math.round(progress * 100)}% complete`}>
             <div className="h-full rounded-full bg-primary transition-[width] duration-500" style={{ width: `${progress * 100}%` }} />
           </div>
         </header>
@@ -685,6 +795,8 @@ export function RoleCallStudio({
                       {feedbackSource === "ai"
                         ? feedbackProvider === "ollama"
                           ? "Local AI wording feedback"
+                          : feedbackProvider === "gemini"
+                            ? "Gemini wording feedback"
                           : "AI wording feedback"
                         : "Authored feedback"}
                     </p>
@@ -702,6 +814,11 @@ export function RoleCallStudio({
                   <button type="submit" disabled={!learnerText.trim() || callState !== "active"} aria-label="Send reply" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"><Send className="h-4 w-4" /></button>
                 </div>
                 <p className="mt-2 flex items-center gap-1.5 text-[0.7rem] text-muted-foreground">{recognitionSupported ? <Mic className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}{recognitionSupported ? "Speak, or type Hanzi or pinyin. Review recognized text before sending." : "Type Hanzi or pinyin; voice recognition is unavailable here."}</p>
+                <LiveTranslateAssist
+                  available={liveTranslateAvailable}
+                  disabled={callState !== "active" || isListening}
+                  onMandarinTranscript={setLearnerText}
+                />
               </form>
             )}
           </section>
@@ -709,6 +826,13 @@ export function RoleCallStudio({
           <aside className="border-t border-border bg-secondary/20 p-5 lg:border-t-0">
             <p className="text-[0.68rem] font-semibold uppercase tracking-wider text-muted-foreground">Your mission</p>
             <p className="mt-2 text-sm font-medium">{scenario.goal}</p>
+            {openEnded && callState !== "complete" && (
+              <div className="mt-6 border border-foreground bg-[oklch(var(--poster-yellow)/0.35)] p-4">
+                <p className="text-xs font-bold uppercase tracking-wide text-primary">Open conversation</p>
+                <p className="mt-2 text-sm">The coached mission is complete. Stay in this setting and respond naturally; end the call whenever you are done.</p>
+                <p className="mt-3 text-xs text-muted-foreground">Only the latest 10 turns are sent for context. Open talk does not inflate mastery progress.</p>
+              </div>
+            )}
             {currentStep && callState !== "complete" && (
               <div className="mt-6 rounded-2xl border border-border bg-card p-4">
                 <p className="text-xs font-semibold text-primary">Step {stepIndex + 1} of {scenario.steps.length}</p>
@@ -743,6 +867,10 @@ export function RoleCallStudio({
                 {aiAvailable && !aiFallback
                   ? aiProvider === "ollama"
                     ? "Private local AI ready"
+                    : aiProvider === "gemini"
+                      ? openEndedAvailable
+                        ? "Gemini free talk ready"
+                        : "Gemini feedback ready"
                     : "Cloud AI feedback ready"
                   : "Authored feedback active"}
               </p>

@@ -1,6 +1,6 @@
 import { normalizeMandarinAnswer } from "@/lib/role-calls";
 
-export type ConversationAiProvider = "anthropic" | "ollama";
+export type ConversationAiProvider = "anthropic" | "gemini" | "ollama";
 
 export interface CoachLine {
   hanzi: string;
@@ -19,8 +19,13 @@ export interface SafeCoachPayload {
   turn: CoachLine | null;
 }
 
+export interface SafeOpenCoachPayload extends SafeCoachPayload {
+  accepted: boolean;
+}
+
 interface ProviderOrderOptions {
   hasAnthropicKey: boolean;
+  hasGeminiKey: boolean;
   ollamaAvailable: boolean;
   preferred?: string;
 }
@@ -40,6 +45,18 @@ function safeGeneratedTurn(value: unknown, canonical: CoachLine): CoachLine | nu
   if (hanzi.length > 48 || pinyin.length > 140 || english.length > 160) return null;
   const cue = requiredQuestionCue(canonical.hanzi);
   if (cue && !normalizeMandarinAnswer(hanzi).includes(cue)) return null;
+  return { hanzi, pinyin, english };
+}
+
+function safeOpenTurn(value: unknown): CoachLine | null {
+  if (!value || typeof value !== "object") return null;
+  const candidate = value as Record<string, unknown>;
+  const hanzi = typeof candidate.hanzi === "string" ? candidate.hanzi.trim() : "";
+  const pinyin = typeof candidate.pinyin === "string" ? candidate.pinyin.trim() : "";
+  const english = typeof candidate.english === "string" ? candidate.english.trim() : "";
+  if (!hanzi || !pinyin || !english) return null;
+  if (hanzi.length > 64 || pinyin.length > 180 || english.length > 180) return null;
+  if (!/[\u3400-\u9fff]/u.test(hanzi)) return null;
   return { hanzi, pinyin, english };
 }
 
@@ -91,18 +108,70 @@ export function parseCoachPayload(
   return { feedback, turn };
 }
 
+export function parseOpenCoachPayload(raw: string): SafeOpenCoachPayload {
+  const parsed = JSON.parse(raw.replace(/^```json\s*|\s*```$/g, "")) as {
+    accepted?: unknown;
+    feedback?: unknown;
+    turn?: unknown;
+  };
+  if (typeof parsed.accepted !== "boolean")
+    throw new Error("Open coaching result is missing acceptance evidence");
+  const turn = safeOpenTurn(parsed.turn);
+  if (!turn) throw new Error("Unsafe or malformed open role line");
+
+  const feedbackValue = parsed.feedback as Record<string, unknown> | undefined;
+  let note = typeof feedbackValue?.note === "string" ? feedbackValue.note.trim() : "";
+  const betterHanzi =
+    typeof feedbackValue?.betterHanzi === "string"
+      ? feedbackValue.betterHanzi.trim()
+      : "";
+  const betterPinyin =
+    typeof feedbackValue?.betterPinyin === "string"
+      ? feedbackValue.betterPinyin.trim()
+      : "";
+  if (!note || !betterHanzi || !betterPinyin)
+    throw new Error("Unsafe or malformed open coaching feedback");
+  if (note.length > 220 || betterHanzi.length > 64 || betterPinyin.length > 180)
+    throw new Error("Open coaching feedback exceeded its safe size");
+  if (
+    /pronunc|\btone(?:s|d)?\b|accent|fluenc|sounds? (?:good|natural|correct)|发音|声调|口音|流利/i.test(
+      note,
+    )
+  )
+    note = parsed.accepted
+      ? "Your intended meaning is understandable in the recognized text."
+      : "The recognized text is not fully clear yet; compare it with the model and try the next turn.";
+
+  return {
+    accepted: parsed.accepted,
+    feedback: { note, betterHanzi, betterPinyin },
+    turn,
+  };
+}
+
 export function conversationAiProviderOrder({
   hasAnthropicKey,
+  hasGeminiKey,
   ollamaAvailable,
   preferred,
 }: ProviderOrderOptions): ConversationAiProvider[] {
   const available: ConversationAiProvider[] = [];
   if (ollamaAvailable) available.push("ollama");
+  if (hasGeminiKey) available.push("gemini");
   if (hasAnthropicKey) available.push("anthropic");
 
   const normalized = preferred?.toLowerCase();
-  if (normalized !== "anthropic" && normalized !== "ollama") return available;
-  return available.sort((provider) => (provider === normalized ? -1 : 1));
+  if (
+    normalized !== "anthropic" &&
+    normalized !== "gemini" &&
+    normalized !== "ollama"
+  )
+    return available;
+  if (!available.includes(normalized)) return available;
+  return [
+    normalized,
+    ...available.filter((provider) => provider !== normalized),
+  ] as ConversationAiProvider[];
 }
 
 export async function runConversationAiProviders<T>(
