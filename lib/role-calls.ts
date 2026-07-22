@@ -14,7 +14,11 @@ export interface RoleCallLine {
 export interface RoleCallStep {
   id: string;
   goal: string;
+  /** Hanzi that receive contextual-use evidence from this learner turn. */
+  wordIds: string[];
   acceptedAnswers: string[];
+  /** Optional additional romanized replies. The tone-marked target is always accepted. */
+  acceptedPinyin?: string[];
   /** Every group needs at least one match. Useful for personal answers. */
   requiredGroups?: string[][];
   /** Every intent group needs one cue. Used for understandable paraphrases. */
@@ -31,6 +35,7 @@ export interface RoleCallStep {
 export interface RoleCallEvaluation {
   accepted: boolean;
   exact: boolean;
+  inputMode?: "hanzi" | "pinyin";
   correction?: string;
   variation?: string;
 }
@@ -70,6 +75,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "waiter-order-tea",
         goal: "Say that you would like tea.",
+        wordIds: ["hsk1-121", "hsk1-037", "hsk1-010"],
         acceptedAnswers: ["我想喝茶", "想喝茶", "我要茶", "请给我茶"],
         intentGroups: [["茶"], ["想", "要", "给", "来", "喝"]],
         blockedCues: ["不", "不要", "别", "没"],
@@ -93,6 +99,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "waiter-order-rice",
         goal: "Order rice to eat.",
+        wordIds: ["hsk1-121", "hsk1-011", "hsk1-066"],
         acceptedAnswers: ["我想吃米饭", "想吃米饭", "我要米饭", "请给我米饭"],
         intentGroups: [["米饭"], ["想", "要", "给", "来", "吃"]],
         blockedCues: ["不", "不要", "别", "没"],
@@ -116,6 +123,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "waiter-thank",
         goal: "Thank the waiter.",
+        wordIds: ["hsk1-126"],
         acceptedAnswers: ["谢谢", "谢谢你", "好谢谢", "好的谢谢"],
         intentGroups: [["谢谢", "感谢"]],
         target: {
@@ -152,6 +160,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "shop-point-item",
         goal: "Say you would like to buy this one.",
+        wordIds: ["hsk1-121", "hsk1-062", "hsk1-142"],
         acceptedAnswers: ["我想买这个", "想买这个", "我要这个", "我买这个"],
         intentGroups: [["这个", "这件"], ["买", "要"]],
         blockedCues: ["不", "不要", "别", "没"],
@@ -163,6 +172,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "shop-ask-price",
         goal: "Ask how much this one costs.",
+        wordIds: ["hsk1-142", "hsk1-025", "hsk1-081"],
         acceptedAnswers: ["这个多少钱", "多少钱", "这个几块钱"],
         intentGroups: [["多少", "几块", "价格"]],
         target: { hanzi: "这个多少钱？", pinyin: "Zhège duōshao qián?", english: "How much is this?" },
@@ -173,6 +183,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "shop-buy",
         goal: "Say you will buy it.",
+        wordIds: ["hsk1-036", "hsk1-062", "hsk1-142"],
         acceptedAnswers: ["我买这个", "我要这个", "好我买", "好我要这个"],
         intentGroups: [["这个", "这件"], ["买", "要"]],
         blockedCues: ["不", "不要", "别", "没"],
@@ -198,6 +209,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "taxi-destination",
         goal: "Say you are going to the hotel.",
+        wordIds: ["hsk1-083"],
         acceptedAnswers: ["我去饭店", "去饭店", "请去饭店"],
         intentGroups: [["饭店", "酒店"], ["去", "到"]],
         blockedCues: ["不", "别", "不要"],
@@ -209,6 +221,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "taxi-beijing-hotel",
         goal: "Say it is the Beijing Hotel.",
+        wordIds: ["hsk1-005"],
         acceptedAnswers: ["北京饭店", "是北京饭店", "去北京饭店"],
         intentGroups: [["北京"], ["饭店", "酒店"]],
         target: { hanzi: "北京饭店。", pinyin: "Běijīng Fàndiàn.", english: "The Beijing Hotel." },
@@ -219,6 +232,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "taxi-confirm",
         goal: "Confirm and thank the driver.",
+        wordIds: ["hsk1-036", "hsk1-126"],
         acceptedAnswers: ["好谢谢", "好的谢谢", "谢谢", "谢谢你"],
         intentGroups: [["谢谢", "感谢"]],
         target: { hanzi: "好的，谢谢。", pinyin: "Hǎo de, xièxie.", english: "Okay, thank you." },
@@ -243,6 +257,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "hotel-name",
         goal: "Introduce yourself with 我叫 and your name.",
+        wordIds: ["hsk1-046", "hsk1-067"],
         acceptedAnswers: [],
         requiredGroups: [["我叫"]],
         minNormalizedLength: 3,
@@ -254,6 +269,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "hotel-days",
         goal: "Say you are staying for three days.",
+        wordIds: ["hsk1-145", "hsk1-088"],
         acceptedAnswers: ["我住三天", "住三天", "三天"],
         intentGroups: [["三天", "3天"]],
         blockedCues: ["不", "没"],
@@ -265,6 +281,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "hotel-thank",
         goal: "Thank the clerk.",
+        wordIds: ["hsk1-126"],
         acceptedAnswers: ["谢谢", "谢谢你", "好的谢谢"],
         intentGroups: [["谢谢", "感谢"]],
         target: { hanzi: "谢谢！", pinyin: "Xièxie!", english: "Thank you!" },
@@ -289,6 +306,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "teacher-ability",
         goal: "Say that you can speak a little Chinese.",
+        wordIds: ["hsk1-042", "hsk1-102", "hsk1-035"],
         acceptedAnswers: ["我会说一点汉语", "会说一点汉语", "我会说汉语", "会说汉语"],
         intentGroups: [["会"], ["汉语", "中文"]],
         blockedCues: ["不", "不会", "没"],
@@ -300,6 +318,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "teacher-writing",
         goal: "Say that you cannot write Chinese characters.",
+        wordIds: ["hsk1-007", "hsk1-042", "hsk1-125", "hsk1-147"],
         acceptedAnswers: ["我不会写汉字", "不会写汉字", "我不会", "不会"],
         intentGroups: [["不", "不会"], ["写"], ["汉字", "字"]],
         target: { hanzi: "我不会写汉字。", pinyin: "Wǒ bú huì xiě Hànzì.", english: "I can’t write Chinese characters." },
@@ -310,6 +329,7 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "teacher-ready",
         goal: "Say that you want to study.",
+        wordIds: ["hsk1-121", "hsk1-129"],
         acceptedAnswers: ["我想学习", "想学习", "我要学习", "我想学汉语"],
         intentGroups: [["想", "要"], ["学习", "学", "汉语", "中文"]],
         blockedCues: ["不", "不要", "别", "没"],
@@ -343,6 +363,17 @@ export function normalizeMandarinAnswer(value: string): string {
     .trim();
 }
 
+export function normalizePinyinAnswer(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[ǖǘǚǜü]/g, "v")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/u:/g, "v")
+    .replace(/[1-5\s,.!?;:'"，。！？；：、“”‘’]/g, "")
+    .trim();
+}
+
 export function evaluateRoleCallAnswer(
   step: RoleCallStep,
   learnerText: string,
@@ -366,6 +397,41 @@ export function assessRoleCallAnswer(
   )
     return { accepted: false, exact: false };
 
+  const usesHanzi = /[\u3400-\u9fff]/.test(learnerText);
+  if (!usesHanzi) {
+    const pinyinAnswer = normalizePinyinAnswer(learnerText);
+    const pinyinCandidates = [
+      step.target.pinyin,
+      step.target.pinyin.replace(/^Wǒ\s+/i, ""),
+      step.target.pinyin.replace(/^Hǎo(?:\s+de)?[,，]?\s+/i, ""),
+      ...(step.acceptedPinyin ?? []),
+    ]
+      .map(normalizePinyinAnswer)
+      .filter(Boolean);
+    const targetPinyin = normalizePinyinAnswer(step.target.pinyin);
+    const contradictoryPinyin = ["bu", "mei", "bie"].some(
+      (negative) =>
+        pinyinAnswer.includes(negative) && !targetPinyin.includes(negative),
+    );
+    if (contradictoryPinyin)
+      return { accepted: false, exact: false, inputMode: "pinyin" };
+    const pinyinMatch = pinyinCandidates.find(
+      (candidate) =>
+        candidate === pinyinAnswer ||
+        (candidate.length >= 4 && pinyinAnswer.includes(candidate)),
+    );
+    if (pinyinMatch) {
+      return {
+        accepted: true,
+        exact: true,
+        inputMode: "pinyin",
+        correction: `Pinyin understood. Written form: ${step.target.hanzi}`,
+        variation: step.acceptedAnswers[0] ?? step.target.hanzi,
+      };
+    }
+    return { accepted: false, exact: false, inputMode: "pinyin" };
+  }
+
   const exact = step.acceptedAnswers.find((candidate) => {
     const normalized = normalizeMandarinAnswer(candidate);
     return normalized === answer || (normalized.length >= 2 && answer.includes(normalized));
@@ -374,6 +440,7 @@ export function assessRoleCallAnswer(
     return {
       accepted: true,
       exact: true,
+      inputMode: "hanzi",
       variation: step.acceptedAnswers.find(
         (candidate) => normalizeMandarinAnswer(candidate) !== normalizeMandarinAnswer(exact),
       ),
@@ -387,6 +454,7 @@ export function assessRoleCallAnswer(
     return {
       accepted: true,
       exact: true,
+      inputMode: "hanzi",
       variation: step.acceptedAnswers[0] ?? step.target.hanzi,
     };
   }
@@ -398,6 +466,7 @@ export function assessRoleCallAnswer(
     return {
       accepted: true,
       exact: false,
+      inputMode: "hanzi",
       correction: `Understood. A smoother beginner version is ${step.target.hanzi}`,
       variation:
         step.acceptedAnswers.find(
@@ -406,5 +475,5 @@ export function assessRoleCallAnswer(
     };
   }
 
-  return { accepted: false, exact: false };
+  return { accepted: false, exact: false, inputMode: "hanzi" };
 }

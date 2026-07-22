@@ -4,6 +4,7 @@ import {
   evaluateRoleCallAnswer,
   ROLE_CALL_SCENARIOS,
 } from "../lib/role-calls.ts";
+import { findWord } from "../lib/hsk.ts";
 
 const scenarioIds = new Set();
 const stepIds = new Set();
@@ -28,6 +29,11 @@ for (const scenario of ROLE_CALL_SCENARIOS) {
     assert(step.target.hanzi && step.target.pinyin && step.target.english);
     assert(step.response.hanzi && step.response.pinyin && step.response.english);
     assert(step.correction, `${step.id} needs specific corrective feedback`);
+    assert(step.wordIds.length > 0, `${step.id} needs Hanzi use evidence`);
+    assert(
+      step.wordIds.every((id) => findWord(id)),
+      `${step.id} references an unknown Hanzi word ID`,
+    );
     assert(
       step.acceptedAnswers.length > 0 || step.requiredGroups?.length,
       `${step.id} has no answer contract`,
@@ -38,6 +44,10 @@ for (const scenario of ROLE_CALL_SCENARIOS) {
         `${step.id} rejected its authored answer with punctuation`,
       );
     }
+    assert(
+      evaluateRoleCallAnswer(step, step.target.pinyin),
+      `${step.id} rejected its tone-marked pinyin model`,
+    );
     assert(
       !evaluateRoleCallAnswer(step, "今天天气很好"),
       `${step.id} accepted an unrelated sentence`,
@@ -63,6 +73,26 @@ assert(
 assert(
   !evaluateRoleCallAnswer(teaStep, "我不想喝茶"),
   "A reply with the opposite intent must not pass",
+);
+assert(
+  evaluateRoleCallAnswer(teaStep, "wo xiang he cha"),
+  "An unmarked pinyin model reply should pass",
+);
+assert(
+  evaluateRoleCallAnswer(teaStep, "xiang he cha"),
+  "A natural subject-omitted pinyin reply should pass",
+);
+assert(
+  !evaluateRoleCallAnswer(teaStep, "wo bu xiang he cha"),
+  "Opposite pinyin intent must not pass",
+);
+const thanksStep = ROLE_CALL_SCENARIOS.find(
+  (scenario) => scenario.id === "waiter",
+)?.steps[2];
+assert(thanksStep);
+assert(
+  !evaluateRoleCallAnswer(thanksStep, "bu xiexie"),
+  "A contradictory pinyin thank-you must not pass",
 );
 
 console.log(

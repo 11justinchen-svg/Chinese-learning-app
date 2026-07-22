@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, CheckCircle2, Clock3, RotateCcw } from "lucide-react";
-import { STAGES, stageForWord } from "@/lib/data/stages";
-import { findWord, HSK } from "@/lib/hsk";
+import { STAGES } from "@/lib/data/stages";
+import { HSK } from "@/lib/hsk";
 import {
+  hanziProficiency,
   loadProgress,
-  wordStatus,
+  type HanziProficiencyStatus,
   type ProgressStore,
-  type WordStatus,
 } from "@/lib/progression";
 import { isDue, loadSrs, type SrsStore } from "@/lib/srs";
 import { cn } from "@/lib/utils";
@@ -20,33 +20,28 @@ const displayFont = "font-[family-name:var(--font-display)]";
 const EMPTY_PROGRESS: ProgressStore = { version: 1, words: {}, stages: {} };
 
 const STATUS_META: Record<
-  WordStatus,
+  HanziProficiencyStatus,
   { label: string; dot: string; chip: string }
 > = {
-  new: {
-    label: "New",
+  untested: {
+    label: "Not tested",
     dot: "bg-muted-foreground/30",
     chip: "border-border bg-card text-muted-foreground",
   },
-  seen: {
-    label: "Seen",
-    dot: "bg-sky-500",
-    chip: "border-sky-500/30 bg-sky-500/10",
-  },
-  learning: {
-    label: "Learning",
+  started: {
+    label: "Started",
     dot: "bg-amber-500",
     chip: "border-amber-500/30 bg-amber-500/10",
   },
-  learned: {
-    label: "Learned",
-    dot: "bg-emerald-500",
-    chip: "border-emerald-500/30 bg-emerald-500/10",
+  building: {
+    label: "Building",
+    dot: "bg-sky-500",
+    chip: "border-sky-500/30 bg-sky-500/10",
   },
-  mastered: {
-    label: "Mastered",
-    dot: "bg-primary",
-    chip: "border-primary/30 bg-primary/10",
+  proficient: {
+    label: "Proficient",
+    dot: "bg-emerald-600",
+    chip: "border-emerald-600/40 bg-emerald-600/12",
   },
 };
 
@@ -62,33 +57,24 @@ export function ProgressDashboard() {
   }, []);
 
   const summary = useMemo(() => {
-    const counts: Record<WordStatus, number> = {
-      new: 0,
-      seen: 0,
-      learning: 0,
-      learned: 0,
-      mastered: 0,
+    const counts: Record<HanziProficiencyStatus, number> = {
+      untested: 0,
+      started: 0,
+      building: 0,
+      proficient: 0,
     };
     let due = 0;
-    for (const stage of STAGES) {
-      for (const id of stage.wordIds) {
-        counts[wordStatus(id, progress, srs)] += 1;
-        if (srs[id] && isDue(srs[id])) due += 1;
-      }
+    for (const word of HSK) {
+      counts[hanziProficiency(word.id, progress).status] += 1;
+      if (srs[word.id] && isDue(srs[word.id])) due += 1;
     }
-    const tried = STAGES.flatMap((stage) => stage.wordIds).filter((id) => {
-      const word = progress.words[id];
-      return Boolean(word?.seenAt || word?.correct || word?.wrong);
-    }).length;
     const completedStages = STAGES.filter(
       (stage) => progress.stages[stage.id]?.completedAt,
     ).length;
-    return { counts, due, tried, completedStages };
+    return { counts, due, completedStages };
   }, [progress, srs]);
 
   if (!ready) return <main className="min-h-screen bg-background" />;
-
-  const percent = Math.round((summary.tried / HSK.length) * 100);
 
   return (
     <main className="min-h-screen bg-background pb-24 pt-12 text-foreground">
@@ -108,8 +94,8 @@ export function ProgressDashboard() {
                 What you have tried
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                This is a lightweight history, not a retention obligation. Open
-                any lesson, skip any section, or use cards only when they help.
+                See which Hanzi you have recognized, heard, and used. This is
+                evidence from practice, not a retention obligation or a lock.
               </p>
             </div>
             <Link
@@ -124,9 +110,9 @@ export function ProgressDashboard() {
         <section className="mt-8 grid gap-4 sm:grid-cols-3">
           <SummaryCard
             icon={<CheckCircle2 className="h-5 w-5" />}
-            label="Words tried"
-            value={`${summary.tried} / ${HSK.length}`}
-            note={`${percent}% opened or practiced`}
+            label="Hanzi proficient"
+            value={`${summary.counts.proficient} / ${HSK.length}`}
+            note="Form, sound, and use all demonstrated"
           />
           <SummaryCard
             icon={<ArrowRight className="h-5 w-5" />}
@@ -210,10 +196,10 @@ export function ProgressDashboard() {
 
         <section className="mt-12">
           <h2 className={cn("text-2xl font-bold", displayFont)}>
-            All {HSK.length} written forms
+            Hanzi evidence map
           </h2>
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
-            {(Object.keys(STATUS_META) as WordStatus[]).map((status) => (
+            {(Object.keys(STATUS_META) as HanziProficiencyStatus[]).map((status) => (
               <span key={status} className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
                 <span className={cn("h-2 w-2 rounded-full", STATUS_META[status].dot)} />
                 {STATUS_META[status].label} · {summary.counts[status]}
@@ -221,16 +207,14 @@ export function ProgressDashboard() {
             ))}
           </div>
           <div className="mt-5 grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-10">
-            {STAGES.flatMap((stage) => stage.wordIds).map((id) => {
-              const word = findWord(id);
-              if (!word) return null;
-              const status = wordStatus(id, progress, srs);
-              const owner = stageForWord(id);
+            {HSK.map((word) => {
+              const proficiency = hanziProficiency(word.id, progress);
+              const status = proficiency.status;
               return (
                 <Link
-                  key={id}
-                  href={owner ? `/lessons/${owner.id}` : "/hanzi"}
-                  title={`${word.pinyin} — ${word.meaning} — ${STATUS_META[status].label}`}
+                  key={word.id}
+                  href={`/hanzi?word=${word.id}`}
+                  title={`${word.pinyin}: ${word.meaning}. ${STATUS_META[status].label}, ${proficiency.score}% evidence`}
                   aria-label={`${word.hanzi}, ${word.pinyin}, ${word.meaning}: ${STATUS_META[status].label}`}
                   className={cn(
                     "rounded-xl border px-2 py-3 text-center transition-transform hover:-translate-y-0.5",
@@ -241,7 +225,8 @@ export function ProgressDashboard() {
                   <span className="mt-1 block truncate text-[0.65rem] text-muted-foreground">
                     {word.pinyin}
                   </span>
-                  <span className="sr-only">{STATUS_META[status].label}</span>
+                  <span className="mt-1 block text-[0.6rem] font-bold uppercase tracking-wide text-muted-foreground">{proficiency.score}%</span>
+                  <span className="sr-only">{STATUS_META[status].label}, {proficiency.score}%</span>
                 </Link>
               );
             })}

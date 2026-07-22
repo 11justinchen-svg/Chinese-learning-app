@@ -4,10 +4,14 @@ import { HanziExplorer } from "@/components/hanzi-explorer";
 export const metadata: Metadata = {
   title: "Hanzi | 默知 MoZhi",
   description:
-    "Browse and test the HSK 1 and HSK 2 written forms with pinyin, meanings, component notes, audio, and five-word checks.",
+    "Build and test HSK 1 and HSK 2 Hanzi sets with pinyin, audio, real-life topics, and visible proficiency evidence.",
 };
 
-export default function HanziPage() {
+export default function HanziPage({
+  searchParams,
+}: {
+  searchParams?: { word?: string; set?: string };
+}) {
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <div className="mb-8 max-w-3xl border-b border-foreground pb-7">
@@ -18,12 +22,15 @@ export default function HanziPage() {
           See it. Say it. Test it.
         </h1>
         <p className="mt-3 text-muted-foreground">
-          Explore all HSK 1 and HSK 2 written forms. Component labels describe
-          visible structure; memory hooks are marked as mnemonics, and every
-          level has an immediate five-word test.
+          Pick one Hanzi, build your own set, or start with shopping, small
+          talk, food, travel, or hotel language. Progress shows separate
+          evidence for form and meaning, sound, and real use.
         </p>
       </div>
-      <HanziExplorer />
+      <HanziExplorer
+        initialWordId={searchParams?.word}
+        initialSetId={searchParams?.set}
+      />
     </main>
   );
 }

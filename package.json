@@ -9,11 +9,12 @@
     "lint": "next lint",
     "build:hsk1": "node scripts/build-hsk1.mjs 1",
     "build:hsk2": "node scripts/build-hsk1.mjs 2",
-    "validate": "tsx scripts/validate-stages.mjs && tsx scripts/validate-hsk2.mjs && tsx scripts/validate-role-calls.mjs",
+    "validate": "tsx scripts/validate-stages.mjs && tsx scripts/validate-hsk2.mjs && tsx scripts/validate-role-calls.mjs && tsx scripts/test-hanzi-practice.ts",
     "validate:hsk2": "tsx scripts/validate-hsk2.mjs",
     "validate:roles": "tsx scripts/validate-role-calls.mjs",
     "test:speech": "tsx scripts/test-speech.ts",
-    "test:progression": "tsx scripts/test-progression.ts"
+    "test:progression": "tsx scripts/test-progression.ts",
+    "test:hanzi": "tsx scripts/test-hanzi-practice.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",

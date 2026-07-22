@@ -5,6 +5,23 @@ import { MASTERED_BOX, type SrsStore } from "@/lib/srs";
 import type { ExerciseKind, Stage } from "@/lib/data/stages/types";
 
 export type WordStatus = "new" | "seen" | "learning" | "learned" | "mastered";
+export type HanziProficiencyStatus =
+  | "untested"
+  | "started"
+  | "building"
+  | "proficient";
+
+export interface HanziProficiency {
+  status: HanziProficiencyStatus;
+  score: number;
+  accuracy: number | null;
+  attempts: number;
+  evidence: {
+    formMeaning: boolean;
+    sound: boolean;
+    use: boolean;
+  };
+}
 
 export interface WordProgress {
   seenAt?: number;
@@ -39,6 +56,7 @@ export const LEARNED_MIN_BOX = 2;
 export const PRODUCTIVE_WORD_GATE = 0.5;
 
 const PRODUCTIVE_KINDS: ExerciseKind[] = ["cloze", "order", "reply"];
+const FORM_MEANING_KINDS: ExerciseKind[] = ["choice", "match"];
 
 export function loadProgress(): ProgressStore {
   if (typeof window === "undefined") return emptyStore();
@@ -194,6 +212,37 @@ export function wordStatus(
   if (w.correct >= 1) return "learning";
   if (w.seenAt) return "seen";
   return "new";
+}
+
+/**
+ * Character proficiency is evidence-based and intentionally separate from
+ * optional SRS boxes. A learner needs form/meaning, sound, and contextual-use
+ * evidence before the UI says "proficient".
+ */
+export function hanziProficiency(
+  id: string,
+  progress: ProgressStore,
+): HanziProficiency {
+  const word = progress.words[id];
+  const evidence = {
+    formMeaning: FORM_MEANING_KINDS.some((kind) => (word?.kinds[kind] ?? 0) > 0),
+    sound: (word?.kinds.listen ?? 0) > 0,
+    use: PRODUCTIVE_KINDS.some((kind) => (word?.kinds[kind] ?? 0) > 0),
+  };
+  const evidenceCount = Object.values(evidence).filter(Boolean).length;
+  const attempts = (word?.correct ?? 0) + (word?.wrong ?? 0);
+  const accuracy = attempts > 0 ? (word?.correct ?? 0) / attempts : null;
+  const score = Math.round((evidenceCount / 3) * 100);
+  let status: HanziProficiencyStatus = "untested";
+  if (evidenceCount === 1 || word?.seenAt) status = "started";
+  if (evidenceCount >= 2) status = "building";
+  if (
+    evidenceCount === 3 &&
+    (word?.correct ?? 0) >= 3 &&
+    (accuracy ?? 0) >= 0.7
+  )
+    status = "proficient";
+  return { status, score, accuracy, attempts, evidence };
 }
 
 const LEARNED_OR_BETTER: WordStatus[] = ["learned", "mastered"];

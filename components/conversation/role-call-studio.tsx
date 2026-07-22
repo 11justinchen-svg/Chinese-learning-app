@@ -27,6 +27,11 @@ import {
   type RoleCallPersonaId,
 } from "@/lib/role-calls";
 import { canSpeakChinese, onVoicesReady, speak } from "@/lib/speech";
+import {
+  loadProgress,
+  recordAnswer,
+  saveProgress,
+} from "@/lib/progression";
 import { cn } from "@/lib/utils";
 
 type SupportLevel = "guided" | "standard" | "challenge";
@@ -51,6 +56,17 @@ const ROLE_FIELDS = [
 interface TranscriptTurn extends RoleCallLine {
   id: string;
   speaker: "persona" | "learner";
+}
+
+interface AiCoachFeedback {
+  note: string;
+  betterHanzi: string;
+  betterPinyin: string;
+}
+
+interface AiRoleResponse {
+  turn: RoleCallLine | null;
+  feedback: AiCoachFeedback | null;
 }
 
 interface SpeechRecognitionResultLike {
@@ -112,25 +128,26 @@ function speechErrorMessage(error: string): string {
   return "Speech recognition stopped. Your typed reply still works.";
 }
 
-async function readAiTurn(
+async function readAiResponse(
   scenarioId: RoleCallPersonaId,
   stepId: string,
   learnerText: string,
   supportLevel: SupportLevel,
   signal: AbortSignal,
-): Promise<RoleCallLine | null> {
+): Promise<AiRoleResponse> {
   const response = await fetch("/api/conversation", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ scenarioId, stepId, learnerText, supportLevel }),
     signal,
   });
-  if (!response.ok || !response.body) return null;
+  if (!response.ok || !response.body) return { turn: null, feedback: null };
 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
   let line: RoleCallLine | null = null;
+  let feedback: AiCoachFeedback | null = null;
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
@@ -143,14 +160,21 @@ async function readAiTurn(
         const event = JSON.parse(record) as {
           type: string;
           turn?: RoleCallLine;
+          feedback?: AiCoachFeedback;
         };
         if (event.type === "turn" && event.turn) line = event.turn;
+        if (event.type === "feedback" && event.feedback)
+          feedback = event.feedback;
       } catch {
         // An incomplete optional AI event never blocks the authored call.
       }
     }
   }
-  return line;
+  return { turn: line, feedback };
+}
+
+function formatAiFeedback(feedback: AiCoachFeedback): string {
+  return `${feedback.note} Better: ${feedback.betterHanzi} (${feedback.betterPinyin})`;
 }
 
 export function RoleCallStudio({
@@ -176,6 +200,8 @@ export function RoleCallStudio({
   const [learnerText, setLearnerText] = useState("");
   const [hintLevel, setHintLevel] = useState(-1);
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [feedbackSource, setFeedbackSource] = useState<"authored" | "ai">("authored");
+  const [warmupOpen, setWarmupOpen] = useState(false);
   const [micError, setMicError] = useState<string | null>(null);
   const [isListening, setIsListening] = useState(false);
   const [recognitionSupported, setRecognitionSupported] = useState(false);
@@ -231,6 +257,7 @@ export function RoleCallStudio({
     setLearnerText("");
     setHintLevel(-1);
     setFeedback(null);
+    setFeedbackSource("authored");
     setMicError(null);
     setIsListening(false);
     setAiFallback(false);
@@ -309,10 +336,50 @@ export function RoleCallStudio({
     setLearnerText("");
 
     const evaluation = assessRoleCallAnswer(currentStep, text);
+    if (!wasAttempted && currentStep.wordIds.length > 0) {
+      const nextProgress = recordAnswer(
+        loadProgress(),
+        currentStep.wordIds,
+        "reply",
+        evaluation.accepted,
+      );
+      saveProgress(nextProgress);
+    }
     if (!evaluation.accepted) {
       const nextHint = Math.min(hintLevel + 1, currentStep.hints.length - 1);
       setHintLevel(nextHint);
       setFeedback(`${currentStep.correction} ${currentStep.hints[nextHint]}`);
+      setFeedbackSource("authored");
+      if (aiAvailable) {
+        const generation = callGenerationRef.current;
+        const controller = new AbortController();
+        aiAbortRef.current?.abort();
+        aiAbortRef.current = controller;
+        readAiResponse(
+          scenario.id,
+          currentStep.id,
+          text,
+          supportLevel,
+          controller.signal,
+        )
+          .then((response) => {
+            if (generation !== callGenerationRef.current) return;
+            aiAbortRef.current = null;
+            if (response.feedback) {
+              setFeedback(formatAiFeedback(response.feedback));
+              setFeedbackSource("ai");
+            } else {
+              setAiFallback(true);
+              setAiAvailable(false);
+            }
+          })
+          .catch(() => {
+            if (generation !== callGenerationRef.current) return;
+            aiAbortRef.current = null;
+            setAiFallback(true);
+            setAiAvailable(false);
+          });
+      }
       return;
     }
 
@@ -327,6 +394,7 @@ export function RoleCallStudio({
         .filter(Boolean)
         .join(" "),
     );
+    setFeedbackSource("authored");
     setHintLevel(-1);
     setCallState("thinking");
     const generation = callGenerationRef.current;
@@ -337,7 +405,7 @@ export function RoleCallStudio({
         const controller = new AbortController();
         aiAbortRef.current?.abort();
         aiAbortRef.current = controller;
-        const generatedLine = await readAiTurn(
+        const generated = await readAiResponse(
           scenario.id,
           currentStep.id,
           text,
@@ -346,8 +414,12 @@ export function RoleCallStudio({
         );
         if (generation !== callGenerationRef.current) return;
         aiAbortRef.current = null;
-        if (generatedLine) {
-          responseLine = generatedLine;
+        if (generated.feedback) {
+          setFeedback(formatAiFeedback(generated.feedback));
+          setFeedbackSource("ai");
+        }
+        if (generated.turn) {
+          responseLine = generated.turn;
         } else {
           setAiFallback(true);
           setAiAvailable(false);
@@ -403,8 +475,8 @@ export function RoleCallStudio({
             Use your Mandarin with someone who stays in character.
           </h1>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Speak or type. Natural variants are welcome. If your meaning works,
-            the call continues and shows one smoother option instead of blocking you.
+            Speak, type Hanzi, or type pinyin. Natural variants are welcome. If
+            your meaning works, the call continues and gives one useful note.
           </p>
         </div>
 
@@ -416,7 +488,7 @@ export function RoleCallStudio({
             </div>
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               {aiAvailable ? <Sparkles className="h-3.5 w-3.5 text-primary" /> : <WifiOff className="h-3.5 w-3.5" />}
-              {aiAvailable ? "AI reply variations ready" : "Authored offline practice"}
+              {aiAvailable ? "AI wording feedback configured" : "Authored offline feedback"}
             </div>
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-12">
@@ -427,7 +499,10 @@ export function RoleCallStudio({
                   key={option.id}
                   type="button"
                   aria-pressed={selected}
-                  onClick={() => setSelectedId(option.id)}
+                  onClick={() => {
+                    setSelectedId(option.id);
+                    setWarmupOpen(false);
+                  }}
                   className={cn(
                     "group min-h-48 border border-foreground p-5 text-left shadow-[3px_3px_0_oklch(var(--foreground))] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     ROLE_SPANS[index],
@@ -457,22 +532,54 @@ export function RoleCallStudio({
               onChange={(event) => setSupportLevel(event.target.value as SupportLevel)}
               className="mt-2 block min-h-11 w-full max-w-sm border border-foreground bg-background px-3 py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <option value="guided">Guided: pinyin, English, and goal</option>
-              <option value="standard">Standard: pinyin, meaning on retry</option>
-              <option value="challenge">Challenge: Hanzi only</option>
+              <option value="guided">Guided: pinyin, English, and model</option>
+              <option value="standard">Standard: pinyin and hints on request</option>
+              <option value="challenge">Challenge: hide pinyin and model</option>
             </select>
             <p className="mt-3 text-sm text-muted-foreground">
               Goal: <span className="font-medium text-foreground">{scenario.goal}</span> · {scenario.setting}
             </p>
           </div>
-          <button
-            type="button"
-            onClick={startCall}
-            className="stamp-button min-h-12"
-          >
-            <Phone className="h-4 w-4" /> Call {scenario.role}
-          </button>
+          <div className="flex flex-wrap gap-2 sm:justify-end">
+            <button type="button" aria-expanded={warmupOpen} onClick={() => setWarmupOpen((value) => !value)} className="inline-flex min-h-12 items-center gap-2 border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary">
+              <Volume2 className="h-4 w-4" /> Warm up phrases
+            </button>
+            <button
+              type="button"
+              onClick={startCall}
+              className="stamp-button min-h-12"
+            >
+              <Phone className="h-4 w-4" /> Call {scenario.role}
+            </button>
+          </div>
         </section>
+
+        {warmupOpen && (
+          <section className="mt-5 border border-foreground bg-card p-5 sm:p-6" aria-labelledby="warmup-heading">
+            <div className="flex flex-wrap items-end justify-between gap-3 border-b border-border pb-4">
+              <div>
+                <p className="font-[family-name:var(--font-hand)] text-lg text-primary">listen, echo, then answer freely</p>
+                <h2 id="warmup-heading" className="mt-1 text-xl font-bold">{scenario.role} phrase warm-up</h2>
+              </div>
+              <p className="text-xs text-muted-foreground">Pinyin stays visible here</p>
+            </div>
+            <div className="divide-y divide-border">
+              {scenario.steps.map((step, index) => (
+                <div key={step.id} className="grid gap-3 py-4 sm:grid-cols-[2rem_1fr_auto] sm:items-center">
+                  <span className="text-sm font-bold text-muted-foreground">{index + 1}</span>
+                  <div>
+                    <p className="font-[family-name:var(--font-hanzi)] text-2xl">{step.target.hanzi}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{step.target.pinyin}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{step.target.english}</p>
+                  </div>
+                  <button type="button" onClick={() => speak(step.target.hanzi, { rate: 0.72 })} className="inline-flex min-h-11 items-center justify-center gap-2 border border-foreground bg-[oklch(var(--poster-cyan)/0.35)] px-3 py-2 text-xs font-bold hover:bg-[oklch(var(--poster-cyan)/0.55)]" aria-label={`Hear ${step.target.hanzi}`}>
+                    <Volume2 className="h-4 w-4" /> Hear
+                  </button>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
     );
   }
@@ -546,18 +653,23 @@ export function RoleCallStudio({
             ) : (
               <form onSubmit={submitReply} className="border-t border-border bg-secondary/20 p-3 sm:p-4">
                 {micError && <p role="alert" className="mb-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-foreground">{micError}</p>}
-                {feedback && <p role="status" className="mb-2 rounded-lg border border-primary/20 bg-primary/10 px-3 py-2 text-sm">{feedback}</p>}
+                {feedback && (
+                  <div role="status" className="mb-2 border border-primary/30 bg-primary/10 px-3 py-2 text-sm">
+                    <p className="text-[0.65rem] font-bold uppercase tracking-wide text-muted-foreground">{feedbackSource === "ai" ? "AI wording feedback" : "Authored feedback"}</p>
+                    <p className="mt-1">{feedback}</p>
+                  </div>
+                )}
                 <div className="flex items-end gap-2">
                   <button type="button" disabled={callState !== "active"} onClick={isListening ? () => recognitionRef.current?.stop() : startListening} aria-label={isListening ? "Stop listening" : "Speak your reply"} className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40", isListening ? "border-red-500 bg-red-500 text-white" : "border-border bg-card hover:border-primary/50")}>
                     {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                   </button>
                   <div className="min-w-0 flex-1">
                     <label htmlFor="learner-reply" className="sr-only">Your Mandarin reply</label>
-                    <input id="learner-reply" value={learnerText} onChange={(event) => setLearnerText(event.target.value)} disabled={callState !== "active"} autoComplete="off" placeholder={isListening ? "Listening in Mandarin…" : "Speak or type in Chinese…"} className="h-11 w-full rounded-xl border border-input bg-background px-3 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60" />
+                    <input id="learner-reply" value={learnerText} onChange={(event) => setLearnerText(event.target.value)} disabled={callState !== "active"} autoComplete="off" placeholder={isListening ? "Listening in Mandarin…" : "Hanzi or pinyin…"} className="h-11 w-full rounded-xl border border-input bg-background px-3 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60" />
                   </div>
                   <button type="submit" disabled={!learnerText.trim() || callState !== "active"} aria-label="Send reply" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"><Send className="h-4 w-4" /></button>
                 </div>
-                <p className="mt-2 flex items-center gap-1.5 text-[0.7rem] text-muted-foreground">{recognitionSupported ? <Mic className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}{recognitionSupported ? "Speech recognition available; review the text before sending." : "This browser needs typed replies."}</p>
+                <p className="mt-2 flex items-center gap-1.5 text-[0.7rem] text-muted-foreground">{recognitionSupported ? <Mic className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}{recognitionSupported ? "Speak, or type Hanzi or pinyin. Review recognized text before sending." : "Type Hanzi or pinyin; voice recognition is unavailable here."}</p>
               </form>
             )}
           </section>
@@ -574,6 +686,11 @@ export function RoleCallStudio({
                     <p className="text-[0.65rem] uppercase tracking-wider text-muted-foreground">Useful model</p>
                     <p className="mt-1 font-[family-name:var(--font-hanzi)] text-lg">{currentStep.target.hanzi}</p>
                     <p className="mt-1 text-xs text-muted-foreground">{currentStep.target.pinyin}</p>
+                    {ttsSupported && (
+                      <button type="button" onClick={() => speak(currentStep.target.hanzi, { rate: 0.72 })} className="mt-3 inline-flex min-h-11 items-center gap-2 border border-border bg-background px-3 py-2 text-xs font-bold hover:border-primary">
+                        <Volume2 className="h-4 w-4" /> Hear model
+                      </button>
+                    )}
                   </div>
                 )}
                 {hintLevel >= 0 && (
@@ -589,7 +706,7 @@ export function RoleCallStudio({
             )}
             <div className="mt-5 space-y-2 text-xs text-muted-foreground">
               <p className="flex items-center gap-2">{ttsSupported ? <Volume2 className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5 opacity-40" />}{ttsSupported ? "Mandarin voice on" : "Text and pinyin fallback"}</p>
-              <p className="flex items-center gap-2">{aiAvailable && !aiFallback ? <Sparkles className="h-3.5 w-3.5" /> : <WifiOff className="h-3.5 w-3.5" />}{aiAvailable && !aiFallback ? "Safe AI variations" : "Authored replies active"}</p>
+              <p className="flex items-center gap-2">{aiAvailable && !aiFallback ? <Sparkles className="h-3.5 w-3.5" /> : <WifiOff className="h-3.5 w-3.5" />}{aiAvailable && !aiFallback ? "AI wording feedback configured" : "Authored feedback active"}</p>
             </div>
           </aside>
         </div>

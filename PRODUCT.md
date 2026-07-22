@@ -10,7 +10,7 @@ Two segments through one sequenced funnel (see PRD.md): travelers with a China/T
 
 ## Product Purpose
 
-MoZhi (默知) gets a beginner using HSK 1 and HSK 2 Mandarin in real situations quickly. Short, authored role calls let the learner speak with waiters, sales associates, drivers, hotel staff, and teachers; feedback confirms the intended meaning first and offers one useful correction. Hanzi study pairs visible structure with clearly labeled mnemonics and immediate tests. Success means completing a real-life communicative goal in the current session. No lesson, section, level, or test depends on a streak, spaced-retention gate, or earlier completion.
+MoZhi (默知) gets a beginner using HSK 1 and HSK 2 Mandarin in real situations quickly. Learners can choose one Hanzi, build a custom set, or open real-life sets such as shopping and small talk. Hanzi progress separates form and meaning, sound, and contextual use before calling a word proficient. Short, authored role calls accept Hanzi, pinyin, or recognized speech; optional AI wording feedback confirms the intended meaning first and offers one useful correction without pretending to hear pronunciation details that are not available. Success means completing a useful communicative goal in the current session. No lesson, section, level, set, or test depends on a streak, spaced-retention gate, or earlier completion.
 
 ## Brand Personality
 

@@ -69,6 +69,15 @@ Teach words as usable written language, not isolated trivia:
 - use in a sentence or conversation reply;
 - a short test available without completing the lesson.
 
+Hanzi testing must support all three scopes: one selected form, a learner-built
+custom set, and an authored real-life set. Shopping and small-talk sets are
+baseline product contracts. Keep topic-set IDs and member word IDs stable.
+
+Display proficiency as evidence in three separate lanes: form/meaning, sound,
+and contextual use. Viewing a card, selecting a set, or optional SRS review
+cannot create proficiency. Every supported Hanzi must have a reachable
+contextual-use item so a 100% proficiency state is possible.
+
 Never invent etymology. Distinguish historical origin, semantic component,
 phonetic component, and mnemonic.
 
@@ -87,6 +96,15 @@ Evaluate communicative intent, not one exact sentence.
   unsafe or unrelated.
 - Give a three-level hint ladder and an immediate retry after a blocked reply.
 - Show at least one natural variation after acceptance.
+- Accept the tone-marked target pinyin and its unmarked equivalent when the
+  learner chooses romanized input. Show the standard Hanzi form after a pinyin
+  reply is understood.
+
+AI feedback is optional and additive. It may comment on meaning, wording, or
+grammar from typed or recognized text, but must never claim to have evaluated
+tones, accent, fluency, or acoustic pronunciation without an actual audio
+signal and a pronunciation-capable evaluator. Provider failure or missing
+credits must fall back to the authored correction without blocking the call.
 
 Core authored paths must work offline. AI may widen semantic acceptance and
 feedback, but it cannot be required for a lesson to function.
@@ -124,6 +142,8 @@ face. Do not turn the learning flow into decorative collage.
 
 - Preserve stable IDs for existing HSK 1 words, stages, grammar lessons,
   blocks, exercises, and conversation steps.
+- Preserve real-life Hanzi set IDs and membership unless a migration is
+  intentional and tested.
 - Prefix new level-two data with `hsk2-` and keep IDs deterministic.
 - Keep content separate from renderers.
 - Maintain typed speech fallback, keyboard operation, visible focus, semantic

@@ -5,11 +5,10 @@ import { ArrowRight, Check, Volume2, X } from "lucide-react";
 import type { Exercise } from "@/lib/data/stages/types";
 import { findWord } from "@/lib/hsk";
 import {
+  hanziProficiency,
   loadProgress,
   recordAnswer,
   saveProgress,
-  wordStatus,
-  type WordStatus,
 } from "@/lib/progression";
 import { grade, loadSrs, saveSrs } from "@/lib/srs";
 import { speak } from "@/lib/speech";
@@ -159,7 +158,6 @@ export function ExercisePlayer({
   if (done) {
     const total = exercises.length;
     const good = exercises.filter((e) => firstTry.current[e.id]).length;
-    const srs = loadSrs();
     const progress = loadProgress();
     const wordIds = [...new Set(exercises.flatMap((e) => e.wordIds))];
     return (
@@ -180,19 +178,21 @@ export function ExercisePlayer({
             {wordIds.map((id) => {
               const w = findWord(id);
               if (!w) return null;
-              const st: WordStatus = wordStatus(id, progress, srs);
+              const proficiency = hanziProficiency(id, progress);
               return (
                 <span
                   key={id}
                   className={cn(
                     "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm",
-                    st === "learned" || st === "mastered"
+                    proficiency.status === "proficient"
                       ? "border-green-600/50 bg-green-600/10"
                       : "border-border bg-background",
                   )}
                 >
                   <span className={cn("text-base", hanziFont)}>{w.hanzi}</span>
-                  <span className="text-xs text-muted-foreground">{st}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {proficiency.status} · {proficiency.score}%
+                  </span>
                 </span>
               );
             })}

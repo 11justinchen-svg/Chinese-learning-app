@@ -127,6 +127,22 @@ Kalam or display Hanzi, short enough to read at a glance. It can rotate up to
 One large Hanzi or word, pinyin immediately below, concise meaning, one honest
 component note, one spoken example, and a visible audio replay action.
 
+### Hanzi evidence map
+
+Show form/meaning, sound, and contextual-use evidence as three labeled checks.
+The status language is Not tested, Started, Building, and Proficient. Always
+pair the status with a numeric evidence percentage and never rely on color.
+Word tiles include a separate semantic square control for adding that form to
+a custom test; opening the specimen and selecting it for a test remain two
+distinct actions.
+
+### Real-life Hanzi set
+
+Each set has one oversized Hanzi title, a plain-language situation, a stable
+word count, a mixed test, and a direct link to the matching speaking scenario.
+Shopping, small talk, food and drink, getting around, and hotel check-in use
+the existing poster palette without becoming five identical rounded cards.
+
 ### Answer state
 
 Keep the learner's answer visible. Confirm intended meaning first, then show
@@ -153,6 +169,12 @@ semantic buttons.
   attach one small correction. Reserve blocking retries for replies that do
   not accomplish the communicative goal.
 - Voice always has a text fallback. Permission prompts are never automatic.
+- Accept Hanzi or pinyin in the reply field. In guided mode, keep the model
+  Hanzi, tone-marked pinyin, meaning, and audio replay together.
+- A phrase warm-up may reveal all target lines for listening and echoing before
+  the call. It is optional and never awards proficiency by itself.
+- Label AI wording feedback separately from authored feedback. If AI becomes
+  unavailable, switch labels immediately and continue with authored content.
 
 ## Motion
 
