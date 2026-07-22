@@ -20,7 +20,7 @@ retrieval practice, and character structure.
 
 ## Stack
 
-- Next.js 14 (App Router) with TypeScript
+- Next.js 15 (App Router) with TypeScript
 - Tailwind CSS and local React components
 - Optional Claude API calls for safe role-reply variations; no SDK required
 
@@ -36,6 +36,28 @@ Open http://localhost:3000.
 The complete learning path and authored role calls work without an API key.
 Set `ANTHROPIC_API_KEY` to enable constrained role-reply variations. You can
 optionally override the default model with `ANTHROPIC_MODEL`.
+
+## Deploy to Vercel
+
+Import the GitHub repository in Vercel with the repository root (`./`) as the
+Root Directory. Vercel detects Next.js automatically; keep its default install,
+build, and output settings. The committed `package-lock.json` provides a locked
+npm install, and `package.json` pins the supported Node.js 24 runtime.
+
+No environment variable is required for the authored learning experience. To
+enable hosted AI wording feedback, add `ANTHROPIC_API_KEY` as a server-only
+Vercel environment variable and optionally set `ANTHROPIC_MODEL`. Ollama is a
+local desktop option and is intentionally disabled inside Vercel functions.
+
+Before deploying, run the same gates used for this repository:
+
+```bash
+npm ci
+npm run validate
+npm run test:progression
+npm run test:speech
+npm run build
+```
 
 ## Learning workflow
 

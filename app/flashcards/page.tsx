@@ -7,12 +7,13 @@ export const metadata: Metadata = {
     "Optional HSK 1 and HSK 2 flashcards, lesson decks, and custom cards stored on your device.",
 };
 
-export default function FlashcardsPage({
+export default async function FlashcardsPage({
   searchParams,
 }: {
-  searchParams: { unit?: string };
+  searchParams: Promise<{ unit?: string }>;
 }) {
-  const unit = searchParams?.unit ? Number(searchParams.unit) : undefined;
+  const query = await searchParams;
+  const unit = query.unit ? Number(query.unit) : undefined;
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6">

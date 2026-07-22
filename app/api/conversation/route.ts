@@ -11,6 +11,7 @@ import {
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 20;
 
 const encoder = new TextEncoder();
 const requestWindows = new Map<string, { count: number; resetAt: number }>();
@@ -36,6 +37,9 @@ function allowAiTurn(request: Request): boolean {
 }
 
 async function ollamaAvailable(): Promise<boolean> {
+  // Ollama is an optional desktop service. Vercel functions cannot reach the
+  // learner's machine, so skip the localhost health probe in hosted builds.
+  if (process.env.VERCEL) return false;
   const now = Date.now();
   if (ollamaHealth.expiresAt > now) return ollamaHealth.available;
   try {

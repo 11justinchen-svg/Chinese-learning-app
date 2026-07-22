@@ -8,15 +8,16 @@ export const metadata: Metadata = {
     "Practice HSK 1 and HSK 2 Mandarin with phrase warm-ups, Hanzi or pinyin replies, authored correction, and optional AI wording feedback.",
 };
 
-export default function ConversationPage({
+export default async function ConversationPage({
   searchParams,
 }: {
-  searchParams?: { grammar?: string; scenario?: string };
+  searchParams?: Promise<{ grammar?: string; scenario?: string }>;
 }) {
+  const query = (await searchParams) ?? {};
   return (
     <RoleCallStudio
-      grammarLessonId={searchParams?.grammar}
-      initialScenarioId={searchParams?.scenario as RoleCallPersonaId | undefined}
+      grammarLessonId={query.grammar}
+      initialScenarioId={query.scenario as RoleCallPersonaId | undefined}
     />
   );
 }

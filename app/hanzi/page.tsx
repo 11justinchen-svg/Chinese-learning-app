@@ -7,11 +7,12 @@ export const metadata: Metadata = {
     "Build and test HSK 1 and HSK 2 Hanzi sets with pinyin, audio, real-life topics, and visible proficiency evidence.",
 };
 
-export default function HanziPage({
+export default async function HanziPage({
   searchParams,
 }: {
-  searchParams?: { word?: string; set?: string };
+  searchParams?: Promise<{ word?: string; set?: string }>;
 }) {
+  const query = (await searchParams) ?? {};
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <div className="mb-8 max-w-3xl border-b border-foreground pb-7">
@@ -28,8 +29,8 @@ export default function HanziPage({
         </p>
       </div>
       <HanziExplorer
-        initialWordId={searchParams?.word}
-        initialSetId={searchParams?.set}
+        initialWordId={query.word}
+        initialSetId={query.set}
       />
     </main>
   );

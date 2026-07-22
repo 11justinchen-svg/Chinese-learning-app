@@ -6,12 +6,13 @@ export function generateStaticParams() {
   return STAGES.map((s) => ({ stage: s.id }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { stage: string };
-}): Metadata {
-  const stage = findStage(params.stage);
+  params: Promise<{ stage: string }>;
+}): Promise<Metadata> {
+  const { stage: stageId } = await params;
+  const stage = findStage(stageId);
   return {
     title: stage
       ? `Stage ${stage.index}: ${stage.title} | 默知 MoZhi`
@@ -20,6 +21,11 @@ export function generateMetadata({
   };
 }
 
-export default function StagePage({ params }: { params: { stage: string } }) {
-  return <StageView stageId={params.stage} />;
+export default async function StagePage({
+  params,
+}: {
+  params: Promise<{ stage: string }>;
+}) {
+  const { stage } = await params;
+  return <StageView stageId={stage} />;
 }
