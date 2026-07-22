@@ -27,6 +27,8 @@ import {
   HANZI_TOPIC_SETS,
   findHanziTopic,
   makeHanziLessonMatchPractice,
+  makeHanziLessonSoundPractice,
+  makeHanziLessonTest,
   makeHanziLessonUsePractice,
   makeHanziSetTest,
   makeHanziWordTest,
@@ -60,7 +62,7 @@ import {
 
 type CollectionId = "hsk1" | "hsk2" | HanziTopicId;
 type HanziView = "lessons" | "overview" | "sets";
-type PracticeKind = "standard" | "match" | "use";
+type PracticeKind = "standard" | "match" | "sound" | "use" | "test";
 
 const hanziFont = "font-[family-name:var(--font-hanzi-display)]";
 const readingHanziFont = "font-[family-name:var(--font-hanzi)]";
@@ -345,8 +347,12 @@ export function HanziExplorer({
     (): Exercise[] => {
       if (practiceKind === "match")
         return makeHanziLessonMatchPractice(testWordIds, testSeed);
+      if (practiceKind === "sound")
+        return makeHanziLessonSoundPractice(testWordIds, testSeed);
       if (practiceKind === "use" && testStageId)
         return makeHanziLessonUsePractice(testStageId, testSeed);
+      if (practiceKind === "test" && testStageId)
+        return makeHanziLessonTest(testStageId, testSeed);
       return testWordIds.length === 1
         ? makeHanziWordTest(testWordIds[0], testSeed)
         : makeHanziSetTest(testWordIds, testSeed);
@@ -405,13 +411,17 @@ export function HanziExplorer({
     );
     setTestStageId(lesson.id);
     setPracticeKind(kind === "review" ? "standard" : kind);
-    setPlayerMode("practice");
+    setPlayerMode(kind === "test" ? "quiz" : "practice");
     setTestTitle(
       kind === "match"
-        ? `Lesson ${lesson.index}: match form, meaning, and sound`
+        ? `Lesson ${lesson.index}: match every form and meaning`
+        : kind === "sound"
+          ? `Lesson ${lesson.index}: hear every form`
         : kind === "use"
-          ? `Lesson ${lesson.index}: build and respond`
-          : `Lesson ${lesson.index}: cumulative review`,
+          ? `Lesson ${lesson.index}: use every form in context`
+          : kind === "test"
+            ? `Lesson ${lesson.index}: complete Hanzi test`
+            : `Lesson ${lesson.index}: cumulative review`,
     );
     setTestSeed((value) => value + 1);
     setTestResult(null);

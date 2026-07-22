@@ -57,6 +57,8 @@ for (const s of STAGES) {
     err(`${s.id}: wordIds differ from the frozen allocation`);
   if (JSON.stringify(s.grammarLessonIds) !== JSON.stringify(FROZEN_GRAMMAR[s.index] ?? []))
     err(`${s.id}: grammarLessonIds differ from the frozen map`);
+  if (!s.estimatedMinutes || s.estimatedMinutes < 32 || s.estimatedMinutes > 45)
+    err(`${s.id}: estimated time must reflect the complete Hanzi and grammar flow`);
   for (const id of s.wordIds) {
     if (!byId.has(id)) err(`${s.id}: unknown word id ${id}`);
     if (seenWordIds.has(id)) err(`${s.id}: word ${id} allocated twice`);

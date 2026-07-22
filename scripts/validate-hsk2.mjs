@@ -33,7 +33,7 @@ for (const [index, stage] of HSK2_STAGES.entries()) {
   assert.equal(stage.id, `hsk2-stage-${String(number).padStart(2, "0")}`);
   assert.equal(stage.level, 2, `${stage.id} must be marked HSK 2`);
   assert.equal(stage.index, number, `${stage.id} has the wrong level-local index`);
-  assert(stage.estimatedMinutes && stage.estimatedMinutes <= 15, `${stage.id} is longer than the focused lesson target`);
+  assert(stage.estimatedMinutes && stage.estimatedMinutes >= 32 && stage.estimatedMinutes <= 45, `${stage.id} needs an honest full-lesson time estimate`);
   assert(stage.goal, `${stage.id} needs a real-life goal`);
   assert(stage.dialogue.length >= 4, `${stage.id} needs a model conversation`);
   assert(stage.blocks.length >= 2, `${stage.id} needs retrieval and production blocks`);
@@ -49,9 +49,14 @@ for (const [index, stage] of HSK2_STAGES.entries()) {
     assert(block.exercises.filter((exercise) => exercise.kind === "cloze").length >= 2, `${block.id} needs repeated retrieval`);
     assert(block.exercises.filter((exercise) => exercise.kind === "order").length >= 2, `${block.id} needs sentence building`);
   }
-  assert.equal(stage.checkpoint.length, 5, `${stage.id} fast test must contain five items`);
-  assert(stage.checkpoint.some((exercise) => exercise.kind === "reply"), `${stage.id} fast test needs a reply`);
-  assert(stage.checkpoint.some((exercise) => exercise.kind === "order"), `${stage.id} fast test needs sentence production`);
+  assert.equal(stage.checkpoint.length, 5 + stage.grammarLessonIds.length, `${stage.id} checkpoint must test every grammar concept`);
+  assert(stage.checkpoint.some((exercise) => exercise.kind === "reply"), `${stage.id} checkpoint needs a reply`);
+  assert(stage.checkpoint.some((exercise) => exercise.kind === "order"), `${stage.id} checkpoint needs sentence production`);
+  assert.equal(
+    stage.checkpoint.filter((exercise) => exercise.id.includes("checkpoint-grammar")).length,
+    stage.grammarLessonIds.length,
+    `${stage.id} checkpoint needs one item per grammar concept`,
+  );
 
   for (const [lineIndex, line] of stage.dialogue.entries()) {
     assert(line.hanzi && line.pinyin && line.english, `${stage.id} dialogue ${lineIndex + 1} is incomplete`);

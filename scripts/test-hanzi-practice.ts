@@ -3,6 +3,8 @@ import { HSK } from "../lib/hsk";
 import {
   HANZI_TOPIC_SETS,
   makeHanziLessonMatchPractice,
+  makeHanziLessonSoundPractice,
+  makeHanziLessonTest,
   makeHanziLessonUsePractice,
   makeHanziSetTest,
   makeHanziWordTest,
@@ -32,6 +34,7 @@ for (const lesson of HANZI_LESSON_CHUNKS) {
   const stage = STAGES.find((candidate) => candidate.id === lesson.id);
   assert(stage, `${lesson.id} must map to a canonical stage`);
   assert.deepEqual(lesson.wordIds, stage.wordIds, `${lesson.id} word allocation drifted`);
+  assert(stage.grammarLessonIds.length > 0, `${lesson.id} needs corresponding grammar`);
   assert(
     lesson.cumulativeWordIds.length >= lesson.wordIds.length,
     `${lesson.id} must include its current forms in cumulative review`,
@@ -43,15 +46,39 @@ for (const lesson of HANZI_LESSON_CHUNKS) {
   );
 
   const matching = makeHanziLessonMatchPractice(lesson.wordIds, 3);
-  assert(matching.length >= 5, `${lesson.id} needs a substantial match practice`);
+  assert.equal(
+    matching.length,
+    Math.ceil(lesson.wordIds.length / 5) * 2,
+    `${lesson.id} needs meaning and pinyin matching for every balanced group`,
+  );
   assert.equal(
     matching.filter((exercise) => exercise.kind === "match").length,
-    2,
+    matching.length,
     `${lesson.id} must match both meaning and sound`,
+  );
+  assert.deepEqual(
+    new Set(matching.flatMap((exercise) => exercise.wordIds)),
+    new Set(lesson.wordIds),
+    `${lesson.id} matching must cover every form`,
+  );
+  assert(
+    matching.every(
+      (exercise) => exercise.kind === "match" && exercise.pairs.length >= 3 && exercise.pairs.length <= 5,
+    ),
+    `${lesson.id} matching groups must remain usable`,
+  );
+
+  const sound = makeHanziLessonSoundPractice(lesson.wordIds, 3);
+  assert.equal(sound.length, lesson.wordIds.length, `${lesson.id} must test every sound`);
+  assert(sound.every((exercise) => exercise.kind === "listen"));
+  assert.deepEqual(
+    new Set(sound.flatMap((exercise) => exercise.wordIds)),
+    new Set(lesson.wordIds),
+    `${lesson.id} sound practice must cover every form`,
   );
 
   const use = makeHanziLessonUsePractice(lesson.id, 2);
-  assert(use.length >= 4, `${lesson.id} needs sentence and reply practice`);
+  assert.equal(use.length, lesson.wordIds.length, `${lesson.id} must use every form in context`);
   assert(
     use.some((exercise) => exercise.kind === "reply"),
     `${lesson.id} needs a communicative response`,
@@ -65,6 +92,24 @@ for (const lesson of HANZI_LESSON_CHUNKS) {
     use.length,
     `${lesson.id} use practice repeats an exercise ID`,
   );
+  assert.deepEqual(
+    new Set(use.flatMap((exercise) => exercise.wordIds)),
+    new Set(lesson.wordIds),
+    `${lesson.id} contextual practice must cover every form`,
+  );
+
+  const test = makeHanziLessonTest(lesson.id, 4);
+  assert.equal(
+    new Set(test.map((exercise) => exercise.id)).size,
+    test.length,
+    `${lesson.id} test repeats an exercise ID`,
+  );
+  for (const wordId of lesson.wordIds) {
+    const evidence = test.filter((exercise) => exercise.wordIds.includes(wordId));
+    assert(evidence.some((exercise) => exercise.kind === "match"), `${lesson.id}/${wordId} needs form and meaning evidence`);
+    assert(evidence.some((exercise) => exercise.kind === "listen"), `${lesson.id}/${wordId} needs sound evidence`);
+    assert(evidence.some((exercise) => ["cloze", "order", "reply"].includes(exercise.kind)), `${lesson.id}/${wordId} needs contextual-use evidence`);
+  }
 }
 
 assert(HANZI_TOPIC_SETS.some((topic) => topic.id === "shopping"));

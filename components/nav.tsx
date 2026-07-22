@@ -43,17 +43,17 @@ export function Nav() {
               href={href}
               aria-current={pathname.startsWith(href) ? "page" : undefined}
               className={cn(
-                "group relative flex min-h-11 items-center gap-2 px-2.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:px-3",
+                "group relative flex min-h-11 items-center gap-2 px-1.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:px-2.5 lg:px-3",
                 pathname.startsWith(href)
                   ? "text-foreground after:absolute after:inset-x-2 after:-bottom-[0.65rem] after:h-0.5 after:bg-primary"
                   : "text-muted-foreground hover:text-foreground",
               )}
             >
-              <span className="font-[family-name:var(--font-hanzi)] text-lg sm:hidden">
+              <span className="font-[family-name:var(--font-hanzi)] text-lg lg:hidden">
                 {hanzi}
               </span>
-              <Icon className="hidden h-4 w-4 sm:block" />
-              <span className="hidden sm:inline">{label}</span>
+              <Icon className="hidden h-4 w-4 lg:block" />
+              <span className="hidden lg:inline">{label}</span>
             </Link>
           ))}
           <div className="ml-1 border-l border-border pl-1">

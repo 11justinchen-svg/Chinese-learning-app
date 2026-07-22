@@ -129,8 +129,8 @@ export function CheckpointPanel({
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
           {passed
-            ? "Fast test passed. This lesson is complete."
-            : "Try the five-minute lesson blocks or retake now. Every lesson stays open."}
+            ? "Combined checkpoint passed. This lesson is complete."
+            : "Review the Hanzi, vocabulary, and grammar sections or retake now. Every lesson stays open."}
         </p>
         <button
           type="button"
@@ -154,9 +154,9 @@ export function CheckpointPanel({
         Stage {stage.index} checkpoint
       </p>
       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-        {stage.checkpoint.length} quick questions, including a useful reply.
-        Score 80% to mark this lesson complete. No streak, waiting period, or
-        review schedule is required, and every other lesson stays open.
+        {stage.checkpoint.length} mixed questions covering vocabulary, grammar,
+        sentence building, listening, and a useful reply. Score 80% to mark this
+        lesson complete. Every other lesson stays open.
       </p>
       <button
         type="button"

@@ -10,6 +10,7 @@ import {
   Dumbbell,
   Flag,
   MessageCircle,
+  Shapes,
   SkipForward,
   Zap,
 } from "lucide-react";
@@ -30,11 +31,21 @@ import { TeachCards } from "./teach-cards";
 import { GrammarIntro } from "./grammar-intro";
 import { CheckpointPanel } from "./checkpoint-panel";
 import { ExercisePlayer } from "@/components/exercises/exercise-player";
+import { HanziLab } from "./hanzi-lab";
 
 const hanziFont = "font-[family-name:var(--font-hanzi-display)]";
 const displayFont = "font-[family-name:var(--font-display)]";
 
-type SectionId = "dialogue" | "teach" | `block:${string}` | "checkpoint";
+type SectionId =
+  | "dialogue"
+  | "teach"
+  | "hanzi"
+  | `block:${string}`
+  | "checkpoint";
+
+function hanziLabBlockId(stageId: string): string {
+  return `${stageId}-hanzi-lab`;
+}
 
 export function StageView({ stageId }: { stageId: string }) {
   const stage = findStage(stageId);
@@ -72,6 +83,11 @@ export function StageView({ stageId }: { stageId: string }) {
       id: "teach",
       label: "New words",
       done: stage.wordIds.every((id) => progress.words[id]?.seenAt),
+    });
+    out.push({
+      id: "hanzi",
+      label: "Hanzi lab · form, sound, and use",
+      done: Boolean(sp?.blocksDone.includes(hanziLabBlockId(stage.id))),
     });
     for (const b of stage.blocks)
       out.push({
@@ -129,6 +145,7 @@ export function StageView({ stageId }: { stageId: string }) {
   function sectionIcon(id: SectionId) {
     if (id === "dialogue") return <MessageCircle className="h-4 w-4" />;
     if (id === "teach") return <BookOpen className="h-4 w-4" />;
+    if (id === "hanzi") return <Shapes className="h-4 w-4" />;
     if (id === "checkpoint") return <Flag className="h-4 w-4" />;
     return <Dumbbell className="h-4 w-4" />;
   }
@@ -258,6 +275,11 @@ export function StageView({ stageId }: { stageId: string }) {
                         · {block.exercises.length} exercises
                       </span>
                     )}
+                    {section.id === "hanzi" && (
+                      <span className="mt-0.5 block text-xs text-muted-foreground">
+                        Every lesson form · meaning, listening, and contextual use
+                      </span>
+                    )}
                   </span>
                 </button>
 
@@ -303,6 +325,22 @@ export function StageView({ stageId }: { stageId: string }) {
                           );
                           refresh();
                           movePast("teach");
+                        }}
+                      />
+                    )}
+                    {section.id === "hanzi" && (
+                      <HanziLab
+                        stage={stage}
+                        onDone={() => {
+                          saveProgress(
+                            recordBlockDone(
+                              loadProgress(),
+                              stage.id,
+                              hanziLabBlockId(stage.id),
+                            ),
+                          );
+                          refresh();
+                          movePast("hanzi");
                         }}
                       />
                     )}

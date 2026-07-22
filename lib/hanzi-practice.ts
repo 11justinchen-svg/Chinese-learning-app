@@ -377,54 +377,69 @@ export function makeHanziLessonMatchPractice(
   wordIds: string[],
   seed: number,
 ): Exercise[] {
-  const words = sampleWords(wordIds, seed, 5);
+  const words = sampleWords(wordIds, seed, wordIds.length);
   if (words.length < 3) return makeHanziSetTest(wordIds, seed);
-  return [
-    meaningMatchExercise(words, `hanzi-lesson-match-${seed}-meaning`),
-    matchExercise(words, `hanzi-lesson-match-${seed}-sound`),
-    ...words.slice(0, 3).map((word, index) =>
-      index % 2 === 0
-        ? meaningExercise(word, `hanzi-lesson-match-${seed}-${index}-meaning`)
-        : formExercise(word, `hanzi-lesson-match-${seed}-${index}-form`),
+  const groupCount = Math.ceil(words.length / 5);
+  const baseSize = Math.floor(words.length / groupCount);
+  const largerGroups = words.length % groupCount;
+  const groups: HskWord[][] = [];
+  let offset = 0;
+  for (let index = 0; index < groupCount; index += 1) {
+    const size = baseSize + (index < largerGroups ? 1 : 0);
+    groups.push(words.slice(offset, offset + size));
+    offset += size;
+  }
+  return groups.flatMap((group, groupIndex) => [
+    meaningMatchExercise(
+      group,
+      `hanzi-lesson-match-${seed}-${groupIndex}-meaning`,
     ),
-  ];
+    matchExercise(group, `hanzi-lesson-match-${seed}-${groupIndex}-pinyin`),
+  ]);
+}
+
+export function makeHanziLessonSoundPractice(
+  wordIds: string[],
+  seed: number,
+): Exercise[] {
+  return sampleWords(wordIds, seed, wordIds.length).map((word, index) =>
+    soundExercise(word, `hanzi-lesson-sound-${seed}-${index}-${word.id}`),
+  );
 }
 
 export function makeHanziLessonUsePractice(
   stageId: string,
   seed: number,
-  count = 6,
+  count?: number,
 ): Exercise[] {
   const stage = STAGES.find((candidate) => candidate.id === stageId);
   if (!stage) return [];
-  const authored = [
-    ...stage.blocks.flatMap((block) => block.exercises),
-    ...stage.checkpoint,
-  ].filter((exercise) => ["cloze", "order", "reply"].includes(exercise.kind));
-  const unique = authored.filter(
-    (exercise, index) => authored.findIndex((item) => item.id === exercise.id) === index,
-  );
-  const start = unique.length > 0 ? (seed * 5) % unique.length : 0;
-  const selected = Array.from(
-    { length: Math.min(count, unique.length) },
-    (_, index) => unique[(start + index) % unique.length],
-  );
-
-  if (selected.length < Math.min(4, count)) {
-    for (const wordId of stage.wordIds) {
-      if (selected.length >= count) break;
-      const exercise = contextualExercise(
+  const selectedWordIds = sampleWords(
+    stage.wordIds,
+    seed,
+    count ?? stage.wordIds.length,
+  ).map((word) => word.id);
+  return selectedWordIds
+    .map((wordId, index) =>
+      contextualExercise(
         wordId,
-        `hanzi-lesson-${stage.id}-${seed}-fallback-${selected.length}`,
-      );
-      if (exercise) selected.push(exercise);
-    }
-  }
+        `hanzi-lesson-${stage.id}-${seed}-use-${index}-${wordId}`,
+      ),
+    )
+    .filter((exercise): exercise is Exercise => Boolean(exercise));
+}
 
-  return selected.map((exercise, index) => ({
-    ...exercise,
-    id: `hanzi-lesson-${stage.id}-${seed}-use-${index}`,
-  }));
+export function makeHanziLessonTest(
+  stageId: string,
+  seed: number,
+): Exercise[] {
+  const stage = STAGES.find((candidate) => candidate.id === stageId);
+  if (!stage) return [];
+  return [
+    ...makeHanziLessonMatchPractice(stage.wordIds, seed),
+    ...makeHanziLessonSoundPractice(stage.wordIds, seed),
+    ...makeHanziLessonUsePractice(stage.id, seed),
+  ];
 }
 
 export function makeHanziWordTest(wordId: string, seed: number): Exercise[] {

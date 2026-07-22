@@ -80,15 +80,16 @@ function flexibleExercise(exercise: Exercise): Exercise {
 
 function openFastStage(stage: Stage): Stage {
   return {
-  ...stage,
-  level: 1 as const,
-  estimatedMinutes: 5,
-  goal: stage.goal ?? stage.scenario,
-  blocks: stage.blocks.map((block) => ({
-    ...block,
-    exercises: block.exercises.map(flexibleExercise),
-  })),
-  checkpoint: stage.checkpoint.map(flexibleExercise),
+    ...stage,
+    level: 1 as const,
+    estimatedMinutes:
+      24 + Math.ceil(stage.wordIds.length / 2) + stage.grammarLessonIds.length * 3,
+    goal: stage.goal ?? stage.scenario,
+    blocks: stage.blocks.map((block) => ({
+      ...block,
+      exercises: block.exercises.map(flexibleExercise),
+    })),
+    checkpoint: stage.checkpoint.map(flexibleExercise),
   };
 }
 

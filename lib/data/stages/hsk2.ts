@@ -476,6 +476,22 @@ function makeStage(spec: StageSpec, index: number): Stage {
     listenFor(words[words.length - 1], words, `hsk2-s${stageNumber}-fast-3`),
     fastReply,
     fastOrder,
+    ...grammarLessonIds.map((lessonId, lessonIndex) => {
+      const block = blocks.find(
+        (candidate) => candidate.grammarLessonId === lessonId,
+      );
+      const exercise = block?.exercises.find((candidate) =>
+        lessonIndex % 2 === 0
+          ? candidate.kind === "order"
+          : candidate.kind === "cloze",
+      );
+      if (!exercise)
+        throw new Error(`${lessonId} needs an exercise for the combined checkpoint`);
+      return {
+        ...exercise,
+        id: `hsk2-s${stageNumber}-checkpoint-grammar-${lessonIndex + 1}`,
+      };
+    }),
   ];
 
   return {
@@ -486,7 +502,8 @@ function makeStage(spec: StageSpec, index: number): Stage {
     hanziTitle: spec.hanziTitle,
     scenario: spec.scenario,
     description: spec.description,
-    estimatedMinutes: 14,
+    estimatedMinutes:
+      24 + Math.ceil(words.length / 2) + grammarLessonIds.length * 3,
     goal: spec.goal,
     wordIds: words.map((word) => word.id),
     grammarLessonIds,
