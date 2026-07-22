@@ -164,7 +164,7 @@ const SPECS: StageSpec[] = [
       { speaker: "你", hanzi: "老师，第一题是什么意思？", pinyin: "Lǎoshī, dì-yī tí shì shénme yìsi?", english: "Teacher, what does the first question mean?" },
       { speaker: "老师", hanzi: "你不懂吗？", pinyin: "Nǐ bù dǒng ma?", english: "Do you not understand?" },
       { speaker: "你", hanzi: "对不起，我不知道怎么回答。", pinyin: "Duìbuqǐ, wǒ bù zhīdào zěnme huídá.", english: "Sorry, I do not know how to answer." },
-      { speaker: "老师", hanzi: "再看一次。", pinyin: "Zài kàn yí cì.", english: "Look one more time." },
+      { speaker: "老师", hanzi: "请看一次。", pinyin: "Qǐng kàn yí cì.", english: "Please look once." },
       { speaker: "你", hanzi: "我懂了。刚才的回答错了。", pinyin: "Wǒ dǒng le. Gāngcái de huídá cuò le.", english: "I understand now. My previous answer was wrong." },
     ],
     replies: [
@@ -241,8 +241,8 @@ export const HSK2_GRAMMAR_BY_STAGE: Record<number, string[]> = {
   4: ["yao-order", "ba-suggestion"],
   5: ["song-gei", "ne-context-question"],
   6: ["zhengzai-progress", "yijing-completed"],
-  7: ["bu-zhidao-zenme", "zai-repeat"],
-  8: ["yinwei-suoyi", "dei-advice"],
+  7: ["bu-zhidao-zenme", "di-ordinal"],
+  8: ["yinwei-suoyi", "dei-advice", "zai-repeat"],
   9: ["zui-superlative", "hui-ability"],
   10: ["bi-comparison", "juede-opinion"],
 };

@@ -10,6 +10,7 @@ import {
   useMandarinSpeech,
 } from "@/lib/use-mandarin-speech";
 import { cn } from "@/lib/utils";
+import { GrammarHanziPrerequisites } from "@/components/grammar-hanzi-prerequisites";
 
 const hanziFont = "font-[family-name:var(--font-hanzi)]";
 const displayFont = "font-[family-name:var(--font-display)]";
@@ -62,6 +63,9 @@ export function GrammarIntro({ lessonId }: { lessonId: string }) {
             </span>
           </div>
         ))}
+      </div>
+      <div className="mt-4">
+        <GrammarHanziPrerequisites lessonId={lesson.id} compact />
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
         <Link

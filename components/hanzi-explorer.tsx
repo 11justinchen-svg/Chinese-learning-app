@@ -53,6 +53,10 @@ import {
 import { speak } from "@/lib/speech";
 import { speechFallbackMessage, useMandarinSpeech } from "@/lib/use-mandarin-speech";
 import { cn } from "@/lib/utils";
+import {
+  GRAMMAR_LESSONS,
+  hanziRequirementsForGrammar,
+} from "@/lib/data/grammar";
 
 type CollectionId = "hsk1" | "hsk2" | HanziTopicId;
 type HanziView = "lessons" | "overview" | "sets";
@@ -235,38 +239,82 @@ export function HanziExplorer({
   initialWordId,
   initialSetId,
   initialLessonId,
+  initialGrammarId,
 }: {
   initialWordId?: string;
   initialSetId?: string;
   initialLessonId?: string;
+  initialGrammarId?: string;
 }) {
+  const requestedGrammar = GRAMMAR_LESSONS.find(
+    (lesson) => lesson.id === initialGrammarId,
+  );
+  const requestedGrammarWordIds = requestedGrammar
+    ? hanziRequirementsForGrammar(requestedGrammar.id)
+        .map((requirement) => requirement.wordId)
+        .filter((wordId) => Boolean(findWord(wordId)))
+    : [];
+  const requestedGrammarFirstWord = findWord(requestedGrammarWordIds[0]);
   const initialCollection: CollectionId =
-    initialSetId && (initialSetId === "hsk1" || initialSetId === "hsk2" || findHanziTopic(initialSetId))
+    requestedGrammarFirstWord?.id.startsWith("hsk2-")
+      ? "hsk2"
+      : initialSetId && (initialSetId === "hsk1" || initialSetId === "hsk2" || findHanziTopic(initialSetId))
       ? (initialSetId as CollectionId)
       : initialWordId?.startsWith("hsk2-")
         ? "hsk2"
         : "hsk1";
   const [collectionId, setCollectionId] = useState<CollectionId>(initialCollection);
+  const [grammarFocusId, setGrammarFocusId] = useState<string | null>(
+    requestedGrammar && requestedGrammarWordIds.length > 0
+      ? requestedGrammar.id
+      : null,
+  );
   const [view, setView] = useState<HanziView>(
-    initialWordId
+    requestedGrammar
+      ? "overview"
+      : initialWordId
       ? "overview"
       : initialSetId && findHanziTopic(initialSetId)
         ? "sets"
         : "lessons",
   );
-  const words = useMemo(() => collectionWords(collectionId), [collectionId]);
+  const grammarFocus = GRAMMAR_LESSONS.find(
+    (lesson) => lesson.id === grammarFocusId,
+  );
+  const grammarFocusWordIds = grammarFocus
+    ? hanziRequirementsForGrammar(grammarFocus.id).map(
+        (requirement) => requirement.wordId,
+      )
+    : [];
+  const words = useMemo(
+    () =>
+      grammarFocus
+        ? grammarFocusWordIds
+            .map(findWord)
+            .filter((word): word is HskWord => Boolean(word))
+        : collectionWords(collectionId),
+    [collectionId, grammarFocus, grammarFocusWordIds],
+  );
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(
-    initialWordId && findWord(initialWordId) ? initialWordId : words[0].id,
+    initialWordId && findWord(initialWordId)
+      ? initialWordId
+      : requestedGrammarWordIds[0] ?? words[0].id,
   );
   const [customIds, setCustomIds] = useState<string[]>([]);
-  const [testSeed, setTestSeed] = useState(0);
-  const [testWordIds, setTestWordIds] = useState<string[]>([]);
+  const [testSeed, setTestSeed] = useState(requestedGrammar ? 1 : 0);
+  const [testWordIds, setTestWordIds] = useState<string[]>(
+    requestedGrammarWordIds,
+  );
   const [testStageId, setTestStageId] = useState<string | null>(null);
   const [practiceKind, setPracticeKind] = useState<PracticeKind>("standard");
-  const [playerMode, setPlayerMode] = useState<"practice" | "quiz">("quiz");
-  const [testTitle, setTestTitle] = useState("");
-  const [testOpen, setTestOpen] = useState(false);
+  const [playerMode, setPlayerMode] = useState<"practice" | "quiz">(
+    requestedGrammar ? "practice" : "quiz",
+  );
+  const [testTitle, setTestTitle] = useState(
+    requestedGrammar ? `${requestedGrammar.title}: prerequisite Hanzi` : "",
+  );
+  const [testOpen, setTestOpen] = useState(Boolean(requestedGrammar));
   const [testResult, setTestResult] = useState<PlayerResults | null>(null);
   const [progress, setProgress] = useState<ProgressStore>(EMPTY_PROGRESS);
 
@@ -305,10 +353,14 @@ export function HanziExplorer({
     },
     [practiceKind, testSeed, testStageId, testWordIds],
   );
-  const topic = findHanziTopic(collectionId);
+  const topic = grammarFocus ? undefined : findHanziTopic(collectionId);
+  const activeCollectionTitle = grammarFocus
+    ? `${grammarFocus.title} prerequisites`
+    : collectionTitle(collectionId);
 
   function chooseCollection(next: CollectionId) {
     const nextWords = collectionWords(next);
+    setGrammarFocusId(null);
     setCollectionId(next);
     setSelectedId(nextWords[0].id);
     setQuery("");
@@ -386,6 +438,7 @@ export function HanziExplorer({
   }
 
   function chooseView(next: HanziView) {
+    if (grammarFocusId) setGrammarFocusId(null);
     setView(next);
     if (next === "sets" && !findHanziTopic(collectionId)) {
       chooseCollection("shopping");
@@ -460,7 +513,11 @@ export function HanziExplorer({
             <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
               <div>
                 <p id="collections-heading" className="font-[family-name:var(--font-hand)] text-xl text-primary">
-                  {view === "overview" ? "the whole character field" : "language for a real place"}
+                  {grammarFocus
+                    ? "forms that unlock this grammar pattern"
+                    : view === "overview"
+                      ? "the whole character field"
+                      : "language for a real place"}
                 </p>
                 <div className="mt-2 inline-flex border border-foreground" role="group" aria-label="HSK level">
                   {(["hsk1", "hsk2"] as const).map((id, index) => (
@@ -471,14 +528,29 @@ export function HanziExplorer({
                 </div>
               </div>
               <div className="flex flex-wrap gap-2">
-                <button type="button" onClick={() => startTest(words.map((word) => word.id), `${collectionTitle(collectionId)} mixed test`)} className="stamp-button min-h-11">
-                  <Zap className="h-4 w-4" /> {view === "overview" ? "General test" : "Test this set"}
+                <button type="button" onClick={() => startTest(words.map((word) => word.id), `${activeCollectionTitle} mixed test`, grammarFocus ? "practice" : "quiz")} className="stamp-button min-h-11">
+                  <Zap className="h-4 w-4" /> {grammarFocus ? "Practice prerequisites" : view === "overview" ? "General test" : "Test this set"}
                 </button>
                 <button type="button" disabled={customIds.length === 0} onClick={() => startTest(customIds, `Your ${customIds.length}-Hanzi test`, "practice")} className="inline-flex min-h-11 items-center gap-2 border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-45">
                   <CheckSquare2 className="h-4 w-4" /> Test selected ({customIds.length})
                 </button>
               </div>
             </div>
+
+            {grammarFocus && (
+              <div className="mt-6 grid gap-4 border border-foreground bg-[oklch(var(--poster-cyan)/0.15)] p-4 sm:grid-cols-[1fr_auto] sm:items-center">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">
+                    Grammar prerequisite set · {words.length} written form{words.length === 1 ? "" : "s"}
+                  </p>
+                  <p className="mt-1 text-lg font-bold">{grammarFocus.title}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{grammarFocus.pattern}</p>
+                </div>
+                <Link href={`/grammar#${grammarFocus.id}`} className="inline-flex min-h-11 items-center justify-center gap-2 border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                  <BookOpenText className="h-4 w-4" /> Return to grammar
+                </Link>
+              </div>
+            )}
 
             {view === "sets" && (
               <div className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-5" aria-label="Real-life Hanzi sets">

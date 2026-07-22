@@ -25,6 +25,12 @@ export interface GrammarLesson {
   resources: GrammarResource[];
 }
 
+export interface GrammarHanziRequirement {
+  wordId: string;
+  /** The job this written form performs in this grammar concept. */
+  use: string;
+}
+
 export const GRAMMAR_LESSONS: GrammarLesson[] = [
   {
     id: "shi-sentences",
@@ -611,6 +617,21 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
     vocab: [], resources: [],
   },
   {
+    id: "di-ordinal",
+    level: 2,
+    title: "Put things in order with 第",
+    hanzi: "第",
+    focus: "第",
+    pattern: "第 + Number + Noun/Measure phrase",
+    summary:
+      "第 before a number makes an ordinal: first, second, and so on. Keep the noun or counted event after the number.",
+    examples: [
+      { hanzi: "第一题是什么意思？", pinyin: "Dì-yī tí shì shénme yìsi?", meaning: "What does the first question mean?" },
+      { hanzi: "这是第二次考试。", pinyin: "Zhè shì dì-èr cì kǎoshì.", meaning: "This is the second test." },
+    ],
+    vocab: [], resources: [],
+  },
+  {
     id: "bu-zhidao-zenme",
     level: 2,
     title: "Say you do not know how",
@@ -731,3 +752,151 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
     vocab: [], resources: [],
   },
 ];
+
+/**
+ * A deliberately small written-form bridge into each grammar concept.
+ * These are prerequisites for reading the pattern, not a claim that every
+ * word in every example must be mastered before grammar practice begins.
+ */
+export const GRAMMAR_HANZI_REQUIREMENTS: Record<
+  string,
+  GrammarHanziRequirement[]
+> = {
+  "shi-sentences": [
+    { wordId: "hsk1-096", use: "links one identity to another" },
+  ],
+  "ma-questions": [
+    { wordId: "hsk1-096", use: "forms the statement before the question" },
+    { wordId: "hsk1-061", use: "turns that statement into a yes/no question" },
+  ],
+  "de-possession": [
+    { wordId: "hsk1-015", use: "links an owner or description to a thing" },
+  ],
+  "bu-vs-mei": [
+    { wordId: "hsk1-007", use: "negates habits, states, and future actions" },
+    { wordId: "hsk1-064", use: "negates possession and completed actions" },
+    { wordId: "hsk1-136", use: "combines with 没 for ‘do not have’" },
+  ],
+  "measure-words": [
+    { wordId: "hsk1-032", use: "the general measure word" },
+    { wordId: "hsk1-104", use: "counts years of age" },
+    { wordId: "hsk1-030", use: "counts minutes" },
+  ],
+  "date-word-order": [
+    { wordId: "hsk1-137", use: "marks the month" },
+    { wordId: "hsk1-087", use: "marks the day of the month" },
+    { wordId: "hsk1-016", use: "marks the clock hour" },
+  ],
+  "time-word-order": [
+    { wordId: "hsk1-120", use: "places the action in the present" },
+    { wordId: "hsk1-047", use: "places the action today" },
+    { wordId: "hsk1-068", use: "places the action tomorrow" },
+  ],
+  "xiang-want": [
+    { wordId: "hsk1-121", use: "expresses wanting to do the next action" },
+  ],
+  "tai-le": [
+    { wordId: "hsk1-107", use: "marks an excessive or strong degree" },
+    { wordId: "hsk1-055", use: "closes the reaction as a new situation" },
+  ],
+  "zai-location": [
+    { wordId: "hsk1-139", use: "places a person, thing, or action somewhere" },
+  ],
+  "ye-dou": [
+    { wordId: "hsk2-121", use: "adds another matching person or action" },
+    { wordId: "hsk1-021", use: "includes every member of the topic" },
+  ],
+  "hen-adjective": [
+    { wordId: "hsk1-039", use: "connects a subject directly to an adjective" },
+  ],
+  "le-completed": [
+    { wordId: "hsk1-055", use: "presents an action as completed" },
+  ],
+  "cong-dao-route": [
+    { wordId: "hsk2-014", use: "introduces the starting point" },
+    { wordId: "hsk2-019", use: "introduces the destination or arrival" },
+  ],
+  "li-distance": [
+    { wordId: "hsk2-062", use: "sets one place relative to another" },
+    { wordId: "hsk2-131", use: "describes a far distance" },
+    { wordId: "hsk2-049", use: "describes a near distance" },
+  ],
+  "keyi-request": [
+    { wordId: "hsk2-057", use: "asks whether an action is possible or allowed" },
+    { wordId: "hsk1-061", use: "turns the request into a yes/no question" },
+  ],
+  "qing-request": [
+    { wordId: "hsk1-082", use: "makes the following action a polite request" },
+    { wordId: "hsk2-028", use: "asks someone to tell you information" },
+  ],
+  "adj-yidianr": [
+    { wordId: "hsk2-007", use: "describes a lower price" },
+    { wordId: "hsk1-014", use: "models an adjective before 一点儿" },
+  ],
+  "de-nominalizer": [
+    { wordId: "hsk1-015", use: "replaces a noun already clear from context" },
+    { wordId: "hsk2-040", use: "models ‘the red one’" },
+  ],
+  "yao-order": [
+    { wordId: "hsk2-120", use: "states the item you want" },
+    { wordId: "hsk1-032", use: "connects a quantity to a general item" },
+  ],
+  "ba-suggestion": [
+    { wordId: "hsk2-001", use: "softens a plan or command into a suggestion" },
+  ],
+  "song-gei": [
+    { wordId: "hsk2-093", use: "marks the act of giving or delivering" },
+    { wordId: "hsk2-030", use: "introduces the recipient" },
+  ],
+  "ne-context-question": [
+    { wordId: "hsk1-071", use: "asks ‘what about this topic?’ from context" },
+  ],
+  "zhengzai-progress": [
+    { wordId: "hsk2-141", use: "marks an action happening right now" },
+  ],
+  "yijing-completed": [
+    { wordId: "hsk2-123", use: "makes ‘already’ explicit" },
+    { wordId: "hsk2-100", use: "shows the action reaches its endpoint" },
+    { wordId: "hsk1-055", use: "presents the completion as relevant now" },
+  ],
+  "di-ordinal": [
+    { wordId: "hsk2-022", use: "turns a number into first, second, and so on" },
+    { wordId: "hsk2-013", use: "counts repeated events after the ordinal" },
+  ],
+  "bu-zhidao-zenme": [
+    { wordId: "hsk1-007", use: "negates knowing" },
+    { wordId: "hsk2-142", use: "expresses knowing or not knowing" },
+    { wordId: "hsk1-140", use: "introduces how to perform the action" },
+  ],
+  "zai-repeat": [
+    { wordId: "hsk2-133", use: "marks an action that will happen again" },
+    { wordId: "hsk2-013", use: "counts the repetition" },
+  ],
+  "yinwei-suoyi": [
+    { wordId: "hsk2-125", use: "introduces the reason" },
+    { wordId: "hsk2-094", use: "introduces the result" },
+  ],
+  "dei-advice": [
+    { wordId: "hsk2-020", use: "means ‘need to’ when pronounced děi" },
+    { wordId: "hsk2-114", use: "models the necessary action ‘rest’" },
+  ],
+  "zui-superlative": [
+    { wordId: "hsk2-146", use: "marks the highest degree or a favorite" },
+  ],
+  "hui-ability": [
+    { wordId: "hsk1-042", use: "expresses a learned skill" },
+    { wordId: "hsk1-007", use: "negates that learned skill" },
+  ],
+  "bi-comparison": [
+    { wordId: "hsk2-006", use: "introduces the comparison reference" },
+  ],
+  "juede-opinion": [
+    { wordId: "hsk2-052", use: "introduces a personal judgment or impression" },
+  ],
+};
+
+export function hanziRequirementsForGrammar(
+  lessonId: string,
+): GrammarHanziRequirement[] {
+  return GRAMMAR_HANZI_REQUIREMENTS[lessonId] ?? [];
+}

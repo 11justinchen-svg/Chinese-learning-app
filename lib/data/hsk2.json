@@ -517,7 +517,7 @@
     "id": "hsk2-013",
     "hanzi": "次",
     "pinyin": "cì",
-    "meaning": "next in sequence",
+    "meaning": "time; occurrence; sequence",
     "meanings": [
       "next in sequence",
       "second",
@@ -1206,9 +1206,10 @@
     "id": "hsk2-028",
     "hanzi": "告诉",
     "pinyin": "gào sù",
-    "meaning": "to press charges; to file a complaint",
+    "meaning": "to tell; to inform",
     "meanings": [
-      "to press charges; to file a complaint"
+      "to tell",
+      "to inform"
     ],
     "pos": [
       "v"
@@ -2788,7 +2789,7 @@
     "id": "hsk2-062",
     "hanzi": "离",
     "pinyin": "lí",
-    "meaning": "to leave",
+    "meaning": "distance from; away from",
     "meanings": [
       "to leave",
       "to part from",

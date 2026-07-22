@@ -9,6 +9,7 @@ import { findRoleCallScenarioForGrammar } from "@/lib/role-calls";
 import { speak } from "@/lib/speech";
 import { useMandarinSpeech } from "@/lib/use-mandarin-speech";
 import { cn } from "@/lib/utils";
+import { GrammarHanziPrerequisites } from "@/components/grammar-hanzi-prerequisites";
 
 const hanziFont = "font-[family-name:var(--font-hanzi-display)]";
 
@@ -122,6 +123,10 @@ export function GrammarRepertoire() {
                       {lesson.pattern}
                     </p>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">{lesson.summary}</p>
+
+                    <div className="mt-5">
+                      <GrammarHanziPrerequisites lessonId={lesson.id} />
+                    </div>
 
                     <div className="mt-5 space-y-3 border-t border-border pt-4">
                       {lesson.examples.map((example) => (

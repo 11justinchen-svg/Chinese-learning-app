@@ -11,7 +11,12 @@ export const metadata: Metadata = {
 export default async function HanziPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ word?: string; set?: string; lesson?: string }>;
+  searchParams?: Promise<{
+    word?: string;
+    set?: string;
+    lesson?: string;
+    grammar?: string;
+  }>;
 }) {
   const query = (await searchParams) ?? {};
   return (
@@ -32,7 +37,12 @@ export default async function HanziPage({
           </p>
         </div>
       </header>
-      <HanziExplorer initialWordId={query.word} initialSetId={query.set} initialLessonId={query.lesson} />
+      <HanziExplorer
+        initialWordId={query.word}
+        initialSetId={query.set}
+        initialLessonId={query.lesson}
+        initialGrammarId={query.grammar}
+      />
     </main>
   );
 }
