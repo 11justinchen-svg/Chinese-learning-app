@@ -2,6 +2,8 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const requestWindows = new Map<string, { count: number; resetAt: number }>();
+const TRANSLATE_MODEL =
+  process.env.GEMINI_TRANSLATE_MODEL ?? "gemini-3.5-live-translate-preview";
 
 function allowToken(request: Request): boolean {
   const now = Date.now();
@@ -40,17 +42,22 @@ export async function POST(request: Request) {
         "x-goog-api-key": apiKey,
       },
       body: JSON.stringify({
-        authToken: {
-          uses: 1,
-          expireTime: new Date(now + 15 * 60_000).toISOString(),
-          newSessionExpireTime: new Date(now + 60_000).toISOString(),
-        },
+        uses: 1,
+        expireTime: new Date(now + 15 * 60_000).toISOString(),
+        newSessionExpireTime: new Date(now + 60_000).toISOString(),
       }),
       signal: AbortSignal.timeout(8_000),
     },
   );
   if (!upstream.ok) {
-    console.error("Gemini ephemeral token request failed:", upstream.status);
+    const detail = (await upstream.json().catch(() => null)) as {
+      error?: { message?: string };
+    } | null;
+    console.error(
+      "Gemini ephemeral token request failed:",
+      upstream.status,
+      detail?.error?.message?.slice(0, 320) ?? "unknown error",
+    );
     return Response.json(
       { error: "Live translation could not start." },
       { status: 502 },
@@ -66,9 +73,7 @@ export async function POST(request: Request) {
   return Response.json(
     {
       token: result.name,
-      model:
-        process.env.GEMINI_TRANSLATE_MODEL ??
-        "gemini-3.5-live-translate-preview",
+      model: TRANSLATE_MODEL,
       expiresAt: new Date(now + 15 * 60_000).toISOString(),
     },
     { headers: { "Cache-Control": "no-store" } },

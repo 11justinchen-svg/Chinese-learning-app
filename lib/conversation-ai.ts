@@ -1,4 +1,5 @@
 import { normalizeMandarinAnswer } from "@/lib/role-calls";
+import { pinyin } from "pinyin-pro";
 
 export type ConversationAiProvider = "anthropic" | "gemini" | "ollama";
 
@@ -23,6 +24,20 @@ export interface SafeOpenCoachPayload extends SafeCoachPayload {
   accepted: boolean;
 }
 
+export function toneMarkedPinyinForHanzi(hanzi: string): string {
+  return pinyin(hanzi, { toneType: "symbol", type: "string" })
+    .replace(/\s+([，。！？；：,.!?;:])/gu, "$1")
+    .replaceAll("，", ",")
+    .replaceAll("。", ".")
+    .replaceAll("！", "!")
+    .replaceAll("？", "?")
+    .replaceAll("；", ";")
+    .replaceAll("：", ":")
+    .replace(/([，。！？；：,.!?;:])(?=\S)/gu, "$1 ")
+    .replace(/\s+/gu, " ")
+    .trim();
+}
+
 interface ProviderOrderOptions {
   hasAnthropicKey: boolean;
   hasGeminiKey: boolean;
@@ -45,7 +60,7 @@ function safeGeneratedTurn(value: unknown, canonical: CoachLine): CoachLine | nu
   if (hanzi.length > 48 || pinyin.length > 140 || english.length > 160) return null;
   const cue = requiredQuestionCue(canonical.hanzi);
   if (cue && !normalizeMandarinAnswer(hanzi).includes(cue)) return null;
-  return { hanzi, pinyin, english };
+  return { hanzi, pinyin: toneMarkedPinyinForHanzi(hanzi), english };
 }
 
 function safeOpenTurn(value: unknown): CoachLine | null {
@@ -57,7 +72,7 @@ function safeOpenTurn(value: unknown): CoachLine | null {
   if (!hanzi || !pinyin || !english) return null;
   if (hanzi.length > 64 || pinyin.length > 180 || english.length > 180) return null;
   if (!/[\u3400-\u9fff]/u.test(hanzi)) return null;
-  return { hanzi, pinyin, english };
+  return { hanzi, pinyin: toneMarkedPinyinForHanzi(hanzi), english };
 }
 
 function safeGeneratedFeedback(
@@ -144,7 +159,11 @@ export function parseOpenCoachPayload(raw: string): SafeOpenCoachPayload {
 
   return {
     accepted: parsed.accepted,
-    feedback: { note, betterHanzi, betterPinyin },
+    feedback: {
+      note,
+      betterHanzi,
+      betterPinyin: toneMarkedPinyinForHanzi(betterHanzi),
+    },
     turn,
   };
 }
@@ -156,8 +175,8 @@ export function conversationAiProviderOrder({
   preferred,
 }: ProviderOrderOptions): ConversationAiProvider[] {
   const available: ConversationAiProvider[] = [];
-  if (ollamaAvailable) available.push("ollama");
   if (hasGeminiKey) available.push("gemini");
+  if (ollamaAvailable) available.push("ollama");
   if (hasAnthropicKey) available.push("anthropic");
 
   const normalized = preferred?.toLowerCase();

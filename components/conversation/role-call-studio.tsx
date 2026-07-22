@@ -36,6 +36,7 @@ import {
 import { cn } from "@/lib/utils";
 
 type SupportLevel = "guided" | "standard" | "challenge";
+type ConversationMode = "free" | "coach";
 type CallState = "idle" | "connecting" | "active" | "thinking" | "complete";
 type AiProvider = "anthropic" | "gemini" | "ollama";
 
@@ -230,6 +231,9 @@ export function RoleCallStudio({
     firstScenario.id,
   );
   const [supportLevel, setSupportLevel] = useState<SupportLevel>("guided");
+  const [conversationMode, setConversationMode] = useState<ConversationMode>(
+    grammarLessonId ? "coach" : "free",
+  );
   const [callState, setCallState] = useState<CallState>("idle");
   const [stepIndex, setStepIndex] = useState(0);
   const [transcript, setTranscript] = useState<TranscriptTurn[]>([]);
@@ -277,6 +281,7 @@ export function RoleCallStudio({
           setAiProvider(data?.preferredProvider ?? null);
           setOpenEndedAvailable(Boolean(data?.openEndedAvailable));
           setLiveTranslateAvailable(Boolean(data?.liveTranslateAvailable));
+          if (!data?.openEndedAvailable) setConversationMode("coach");
         },
       )
       .catch(() => {
@@ -324,6 +329,8 @@ export function RoleCallStudio({
   }
 
   function startCall() {
+    const beginOpen =
+      conversationMode === "free" && openEndedAvailable && !grammarLessonId;
     resetCall("connecting");
     const generation = callGenerationRef.current;
     window.setTimeout(() => {
@@ -331,6 +338,7 @@ export function RoleCallStudio({
       setTranscript([
         { ...scenario.opening, id: `${scenario.id}-opening`, speaker: "persona" },
       ]);
+      setOpenEnded(beginOpen);
       setCallState("active");
       speak(scenario.opening.hanzi, { rate: 0.78 });
     }, 450);
@@ -607,8 +615,8 @@ export function RoleCallStudio({
             Use your Mandarin with someone who stays in character.
           </h1>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Speak, type Hanzi, or type pinyin. Natural variants are welcome. Finish
-            the authored mission, then keep talking as long as you want when Gemini is configured.
+            Call a character and speak naturally from the first reply. Gemini stays
+            in the scene for as long as you choose, while optional coaching gives one useful correction at a time.
           </p>
         </div>
 
@@ -652,7 +660,9 @@ export function RoleCallStudio({
                   </div>
                   <p className="mt-4 font-semibold">{option.role}</p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{option.description}</p>
-                  <p className="mt-3 text-[0.68rem] font-bold uppercase tracking-wide text-muted-foreground">Open now · {option.steps.length} coached turns{openEndedAvailable ? " + free talk" : ""}</p>
+                  <p className="mt-3 text-[0.68rem] font-bold uppercase tracking-wide text-muted-foreground">
+                    {openEndedAvailable ? "Open character · no turn limit" : `Open now · ${option.steps.length} coached turns`}
+                  </p>
                 </button>
               );
             })}
@@ -661,6 +671,42 @@ export function RoleCallStudio({
 
         <section className="poster-panel mt-8 grid gap-6 p-5 sm:grid-cols-[1fr_auto] sm:items-end sm:p-7">
           <div>
+            {!grammarLessonId && (
+              <fieldset className="mb-5">
+                <legend className="text-sm font-semibold">Choose the call style</legend>
+                <div className="mt-2 grid max-w-xl gap-2 sm:grid-cols-2">
+                  <button
+                    type="button"
+                    aria-pressed={conversationMode === "free"}
+                    disabled={!openEndedAvailable}
+                    onClick={() => setConversationMode("free")}
+                    className={cn(
+                      "min-h-16 border border-foreground px-3 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-45",
+                      conversationMode === "free"
+                        ? "bg-[oklch(var(--poster-yellow)/0.65)] shadow-[3px_3px_0_oklch(var(--foreground))]"
+                        : "bg-card hover:bg-secondary",
+                    )}
+                  >
+                    <span className="block text-xs font-bold uppercase tracking-wide">Free character</span>
+                    <span className="mt-1 block text-xs text-muted-foreground">Start unscripted and talk until you hang up.</span>
+                  </button>
+                  <button
+                    type="button"
+                    aria-pressed={conversationMode === "coach"}
+                    onClick={() => setConversationMode("coach")}
+                    className={cn(
+                      "min-h-16 border border-foreground px-3 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      conversationMode === "coach"
+                        ? "bg-[oklch(var(--poster-cyan)/0.55)] shadow-[3px_3px_0_oklch(var(--foreground))]"
+                        : "bg-card hover:bg-secondary",
+                    )}
+                  >
+                    <span className="block text-xs font-bold uppercase tracking-wide">Coached mission</span>
+                    <span className="mt-1 block text-xs text-muted-foreground">Complete three assessed HSK replies, then continue freely.</span>
+                  </button>
+                </div>
+              </fieldset>
+            )}
             <label htmlFor="call-support" className="text-sm font-semibold">Choose your support</label>
             <select
               id="call-support"
@@ -742,9 +788,16 @@ export function RoleCallStudio({
               <PhoneOff className="h-4 w-4" /><span className="hidden sm:inline">End</span>
             </button>
           </div>
-          <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-background/60" aria-label={openEnded ? "Authored mission complete; open conversation active" : `${Math.round(progress * 100)}% complete`}>
-            <div className="h-full rounded-full bg-primary transition-[width] duration-500" style={{ width: `${progress * 100}%` }} />
-          </div>
+          {openEnded ? (
+            <div className="mt-4 flex items-center justify-between border-t border-foreground/20 pt-3 text-[0.68rem] font-bold uppercase tracking-wider">
+              <span className="flex items-center gap-2"><span className="h-2 w-2 animate-pulse rounded-full bg-emerald-600" />Free character conversation</span>
+              <span>No turn limit</span>
+            </div>
+          ) : (
+            <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-background/60" aria-label={`${Math.round(progress * 100)}% complete`}>
+              <div className="h-full rounded-full bg-primary transition-[width] duration-500" style={{ width: `${progress * 100}%` }} />
+            </div>
+          )}
         </header>
 
         <div className="grid min-h-[34rem] lg:grid-cols-[minmax(0,1fr)_18rem]">
@@ -824,16 +877,16 @@ export function RoleCallStudio({
           </section>
 
           <aside className="border-t border-border bg-secondary/20 p-5 lg:border-t-0">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-wider text-muted-foreground">Your mission</p>
+            <p className="text-[0.68rem] font-semibold uppercase tracking-wider text-muted-foreground">{openEnded ? "Scene cue" : "Your mission"}</p>
             <p className="mt-2 text-sm font-medium">{scenario.goal}</p>
             {openEnded && callState !== "complete" && (
               <div className="mt-6 border border-foreground bg-[oklch(var(--poster-yellow)/0.35)] p-4">
                 <p className="text-xs font-bold uppercase tracking-wide text-primary">Open conversation</p>
-                <p className="mt-2 text-sm">The coached mission is complete. Stay in this setting and respond naturally; end the call whenever you are done.</p>
+                <p className="mt-2 text-sm">There is no script or required answer. Respond naturally, change the details, ask questions, and end the call whenever you are done.</p>
                 <p className="mt-3 text-xs text-muted-foreground">Only the latest 10 turns are sent for context. Open talk does not inflate mastery progress.</p>
               </div>
             )}
-            {currentStep && callState !== "complete" && (
+            {!openEnded && currentStep && callState !== "complete" && (
               <div className="mt-6 rounded-2xl border border-border bg-card p-4">
                 <p className="text-xs font-semibold text-primary">Step {stepIndex + 1} of {scenario.steps.length}</p>
                 {(supportLevel === "guided" || hintLevel >= 0) && <p className="mt-2 text-sm">{currentStep.goal}</p>}

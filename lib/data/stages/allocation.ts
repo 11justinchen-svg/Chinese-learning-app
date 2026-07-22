@@ -180,7 +180,7 @@ export const STAGE_GRAMMAR: Record<number, string[]> = {
   1: ["shi-sentences", "ma-questions"],
   2: ["de-possession", "bu-vs-mei"],
   3: ["measure-words"],
-  4: [],
+  4: ["date-word-order"],
   5: ["time-word-order", "xiang-want"],
   6: ["tai-le"],
   7: ["zai-location"],

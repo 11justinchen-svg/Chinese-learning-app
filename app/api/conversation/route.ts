@@ -262,7 +262,7 @@ async function readGeminiRaw(
           maxOutputTokens: 320,
           responseFormat: {
             text: {
-              mimeType: "application/json",
+              mimeType: "APPLICATION_JSON",
               schema: openEnded ? openCoachSchema : coachSchema,
             },
           },
@@ -271,7 +271,14 @@ async function readGeminiRaw(
       signal: AbortSignal.timeout(12_000),
     },
   );
-  if (!upstream.ok) throw new Error(`Gemini returned ${upstream.status}`);
+  if (!upstream.ok) {
+    const detail = (await upstream.json().catch(() => null)) as {
+      error?: { message?: string };
+    } | null;
+    throw new Error(
+      `Gemini returned ${upstream.status}: ${detail?.error?.message?.slice(0, 320) ?? "unknown error"}`,
+    );
+  }
   const result = (await upstream.json()) as {
     candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
   };

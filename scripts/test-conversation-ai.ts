@@ -4,6 +4,7 @@ import {
   parseCoachPayload,
   parseOpenCoachPayload,
   runConversationAiProviders,
+  toneMarkedPinyinForHanzi,
   type ConversationAiProvider,
 } from "../lib/conversation-ai";
 
@@ -24,8 +25,8 @@ assert.deepEqual(
     hasGeminiKey: true,
     ollamaAvailable: true,
   }),
-  ["ollama", "gemini", "anthropic"],
-  "Local AI should be the private, no-credit default when it is installed",
+  ["gemini", "ollama", "anthropic"],
+  "Gemini Flash-Lite should be the default character and feedback provider",
 );
 assert.deepEqual(
   conversationAiProviderOrder({
@@ -34,7 +35,7 @@ assert.deepEqual(
     ollamaAvailable: true,
     preferred: "anthropic",
   }),
-  ["anthropic", "ollama", "gemini"],
+  ["anthropic", "gemini", "ollama"],
   "An explicit cloud preference should still retain local fallback",
 );
 
@@ -55,6 +56,15 @@ const open = parseOpenCoachPayload(
 );
 assert.equal(open.accepted, true);
 assert.equal(open.turn?.hanzi, "好的。您还要什么？");
+assert.equal(
+  open.turn?.pinyin,
+  "hǎo de. nín hái yào shén me?",
+  "Dynamic role lines should use deterministic tone-marked pinyin",
+);
+assert.equal(
+  toneMarkedPinyinForHanzi("我们今天有一点忙。"),
+  "wǒ men jīn tiān yǒu yì diǎn máng.",
+);
 
 const valid = parseCoachPayload(
   JSON.stringify({
@@ -70,7 +80,10 @@ const valid = parseCoachPayload(
   true,
 );
 assert.equal(valid.feedback.betterHanzi, target.hanzi);
-assert.deepEqual(valid.turn, response);
+assert.deepEqual(valid.turn, {
+  ...response,
+  pinyin: "hǎo de. nín yào jǐ gè?",
+});
 
 const preservedPath = parseCoachPayload(
   JSON.stringify({

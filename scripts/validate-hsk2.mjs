@@ -1,11 +1,14 @@
 import assert from "node:assert/strict";
 import { HSK1, HSK2 } from "../lib/hsk.ts";
 import { HSK2_STAGES } from "../lib/data/stages/index.ts";
+import { GRAMMAR_LESSONS } from "../lib/data/grammar.ts";
+import { HSK2_GRAMMAR_BY_STAGE } from "../lib/data/stages/hsk2.ts";
 
 const exerciseIds = new Set();
 const allocatedIds = HSK2_STAGES.flatMap((stage) => stage.wordIds);
 const knownIds = new Set([...HSK1, ...HSK2].map((word) => word.id));
 const hsk2Ids = new Set(HSK2.map((word) => word.id));
+const grammarIds = new Set(GRAMMAR_LESSONS.map((lesson) => lesson.id));
 
 assert.equal(HSK2_STAGES.length, 10, "HSK 2 needs ten scenario lessons");
 assert.equal(allocatedIds.length, HSK2.length, "Every HSK 2 word must be allocated once");
@@ -30,10 +33,22 @@ for (const [index, stage] of HSK2_STAGES.entries()) {
   assert.equal(stage.id, `hsk2-stage-${String(number).padStart(2, "0")}`);
   assert.equal(stage.level, 2, `${stage.id} must be marked HSK 2`);
   assert.equal(stage.index, number, `${stage.id} has the wrong level-local index`);
-  assert(stage.estimatedMinutes && stage.estimatedMinutes <= 7, `${stage.id} is not a fast lesson`);
+  assert(stage.estimatedMinutes && stage.estimatedMinutes <= 15, `${stage.id} is longer than the focused lesson target`);
   assert(stage.goal, `${stage.id} needs a real-life goal`);
   assert(stage.dialogue.length >= 4, `${stage.id} needs a model conversation`);
   assert(stage.blocks.length >= 2, `${stage.id} needs retrieval and production blocks`);
+  assert.deepEqual(stage.grammarLessonIds, HSK2_GRAMMAR_BY_STAGE[number], `${stage.id} grammar allocation drifted`);
+  assert(stage.grammarLessonIds.length >= 2, `${stage.id} needs substantial grammar coverage`);
+  assert(stage.grammarLessonIds.every((id) => grammarIds.has(id)), `${stage.id} includes unknown grammar`);
+  const grammarBlocks = stage.blocks.filter((block) => block.kind === "grammar");
+  assert.equal(grammarBlocks.length, stage.grammarLessonIds.length, `${stage.id} needs one practice block per grammar concept`);
+  for (const block of grammarBlocks) {
+    assert(block.grammarLessonId && stage.grammarLessonIds.includes(block.grammarLessonId), `${block.id} is not allocated to ${stage.id}`);
+    assert(block.exercises.length >= 5, `${block.id} needs varied, production-bearing practice`);
+    assert(block.exercises.some((exercise) => exercise.kind === "reply"), `${block.id} needs a scenario reply`);
+    assert(block.exercises.filter((exercise) => exercise.kind === "cloze").length >= 2, `${block.id} needs repeated retrieval`);
+    assert(block.exercises.filter((exercise) => exercise.kind === "order").length >= 2, `${block.id} needs sentence building`);
+  }
   assert.equal(stage.checkpoint.length, 5, `${stage.id} fast test must contain five items`);
   assert(stage.checkpoint.some((exercise) => exercise.kind === "reply"), `${stage.id} fast test needs a reply`);
   assert(stage.checkpoint.some((exercise) => exercise.kind === "order"), `${stage.id} fast test needs sentence production`);

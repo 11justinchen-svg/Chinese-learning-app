@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FileText, Headphones, PlayCircle, Volume2 } from "lucide-react";
+import { BookOpenText, FileText, Headphones, PlayCircle, Volume2 } from "lucide-react";
 import { GRAMMAR_LESSONS } from "@/lib/data/grammar";
 import { findRoleCallScenarioForGrammar } from "@/lib/role-calls";
 import { speak } from "@/lib/speech";
@@ -64,6 +64,13 @@ export function GrammarIntro({ lessonId }: { lessonId: string }) {
         ))}
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
+        <Link
+          href={`/grammar#${lesson.id}`}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-2.5 py-1.5 text-xs font-semibold transition-colors hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <BookOpenText className="h-3.5 w-3.5" />
+          Open in repertoire
+        </Link>
         {roleScenario && (
           <Link
             href={`/conversation?grammar=${encodeURIComponent(lessonId)}`}

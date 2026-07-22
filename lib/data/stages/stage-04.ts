@@ -20,7 +20,7 @@ const vocab = buildAuthoredVocabulary(4, STAGE_WORD_IDS[4], {
 });
 
 const calendarPractice: ExerciseBlock = {
-  id: "s4-calendar-use", title: "Read the calendar and answer", kind: "vocab",
+  id: "s4-calendar-use", title: "Build dates and clock time", kind: "grammar", grammarLessonId: "date-word-order",
   exercises: [
     { id: "s4-calendar-order-0", kind: "order", wordIds: ["hsk1-047", "hsk1-127", "hsk1-088"], tiles: ["今天", "星期", "三"], translation: "Today is Wednesday.", pinyin: "Jīntiān xīngqīsān." },
     { id: "s4-calendar-cloze-0", kind: "cloze", wordIds: ["hsk1-117", "hsk1-120"], sentence: "现在是＿三点。", translation: "It is 3 p.m. now.", choices: ["下午", "上午", "中午"], answer: "下午", explain: "下午 before 三点 makes the time unambiguously p.m." },

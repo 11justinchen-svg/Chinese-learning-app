@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, Headphones, Layers, Library, Route } from "lucide-react";
+import { BarChart3, BookOpenText, Headphones, Layers, Library, Route } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const links = [
   { href: "/lessons", label: "Lessons", hanzi: "课", icon: Route },
+  { href: "/grammar", label: "Grammar", hanzi: "法", icon: BookOpenText },
   { href: "/conversation", label: "Role calls", hanzi: "说", icon: Headphones },
   { href: "/progress", label: "Progress", hanzi: "进", icon: BarChart3 },
   { href: "/flashcards", label: "Flashcards", hanzi: "习", icon: Layers },

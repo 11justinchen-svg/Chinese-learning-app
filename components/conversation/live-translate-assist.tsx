@@ -155,13 +155,13 @@ export function LiveTranslateAssist({
               model: `models/${tokenData.model}`,
               generationConfig: {
                 responseModalities: ["AUDIO"],
-                inputAudioTranscription: {},
-                outputAudioTranscription: {},
                 translationConfig: {
                   targetLanguageCode: "en",
                   echoTargetLanguage: false,
                 },
               },
+              inputAudioTranscription: {},
+              outputAudioTranscription: {},
             },
           }),
         );

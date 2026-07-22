@@ -14,6 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import { findStage, stagesForLevel } from "@/lib/data/stages";
+import { GRAMMAR_LESSONS } from "@/lib/data/grammar";
 import type { ExerciseBlock } from "@/lib/data/stages/types";
 import {
   loadProgress,
@@ -114,6 +115,9 @@ export function StageView({ stageId }: { stageId: string }) {
   const total = stage.wordIds.length;
   const blockById = new Map(stage.blocks.map((b) => [b.id, b]));
   const levelStages = stagesForLevel(stage.level ?? 1);
+  const grammarLessons = stage.grammarLessonIds
+    .map((id) => GRAMMAR_LESSONS.find((lesson) => lesson.id === id))
+    .filter((lesson): lesson is (typeof GRAMMAR_LESSONS)[number] => Boolean(lesson));
 
   function movePast(sectionId: SectionId) {
     const index = sections.findIndex((section) => section.id === sectionId);
@@ -164,6 +168,25 @@ export function StageView({ stageId }: { stageId: string }) {
             <p className="mt-3 max-w-xl text-sm font-semibold">
               Real-life goal: {stage.goal}
             </p>
+          )}
+          {grammarLessons.length > 0 && (
+            <div className="mt-5 border-y border-border/70 py-4">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                <span className="text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">
+                  Grammar in this lesson
+                </span>
+                {grammarLessons.map((lesson) => (
+                  <Link
+                    key={lesson.id}
+                    href={`/grammar#${lesson.id}`}
+                    className="inline-flex min-h-11 items-center gap-2 border border-border bg-background/75 px-3 py-2 text-sm font-semibold transition-colors hover:border-primary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    <span className={hanziFont}>{lesson.hanzi}</span>
+                    <span className="hidden sm:inline">{lesson.pattern}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
           )}
           <div className="mt-5 flex flex-wrap items-center gap-4">
             <div className="flex min-w-56 flex-1 items-center gap-3">

@@ -1,4 +1,5 @@
 import { HSK2, type HskWord } from "@/lib/hsk";
+import { GRAMMAR_LESSONS } from "@/lib/data/grammar";
 import type {
   ChoiceExercise,
   DialogueLine,
@@ -233,6 +234,19 @@ const SPECS: StageSpec[] = [
   },
 ];
 
+export const HSK2_GRAMMAR_BY_STAGE: Record<number, string[]> = {
+  1: ["cong-dao-route", "li-distance"],
+  2: ["keyi-request", "qing-request"],
+  3: ["adj-yidianr", "de-nominalizer"],
+  4: ["yao-order", "ba-suggestion"],
+  5: ["song-gei", "ne-context-question"],
+  6: ["zhengzai-progress", "yijing-completed"],
+  7: ["bu-zhidao-zenme", "zai-repeat"],
+  8: ["yinwei-suoyi", "dei-advice"],
+  9: ["zui-superlative", "hui-ability"],
+  10: ["bi-comparison", "juede-opinion"],
+};
+
 function shortMeaning(word: HskWord): string {
   return word.meaning.split(";")[0].trim();
 }
@@ -327,6 +341,71 @@ function replyFor(spec: ReplySpec, words: HskWord[], id: string): ReplyExercise 
   };
 }
 
+const GRAMMAR_DISTRACTORS = [
+  "的", "了", "在", "吗", "不", "很", "也", "都", "给", "吧", "再", "最", "比", "从",
+];
+
+function grammarBlockFor(
+  lessonId: string,
+  stageNumber: number,
+  lessonIndex: number,
+  words: HskWord[],
+  reply: ReplySpec,
+): ExerciseBlock {
+  const lesson = GRAMMAR_LESSONS.find((item) => item.id === lessonId);
+  if (!lesson) throw new Error(`Unknown HSK 2 grammar lesson: ${lessonId}`);
+  const focus = lesson.focus;
+  if (!focus)
+    throw new Error(`HSK 2 grammar lesson ${lessonId} needs a retrieval focus`);
+
+  const exercises: Exercise[] = lesson.examples.flatMap((example, exampleIndex) => {
+    if (!example.hanzi.includes(focus))
+      throw new Error(`${lessonId} example ${exampleIndex + 1} does not include ${focus}`);
+    const choices = [
+      focus,
+      ...GRAMMAR_DISTRACTORS.filter(
+        (choice) => choice !== focus && !example.hanzi.includes(choice),
+      ),
+    ].slice(0, 3);
+    return [
+      {
+        id: `hsk2-s${stageNumber}-grammar-${lessonId}-order-${exampleIndex + 1}`,
+        kind: "order" as const,
+        wordIds: idsIn(example.hanzi, words),
+        tiles: orderTilesFor(example.hanzi),
+        translation: example.meaning,
+        pinyin: example.pinyin,
+        explain: lesson.pattern,
+      },
+      {
+        id: `hsk2-s${stageNumber}-grammar-${lessonId}-cloze-${exampleIndex + 1}`,
+        kind: "cloze" as const,
+        wordIds: idsIn(example.hanzi, words),
+        sentence: example.hanzi.replace(focus, "＿"),
+        translation: example.meaning,
+        choices,
+        answer: focus,
+        explain: lesson.summary,
+      },
+    ];
+  });
+  exercises.push(
+    replyFor(
+      reply,
+      words,
+      `hsk2-s${stageNumber}-grammar-${lessonId}-reply-${lessonIndex + 1}`,
+    ),
+  );
+
+  return {
+    id: `hsk2-s${stageNumber}-grammar-${lessonId}`,
+    title: `${lesson.hanzi} · ${lesson.title}`,
+    kind: "grammar",
+    grammarLessonId: lessonId,
+    exercises,
+  };
+}
+
 function makeStage(spec: StageSpec, index: number): Stage {
   const stageNumber = index + 1;
   const words = spec.words.map((hanzi) => HSK2.find((word) => word.hanzi === hanzi)).filter((word): word is HskWord => Boolean(word));
@@ -349,6 +428,19 @@ function makeStage(spec: StageSpec, index: number): Stage {
       ),
     ],
   }));
+
+  const grammarLessonIds = HSK2_GRAMMAR_BY_STAGE[stageNumber] ?? [];
+  blocks.push(
+    ...grammarLessonIds.map((lessonId, lessonIndex) =>
+      grammarBlockFor(
+        lessonId,
+        stageNumber,
+        lessonIndex,
+        words,
+        spec.replies[lessonIndex % spec.replies.length],
+      ),
+    ),
+  );
 
   const replies = spec.replies.map((reply, replyIndex) => replyFor(reply, words, `hsk2-s${stageNumber}-reply-${replyIndex + 1}`));
   blocks.push({
@@ -394,10 +486,10 @@ function makeStage(spec: StageSpec, index: number): Stage {
     hanziTitle: spec.hanziTitle,
     scenario: spec.scenario,
     description: spec.description,
-    estimatedMinutes: 5,
+    estimatedMinutes: 14,
     goal: spec.goal,
     wordIds: words.map((word) => word.id),
-    grammarLessonIds: [],
+    grammarLessonIds,
     dialogue: spec.dialogue,
     teach: words.map((word) => ({ wordId: word.id })),
     blocks,
