@@ -53,10 +53,31 @@ export interface StageProgress {
   completedAt?: number;
 }
 
+export interface AssessmentKindScore {
+  score: number;
+  total: number;
+}
+
+export interface AssessmentAttempt {
+  score: number;
+  total: number;
+  completedAt: number;
+  byKind: Partial<Record<ExerciseKind, AssessmentKindScore>>;
+  missedExerciseIds: string[];
+}
+
+export interface AssessmentProgress {
+  attempts: number;
+  best: { score: number; total: number };
+  last: AssessmentAttempt;
+}
+
 export interface ProgressStore {
   version: 1;
   words: Record<string, WordProgress>;
   stages: Record<string, StageProgress>;
+  /** Added without changing the version so existing local saves remain valid. */
+  assessments?: Record<string, AssessmentProgress>;
 }
 
 const KEY = "mozhi.progress.v1";
@@ -181,6 +202,31 @@ export function recordCheckpoint(
     stages: {
       ...p.stages,
       [stageId]: { ...s, checkpointBest: better ? { score, total } : best },
+    },
+  };
+}
+
+export function recordAssessment(
+  p: ProgressStore,
+  assessmentId: string,
+  attempt: AssessmentAttempt,
+): ProgressStore {
+  const assessments = p.assessments ?? {};
+  const previous = assessments[assessmentId];
+  const best =
+    !previous ||
+    attempt.score / attempt.total > previous.best.score / previous.best.total
+      ? { score: attempt.score, total: attempt.total }
+      : previous.best;
+  return {
+    ...p,
+    assessments: {
+      ...assessments,
+      [assessmentId]: {
+        attempts: (previous?.attempts ?? 0) + 1,
+        best,
+        last: attempt,
+      },
     },
   };
 }

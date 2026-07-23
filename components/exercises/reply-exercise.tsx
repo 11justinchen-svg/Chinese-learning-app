@@ -104,14 +104,16 @@ export function ReplyExerciseView({
                 {i + 1}
               </span>
               <span className={cn("text-xl", hanziFont)}>{c.hanzi}</span>
-              <span
-                className={cn(
-                  "ml-2 text-xs text-muted-foreground",
-                  displayFont,
-                )}
-              >
-                {c.pinyin}
-              </span>
+              {c.pinyin && (
+                <span
+                  className={cn(
+                    "ml-2 text-xs text-muted-foreground",
+                    displayFont,
+                  )}
+                >
+                  {c.pinyin}
+                </span>
+              )}
             </button>
           );
         })}

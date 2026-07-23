@@ -30,6 +30,7 @@ const MAX_REASKS = 2;
 export interface PlayerResults {
   total: number;
   firstTryCorrect: number;
+  answers: Array<{ exerciseId: string; correct: boolean }>;
 }
 
 // What the learner should hear again in the feedback bar.
@@ -204,7 +205,16 @@ export function ExercisePlayer({
             "mt-6 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90",
             displayFont,
           )}
-          onClick={() => onFinish({ total, firstTryCorrect: good })}
+          onClick={() =>
+            onFinish({
+              total,
+              firstTryCorrect: good,
+              answers: exercises.map((exercise) => ({
+                exerciseId: exercise.id,
+                correct: firstTry.current[exercise.id] ?? false,
+              })),
+            })
+          }
         >
           Continue
           <ArrowRight className="h-4 w-4" />

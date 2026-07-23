@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import type { Stage } from "../lib/data/stages/types";
 import {
   recordAnswer,
+  recordAssessment,
   recordCheckpoint,
   isStageUnlocked,
   stampCompletionIfEarned,
@@ -63,6 +64,32 @@ assert.equal(
   isStageUnlocked(10, [stage], { version: 1, words: {}, stages: {} }),
   true,
   "All lesson stages must be selectable without prior completion",
+);
+
+progress = recordAssessment(progress, "test-assessment", {
+  score: 7,
+  total: 10,
+  completedAt: 200,
+  byKind: { listen: { score: 2, total: 3 } },
+  missedExerciseIds: ["miss-1", "miss-2", "miss-3"],
+});
+progress = recordAssessment(progress, "test-assessment", {
+  score: 6,
+  total: 10,
+  completedAt: 300,
+  byKind: { listen: { score: 1, total: 3 } },
+  missedExerciseIds: ["miss-4"],
+});
+assert.equal(progress.assessments?.["test-assessment"].attempts, 2);
+assert.deepEqual(
+  progress.assessments?.["test-assessment"].best,
+  { score: 7, total: 10 },
+  "A weaker retake must not replace the best assessment score",
+);
+assert.equal(
+  progress.assessments?.["test-assessment"].last.completedAt,
+  300,
+  "The latest result must remain available for targeted repair",
 );
 
 console.log("progression helpers: all tests passed");
