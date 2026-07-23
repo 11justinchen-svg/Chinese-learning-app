@@ -67,6 +67,18 @@ function sanitizeHistory(value: unknown): HistoryTurn[] {
     .filter((turn) => turn.hanzi);
 }
 
+function examLevelFromHistory(
+  history: readonly HistoryTurn[],
+): ExamHskLevel | null {
+  for (let index = history.length - 1; index >= 0; index -= 1) {
+    const turn = history[index];
+    if (turn?.speaker !== "learner") continue;
+    const level = detectExamHskLevel(turn.hanzi);
+    if (level) return level;
+  }
+  return null;
+}
+
 async function ollamaAvailable(): Promise<boolean> {
   if (process.env.VERCEL) return false;
   const now = Date.now();
@@ -125,8 +137,7 @@ function openSystemPrompt(
     .map((turn) => `${turn.speaker === "learner" ? "LEARNER" : "ROLE"}: ${turn.hanzi}`)
     .join("\n");
   if (scenario.id === "oral-examiner") {
-    const level =
-      detectExamHskLevel(history.map((turn) => turn.hanzi).join("\n")) ?? null;
+    const level = examLevelFromHistory(history);
     const variationCards = [
       "travel plans and an unexpected change",
       "meeting a new classmate and making weekend plans",
@@ -514,9 +525,7 @@ export async function POST(request: Request) {
             scenario.id === "oral-examiner" &&
             isScoringCommand(learnerText)
           ) {
-            const level =
-              detectExamHskLevel(history.map((turn) => turn.hanzi).join("\n")) ??
-              "HSK 1";
+            const level = examLevelFromHistory(history) ?? "HSK 1";
             const raw = await readGeminiExamScoreRaw(
               process.env.GEMINI_API_KEY as string,
               examScoringPrompt(level, history),
@@ -569,9 +578,7 @@ export async function POST(request: Request) {
               openEnded: true,
               examLevel:
                 scenario.id === "oral-examiner"
-                  ? detectExamHskLevel(
-                      history.map((turn) => turn.hanzi).join("\n"),
-                    )
+                  ? examLevelFromHistory(history)
                   : null,
               turn: generated.turn,
             }),
