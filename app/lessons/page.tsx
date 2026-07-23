@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { LearningPath } from "@/components/path/learning-path";
 
 export const metadata: Metadata = {
-  title: "HSK 1 & 2 Lessons | 默知 MoZhi",
+  title: "HSK 3.0 Level 1 & 2 Lessons | 默知 MoZhi",
   description:
-    "Twenty open HSK 1 and HSK 2 real-life lessons organized into five practical chapters with cumulative HSK 1 practice tests.",
+    "Open lessons for all 500 words in the 2025 HSK 3.0 Level 1 and Level 2 syllabus, with grammar, Hanzi, stroke order, conversations, and practice tests.",
 };
 
 export default function LessonsPage() {

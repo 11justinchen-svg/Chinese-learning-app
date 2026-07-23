@@ -222,7 +222,8 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "taxi-beijing-hotel",
         goal: "Say it is the Beijing Hotel.",
-        wordIds: ["hsk1-005"],
+        // 北京 is a proper-name extension; credit the in-syllabus destination word.
+        wordIds: ["hsk3-2025-051"],
         acceptedAnswers: ["北京饭店", "是北京饭店", "去北京饭店"],
         intentGroups: [["北京"], ["饭店", "酒店"]],
         target: { hanzi: "北京饭店。", pinyin: "Běijīng Fàndiàn.", english: "The Beijing Hotel." },
@@ -391,7 +392,8 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
       {
         id: "oral-examiner-topic",
         goal: "Give a short personal answer about the topic.",
-        wordIds: ["hsk1-005", "hsk1-121"],
+        // 北京 is a proper-name extension; only in-syllabus words receive evidence.
+        wordIds: ["hsk1-121"],
         acceptedAnswers: [
           "我想去北京",
           "我想去中国",

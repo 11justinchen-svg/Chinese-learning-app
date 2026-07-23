@@ -147,7 +147,7 @@ export function ProgressDashboard() {
                 Your learning path
               </h1>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
-                Work through five practical chapters or open any lesson. Progress
+                Work through practical topic chapters or open any lesson. Progress
                 records what you can recognize, hear, and use without turning
                 the curriculum into a lock.
               </p>
@@ -160,13 +160,13 @@ export function ProgressDashboard() {
                 </span>
               </div>
               <p className={cn("mt-9 text-6xl leading-none text-primary", hanziFont)}>
-                五章
+                {groups.length}章
               </p>
               <p className="mt-3 text-2xl font-bold">
-                {summary.passedGroups} / 5 chapters passed
+                {summary.passedGroups} / {groups.length} chapters passed
               </p>
               <p className="mt-1 text-sm opacity-75">
-                {summary.completedLessons}/10 lessons · {summary.proficient}/{words.length} Hanzi proficient
+                {summary.completedLessons}/{stages.length} lessons · {summary.proficient}/{words.length} Hanzi proficient
               </p>
             </div>
           </div>
@@ -197,7 +197,7 @@ export function ProgressDashboard() {
             ))}
           </div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-            Five chapters · ten open lessons
+            {groups.length} chapters · {stages.length} open lessons
           </p>
         </div>
 
@@ -224,7 +224,7 @@ export function ProgressDashboard() {
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
             <div>
               <p className="font-[family-name:var(--font-hand)] text-xl text-primary">
-                two lessons at a time
+                smaller lessons inside practical topics
               </p>
               <h2 className={cn("mt-1 text-3xl font-bold sm:text-4xl", displayFont)}>
                 HSK {level} chapters

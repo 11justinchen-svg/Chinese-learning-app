@@ -91,7 +91,7 @@ export function LearningPath() {
               <div className="flex flex-wrap items-center gap-3">
                 <span className="seal h-10 w-10 text-xl">门</span>
                 <p className="text-xs font-bold tracking-[0.2em]">
-                  HSK {level} · TEN OPEN SCENES
+                  HSK {level} · HSK 3.0 · ALL LESSONS OPEN
                 </p>
                 <span className="font-[family-name:var(--font-hand)] text-lg text-primary">
                   start anywhere
@@ -99,7 +99,7 @@ export function LearningPath() {
               </div>
               <h1 className="mt-7 max-w-4xl">
                 <span className={cn("block text-6xl leading-[0.9] text-primary sm:text-8xl", hanziFont)}>
-                  {level === 1 ? "十门皆开" : "二级开场"}
+                  {level === 1 ? "三百词皆开" : "五百词可用"}
                 </span>
                 <span className={cn("mt-5 block text-3xl font-bold tracking-tight sm:text-5xl", displayFont)}>
                   {level === 1 ? "Speak what you need today." : "Real life, one step further."}
@@ -117,10 +117,12 @@ export function LearningPath() {
                 <span className="text-xs font-bold uppercase tracking-[0.18em]">open map</span>
               </div>
               <div>
-                <p className={cn("text-7xl leading-none", hanziFont)}>十</p>
-                <p className="mt-3 text-2xl font-bold">10 / 10 lessons available</p>
+                <p className={cn("text-7xl leading-none", hanziFont)}>
+                  {stages.length}
+                </p>
+                <p className="mt-3 text-2xl font-bold">{stages.length} / {stages.length} lessons available</p>
                 <p className="mt-1 text-sm opacity-80">
-                  {level === 1 ? 150 : 147} written forms · {completed} fast tests passed
+                  {level === 1 ? 300 : 200} new words · {completed} fast tests passed
                 </p>
               </div>
             </div>
@@ -153,8 +155,10 @@ export function LearningPath() {
 
         <div className="mt-16 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <p className="font-[family-name:var(--font-hand)] text-xl text-primary">two scenes at a time</p>
-            <h2 className={cn("mt-1 text-3xl font-bold sm:text-4xl", displayFont)}>Five clear chapters. Every lesson open.</h2>
+            <p className="font-[family-name:var(--font-hand)] text-xl text-primary">topic chapters, smaller word loads</p>
+            <h2 className={cn("mt-1 text-3xl font-bold sm:text-4xl", displayFont)}>
+              {groups.length} practical chapters. Every lesson open.
+            </h2>
           </div>
           <div className="flex flex-wrap gap-3 text-xs font-semibold text-muted-foreground">
             <span className="inline-flex items-center gap-1.5"><Clock3 className="h-4 w-4" /> 32–45 minute lessons</span>
@@ -179,7 +183,7 @@ export function LearningPath() {
                   <div className="flex flex-col justify-between gap-4 border-b border-foreground bg-card p-5 sm:flex-row sm:items-end sm:p-7">
                     <div>
                       <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                        Chapter {chapter.index} · {chapterComplete}/2 lessons passed
+                        Chapter {chapter.index} · {chapterComplete}/{chapterStages.length} lessons passed
                       </p>
                       <div className="mt-2 flex flex-wrap items-baseline gap-3">
                         <h3 className={cn("text-2xl font-bold", displayFont)}>
@@ -301,8 +305,8 @@ export function LearningPath() {
                 HSK 1 Practice Tests A and B
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-                Mix all ten lessons across listening, Hanzi, grammar, sentence
-                building, and useful replies. Both forms remain open.
+                Sample all 300 Level-1 words across listening, Hanzi, grammar,
+                sentence building, and useful replies. Both forms remain open.
               </p>
             </div>
             <Link href="/practice-tests" className="stamp-button group">

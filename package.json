@@ -12,6 +12,8 @@
     "lint": "next lint",
     "build:hsk1": "node scripts/build-hsk1.mjs 1",
     "build:hsk2": "node scripts/build-hsk1.mjs 2",
+    "build:hsk3": "node scripts/build-hsk1.mjs 3.0",
+    "build:strokes": "node scripts/build-stroke-data.mjs",
     "validate": "tsx scripts/validate-stages.mjs && tsx scripts/validate-hsk2.mjs && tsx scripts/validate-grammar-hanzi.mjs && tsx scripts/validate-learning-path.mjs && tsx scripts/validate-role-calls.mjs && tsx scripts/test-hanzi-practice.ts && tsx scripts/test-conversation-ai.ts",
     "validate:hsk2": "tsx scripts/validate-hsk2.mjs",
     "validate:roles": "tsx scripts/validate-role-calls.mjs",
@@ -22,6 +24,8 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "hanzi-writer": "^3.7.3",
+    "hanzi-writer-data": "^2.0.1",
     "lucide-react": "^0.456.0",
     "next": "^15.5.18",
     "pinyin-pro": "^3.28.2",

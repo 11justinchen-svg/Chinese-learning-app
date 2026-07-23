@@ -13,8 +13,8 @@ content and progress IDs.
 
 1. Locate canonical words, lesson allocations, exercise types, progress
    records, and validators before proposing changes.
-2. Confirm the tested scope: HSK 1 has 150 words; HSK 2 has 147 unique written
-   forms representing 150 lexical entries and assumes HSK 1.
+2. Confirm the tested scope: the official 2025 HSK 3.0 syllabus has 300 Level 1
+   entries; Level 2 adds 200 entries and assumes Level 1.
 3. Trace every progress mutation. Card views, set selection, skips, and
    optional review scheduling must not create correctness or proficiency.
 4. Preserve existing word, stage, set, exercise, and progress IDs. Derive new

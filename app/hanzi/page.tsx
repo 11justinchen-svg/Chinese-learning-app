@@ -5,7 +5,7 @@ import { HanziScrollProgress } from "@/components/hanzi/scroll-progress";
 export const metadata: Metadata = {
   title: "Hanzi | 默知 MoZhi",
   description:
-    "Learn HSK 1 and HSK 2 Hanzi in open lesson chunks with flashcards, audio, matching, sentence building, replies, and visible proficiency evidence.",
+    "Learn HSK 3.0 Level 1 and Level 2 Hanzi in open lesson chunks with stroke order, flashcards, audio, matching, sentence building, replies, and visible proficiency evidence.",
 };
 
 export default async function HanziPage({

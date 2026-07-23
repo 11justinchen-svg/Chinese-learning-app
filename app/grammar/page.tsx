@@ -4,7 +4,7 @@ import { GrammarRepertoire } from "@/components/grammar-repertoire";
 export const metadata: Metadata = {
   title: "Grammar repertoire | 默知 MoZhi",
   description:
-    "Review every unlocked HSK 1 and HSK 2 Mandarin grammar pattern, hear examples, and return to retrieval and reply practice.",
+    "Review the official HSK 3.0 Level 1 and Level 2 Mandarin grammar patterns, hear examples, and return to retrieval and reply practice.",
 };
 
 export default function GrammarPage() {
@@ -27,7 +27,7 @@ export default function GrammarPage() {
             </h1>
           </div>
           <p className="max-w-md text-sm leading-6 text-muted-foreground">
-            Review the form, hear it in context, then jump into sentence building and a real situation. Every HSK 1 and HSK 2 concept is open from the start.
+            Review the form, hear it in context, then jump into sentence building and a real situation. Every HSK 3.0 Level 1 and Level 2 concept is open from the start.
           </p>
         </div>
       </header>

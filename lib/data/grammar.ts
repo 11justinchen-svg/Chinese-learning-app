@@ -1,3 +1,5 @@
+import { HSK } from "@/lib/hsk";
+
 export interface GrammarResource {
   label: string;
   url: string;
@@ -751,6 +753,294 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
     ],
     vocab: [], resources: [],
   },
+  {
+    id: "neng-ability",
+    level: 1,
+    title: "Ability and circumstances with 能",
+    hanzi: "能",
+    focus: "能",
+    pattern: "Subject + 能/不能 + Verb",
+    summary:
+      "能 expresses whether circumstances or personal ability make an action possible. Use 会 for a learned skill and 可以 for permission.",
+    examples: [
+      { hanzi: "你今天能来吗？", pinyin: "Nǐ jīntiān néng lái ma?", meaning: "Can you come today?" },
+      { hanzi: "我不能去。", pinyin: "Wǒ bù néng qù.", meaning: "I cannot go." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "question-words",
+    level: 1,
+    title: "Ask for missing information",
+    hanzi: "谁 / 什么 / 哪儿 / 怎么",
+    focus: "什么",
+    pattern: "Put the question word where the answer belongs",
+    summary:
+      "Mandarin question words stay in the answer position. Do not move them to the front as English does.",
+    examples: [
+      { hanzi: "你想吃什么？", pinyin: "Nǐ xiǎng chī shénme?", meaning: "What would you like to eat?" },
+      { hanzi: "你住哪儿？", pinyin: "Nǐ zhù nǎr?", meaning: "Where do you live?" },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "a-not-a-questions",
+    level: 1,
+    title: "Confirm with an A-not-A question",
+    hanzi: "是不是 / 有没有",
+    focus: "是不是",
+    pattern: "Verb + 不/没 + Verb (+ Object)?",
+    summary:
+      "Repeat the verb around 不 or 没 to ask for confirmation without 吗. Answer by repeating the positive or negative verb.",
+    examples: [
+      { hanzi: "他是不是老师？", pinyin: "Tā shì bú shì lǎoshī?", meaning: "Is he a teacher or not?" },
+      { hanzi: "你有没有时间？", pinyin: "Nǐ yǒu méiyǒu shíjiān?", meaning: "Do you have time?" },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "you-possession-existence",
+    level: 1,
+    title: "Possession and existence with 有",
+    hanzi: "有",
+    focus: "有",
+    pattern: "Owner/Place + 有 + Noun",
+    summary:
+      "有 says that someone has something or that something exists in a place. Negate it only with 没有.",
+    examples: [
+      { hanzi: "我有一个姐姐。", pinyin: "Wǒ yǒu yí ge jiějie.", meaning: "I have an older sister." },
+      { hanzi: "商店里有水。", pinyin: "Shāngdiàn lǐ yǒu shuǐ.", meaning: "There is water in the shop." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "serial-purpose",
+    level: 1,
+    title: "Link an action to its purpose",
+    hanzi: "去 / 来 + Verb",
+    focus: "去",
+    pattern: "Subject + 去/来 + Place + Verb",
+    summary:
+      "Put movement first and the purpose action second: go somewhere to do something.",
+    examples: [
+      { hanzi: "我去商店买水。", pinyin: "Wǒ qù shāngdiàn mǎi shuǐ.", meaning: "I’m going to the shop to buy water." },
+      { hanzi: "他来学校学习。", pinyin: "Tā lái xuéxiào xuéxí.", meaning: "He comes to school to study." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "money-expression",
+    level: 1,
+    title: "Say prices naturally",
+    hanzi: "元 / 块",
+    focus: "元",
+    pattern: "Number + 元/块",
+    summary:
+      "元 is the standard currency unit and 块 is the common spoken measure word. Put the number before it.",
+    examples: [
+      { hanzi: "这本书十元。", pinyin: "Zhè běn shū shí yuán.", meaning: "This book is ten yuan." },
+      { hanzi: "一杯茶五块。", pinyin: "Yì bēi chá wǔ kuài.", meaning: "A cup of tea is five kuai." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "verb-reduplication",
+    level: 2,
+    title: "Soften a brief action",
+    hanzi: "看看 / 想一想",
+    focus: "看看",
+    pattern: "AA · A一A · A了A · ABAB",
+    summary:
+      "Reduplicating a verb makes an action brief, tentative, or relaxed. It often sounds friendlier than a bare command.",
+    examples: [
+      { hanzi: "你看看这件衣服。", pinyin: "Nǐ kànkan zhè jiàn yīfu.", meaning: "Take a look at this piece of clothing." },
+      { hanzi: "让我想一想。", pinyin: "Ràng wǒ xiǎng yi xiǎng.", meaning: "Let me think about it." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "adjective-reduplication",
+    level: 2,
+    title: "Make a vivid description",
+    hanzi: "大大的 / 高高兴兴",
+    focus: "大大的",
+    pattern: "AA · AABB",
+    summary:
+      "Reduplicated adjectives sound descriptive and vivid. In attributive use they commonly take 的.",
+    examples: [
+      { hanzi: "他有大大的眼睛。", pinyin: "Tā yǒu dàdà de yǎnjing.", meaning: "He has big, expressive eyes." },
+      { hanzi: "大家高高兴兴地回家。", pinyin: "Dàjiā gāogāoxìngxìng de huí jiā.", meaning: "Everyone happily returns home." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "result-complements",
+    level: 2,
+    title: "Say the result of an action",
+    hanzi: "完 / 懂 / 好 / 错",
+    focus: "完",
+    pattern: "Verb + Result complement",
+    summary:
+      "A result complement says what the action achieved: finished, understood, done well, or done incorrectly.",
+    examples: [
+      { hanzi: "我看完了。", pinyin: "Wǒ kàn wán le.", meaning: "I finished reading or watching it." },
+      { hanzi: "我听懂了。", pinyin: "Wǒ tīng dǒng le.", meaning: "I understood what I heard." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "directional-complements",
+    level: 2,
+    title: "Track movement toward or away",
+    hanzi: "来 / 去",
+    focus: "来",
+    pattern: "Verb + Direction + 来/去",
+    summary:
+      "Directional complements show the path of movement and whether it comes toward the speaker or goes away.",
+    examples: [
+      { hanzi: "请进来。", pinyin: "Qǐng jìnlái.", meaning: "Please come in." },
+      { hanzi: "他走出去了。", pinyin: "Tā zǒu chūqu le.", meaning: "He walked out." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "de-state-complement",
+    level: 2,
+    title: "Describe how an action is done",
+    hanzi: "得",
+    focus: "得",
+    pattern: "Verb + 得 + Adjective phrase",
+    summary:
+      "The neutral-tone 得 after a verb introduces a description of the action’s degree or manner.",
+    examples: [
+      { hanzi: "他说得很好。", pinyin: "Tā shuō de hěn hǎo.", meaning: "He speaks very well." },
+      { hanzi: "你跑得很快。", pinyin: "Nǐ pǎo de hěn kuài.", meaning: "You run very fast." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "zhe-continuing-state",
+    level: 2,
+    title: "Keep a state in view with 着",
+    hanzi: "着",
+    focus: "着",
+    pattern: "Verb + 着",
+    summary:
+      "着 marks an action or resulting state that continues, often describing how something is positioned.",
+    examples: [
+      { hanzi: "门开着。", pinyin: "Mén kāizhe.", meaning: "The door is open." },
+      { hanzi: "他拿着书。", pinyin: "Tā názhe shū.", meaning: "He is holding a book." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "guo-experience",
+    level: 2,
+    title: "Talk about past experience with 过",
+    hanzi: "过",
+    focus: "过",
+    pattern: "Subject + Verb + 过 (+ Object)",
+    summary:
+      "The neutral-tone 过 says an experience has happened at least once, without locating one specific completed event.",
+    examples: [
+      { hanzi: "我去过中国。", pinyin: "Wǒ qùguo Zhōngguó.", meaning: "I have been to China." },
+      { hanzi: "你吃过饺子吗？", pinyin: "Nǐ chīguo jiǎozi ma?", meaning: "Have you ever eaten dumplings?" },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "haishi-choice",
+    level: 2,
+    title: "Offer a choice with 还是",
+    hanzi: "还是",
+    focus: "还是",
+    pattern: "A + 还是 + B？",
+    summary:
+      "Use 还是 between alternatives in a question. The listener chooses one of the offered options.",
+    examples: [
+      { hanzi: "你喝茶还是咖啡？", pinyin: "Nǐ hē chá háishi kāfēi?", meaning: "Do you drink tea or coffee?" },
+      { hanzi: "坐地铁还是打车？", pinyin: "Zuò dìtiě háishi dǎchē?", meaning: "Take the subway or a taxi?" },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "bie-command",
+    level: 2,
+    title: "Tell someone not to with 别",
+    hanzi: "别",
+    focus: "别",
+    pattern: "别 + Verb (+ 了)",
+    summary:
+      "别 before a verb is the natural everyday negative command. Add 了 when asking someone to stop an action or drop a plan.",
+    examples: [
+      { hanzi: "别走。", pinyin: "Bié zǒu.", meaning: "Don’t leave." },
+      { hanzi: "别说话了。", pinyin: "Bié shuōhuà le.", meaning: "Stop talking." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "suiran-danshi",
+    level: 2,
+    title: "Contrast with 虽然…但是…",
+    hanzi: "虽然 / 但是",
+    focus: "虽然",
+    pattern: "虽然 + Fact, 但是 + Contrast",
+    summary:
+      "虽然 introduces the fact you concede; 但是 introduces the contrasting result. In speech, 但是 may be omitted when the contrast is clear.",
+    examples: [
+      { hanzi: "虽然下雨，但是我去上班。", pinyin: "Suīrán xià yǔ, dànshì wǒ qù shàngbān.", meaning: "Although it is raining, I’m going to work." },
+      { hanzi: "虽然很累，但是他很高兴。", pinyin: "Suīrán hěn lèi, dànshì tā hěn gāoxìng.", meaning: "Although he is tired, he is happy." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "yi-jiu",
+    level: 2,
+    title: "Say one event follows another",
+    hanzi: "一…就…",
+    focus: "就",
+    pattern: "一 + Event 1 + 就 + Event 2",
+    summary:
+      "一…就… links events that happen in quick sequence or whenever the first condition occurs.",
+    examples: [
+      { hanzi: "我一下班就回家。", pinyin: "Wǒ yí xiàbān jiù huí jiā.", meaning: "I go home as soon as I get off work." },
+      { hanzi: "他一来我就走。", pinyin: "Tā yì lái wǒ jiù zǒu.", meaning: "As soon as he comes, I leave." },
+    ],
+    vocab: [],
+    resources: [],
+  },
+  {
+    id: "shi-de-emphasis",
+    level: 2,
+    title: "Emphasize event details with 是…的",
+    hanzi: "是…的",
+    focus: "是",
+    pattern: "Subject + 是 + Detail + Verb + 的",
+    summary:
+      "Use 是…的 to focus on when, where, how, or by whom a known past event happened.",
+    examples: [
+      { hanzi: "我是坐地铁来的。", pinyin: "Wǒ shì zuò dìtiě lái de.", meaning: "I came by subway." },
+      { hanzi: "他是昨天来的。", pinyin: "Tā shì zuótiān lái de.", meaning: "He came yesterday." },
+    ],
+    vocab: [],
+    resources: [],
+  },
 ];
 
 /**
@@ -894,6 +1184,29 @@ export const GRAMMAR_HANZI_REQUIREMENTS: Record<
     { wordId: "hsk2-052", use: "introduces a personal judgment or impression" },
   ],
 };
+
+const knownGrammarWordIds = new Set(HSK.map((word) => word.id));
+for (const lesson of GRAMMAR_LESSONS) {
+  const current = (GRAMMAR_HANZI_REQUIREMENTS[lesson.id] ?? []).filter(
+    (requirement) => knownGrammarWordIds.has(requirement.wordId),
+  );
+  if (current.length > 0) {
+    GRAMMAR_HANZI_REQUIREMENTS[lesson.id] = current;
+    continue;
+  }
+  const searchable = [
+    lesson.hanzi,
+    lesson.pattern,
+    ...lesson.examples.map((example) => example.hanzi),
+  ].join(" ");
+  const candidates = HSK.filter((word) => searchable.includes(word.hanzi))
+    .sort((a, b) => b.hanzi.length - a.hanzi.length)
+    .slice(0, 3);
+  GRAMMAR_HANZI_REQUIREMENTS[lesson.id] = candidates.map((word) => ({
+    wordId: word.id,
+    use: `supports reading and using the ${lesson.hanzi} pattern`,
+  }));
+}
 
 export function hanziRequirementsForGrammar(
   lessonId: string,

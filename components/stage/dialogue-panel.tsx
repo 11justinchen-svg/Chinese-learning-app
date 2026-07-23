@@ -33,8 +33,8 @@ export function DialoguePanel({
     <div>
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
-          Tap through the conversation — this is what you'll be able to say by
-          the end of the stage.
+          You have met the words. Now notice how they work in a real exchange,
+          then answer the final transfer test.
         </p>
         <button
           type="button"
@@ -137,7 +137,7 @@ export function DialoguePanel({
           )}
           onClick={onViewed}
         >
-          Got it — teach me the words
+          Conversation understood
         </button>
       )}
     </div>

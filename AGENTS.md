@@ -18,7 +18,7 @@ State which skill is affecting an implementation decision before making it.
 
 ## Product outcome
 
-MoZhi gets a beginner through useful HSK 1 and HSK 2 Mandarin quickly. Optimize
+MoZhi gets a beginner through useful HSK 3.0 Level 1 and Level 2 Mandarin quickly. Optimize
 for real-life comprehension, Hanzi recognition, and an understandable spoken or
 typed response. Do not optimize for streaks, time in app, forced review, or a
 linear course path.
@@ -28,11 +28,12 @@ conversation, Hanzi set, or test behind prior completion.
 
 ## Supported scope
 
-- Product lessons and Hanzi cover HSK 2.0 levels 1 and 2 only.
-- HSK 1 contains its canonical 150 words.
-- HSK 2 represents the canonical 150 lexical entries as 147 unique written
-  forms because 得, 还, and 长 contain consolidated readings in the source. It
-  assumes HSK 1 vocabulary.
+- Product lessons and Hanzi follow the official 2025 HSK 3.0 examination
+  syllabus for Levels 1 and 2 only.
+- Level 1 contains 300 vocabulary entries.
+- Level 2 adds 200 entries and assumes Level 1, for 500 cumulative entries.
+- Preserve legacy word IDs when the same written form survives the migration;
+  new entries use deterministic `hsk3-2025-###` IDs.
 - Use standard Mainland Mandarin and simplified characters unless a task says
   otherwise.
 - Every Chinese learning line stores tone-marked pinyin and concise English.

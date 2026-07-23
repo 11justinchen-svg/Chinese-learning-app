@@ -10,6 +10,7 @@ import {
   useMandarinSpeech,
 } from "@/lib/use-mandarin-speech";
 import { cn } from "@/lib/utils";
+import { StrokePractice } from "@/components/hanzi/stroke-practice";
 
 const hanziFont = "font-[family-name:var(--font-hanzi)]";
 const displayFont = "font-[family-name:var(--font-display)]";
@@ -134,6 +135,7 @@ export function TeachCards({
             )}
           </div>
         )}
+        <StrokePractice hanzi={word.hanzi} compact />
       </div>
 
       <div className="mt-5 flex items-center justify-between">

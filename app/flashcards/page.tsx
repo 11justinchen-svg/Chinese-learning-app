@@ -4,7 +4,7 @@ import { Flashcards } from "@/components/flashcards";
 export const metadata: Metadata = {
   title: "Flashcards | 默知 MoZhi",
   description:
-    "Optional HSK 1 and HSK 2 flashcards, lesson decks, and custom cards stored on your device.",
+    "Optional HSK 3.0 Level 1 and Level 2 flashcards, lesson decks, and custom cards stored on your device.",
 };
 
 export default async function FlashcardsPage({

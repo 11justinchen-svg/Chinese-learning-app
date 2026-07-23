@@ -26,6 +26,9 @@ export interface HskWord {
   pos: string[];
   frequency: number | null;
   characters: HanziChar[];
+  syllabus?: "HSK 3.0 (2025)";
+  syllabusIndex?: number;
+  syllabusLevel?: HskLevel;
 }
 
 export type HskLevel = 1 | 2;
@@ -54,7 +57,8 @@ export interface HskUnit {
   words: HskWord[];
 }
 
-// Stable 15-word study sets: HSK 1 is sets 1–10, HSK 2 starts at set 11.
+// Stable 15-word study sets across the official HSK 3.0 Level 1 and Level 2
+// exclusive rosters.
 export const UNITS: HskUnit[] = Array.from(
   { length: Math.ceil(HSK_BY_FREQUENCY.length / UNIT_SIZE) },
   (_, i) => ({
@@ -76,7 +80,7 @@ export function findUnit(index: number): HskUnit | undefined {
   return UNITS.find((u) => u.index === index);
 }
 
-// Distinct components across HSK-1, most frequent first (for the radical key).
+// Distinct components across the supported HSK 3.0 levels, most frequent first.
 export function componentFrequency(level?: HskLevel): {
   char: string;
   meaning: string;

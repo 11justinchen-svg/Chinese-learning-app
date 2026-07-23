@@ -7,7 +7,7 @@ import { display, hand, hanziDisplay } from "@/lib/fonts";
 export const metadata: Metadata = {
   title: "默知 MoZhi | Fast HSK 1 & 2 Chinese",
   description:
-    "Practice HSK 1 and HSK 2 through open real-life lessons, flexible conversations, Hanzi memory notes, audio, and immediate tests.",
+    "Practice the official 2025 HSK 3.0 Level 1 and Level 2 syllabus through open real-life lessons, flexible conversations, Hanzi stroke order, audio, and immediate tests.",
 };
 
 // Set the saved theme before paint to avoid a flash of the wrong palette.

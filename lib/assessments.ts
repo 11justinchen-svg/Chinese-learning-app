@@ -87,13 +87,22 @@ function balancedExercises(stage: Stage, count: number, offset = 0): Exercise[] 
   return selected.slice(0, count);
 }
 
+function evenlySample(items: Exercise[], count: number): Exercise[] {
+  if (items.length <= count) return items;
+  return Array.from({ length: count }, (_, index) => {
+    const at = Math.floor((index * items.length) / count);
+    return items[at];
+  });
+}
+
 function makeGroupAssessments(): LearningAssessment[] {
   return learningGroupsForLevel(1).map((group) => {
     const stages = stagesForLearningGroup(group);
-    const exercises = stages
+    const candidates = stages
       .flatMap((stage, stageIndex) =>
         balancedExercises(stage, 8, group.index + stageIndex),
-      )
+      );
+    const exercises = evenlySample(candidates, 20)
       .map((exercise, index) =>
         cloneExercise(exercise, group.assessmentId!, index),
       );
@@ -103,9 +112,11 @@ function makeGroupAssessments(): LearningAssessment[] {
       kind: "group",
       title: `${group.title} practice test`,
       hanziTitle: group.hanziTitle,
-      description: `A cumulative check across HSK 1 Lessons ${stages[0].index} and ${stages[1].index}.`,
+      description: `A cumulative check across HSK 1 Lessons ${stages
+        .map((stage) => stage.index)
+        .join(", ")}.`,
       outcome: group.outcome,
-      stageIds: group.stageIds,
+      stageIds: [...group.stageIds],
       estimatedMinutes: 12,
       support: "guided",
       passRatio: 0.8,
@@ -119,10 +130,11 @@ function makePracticeAssessment(
   offset: number,
 ): LearningAssessment {
   const stages = STAGES.filter((stage) => stage.level === 1);
-  const exercises = stages
+  const candidates = stages
     .flatMap((stage, stageIndex) =>
-      balancedExercises(stage, 4, offset + stageIndex),
-    )
+      balancedExercises(stage, 2, offset + stageIndex),
+    );
+  const exercises = evenlySample(candidates, 40)
     .map((exercise, index) =>
       cloneExercise(
         id.endsWith("-b") ? reduceSupport(exercise) : exercise,
@@ -139,7 +151,7 @@ function makePracticeAssessment(
     hanziTitle: form === "A" ? "一级综合甲" : "一级综合乙",
     description:
       form === "A"
-        ? "A comprehensive guided form covering all ten HSK 1 lessons."
+        ? "A comprehensive guided form sampling the complete HSK 3.0 Level 1 path."
         : "An alternate comprehensive form with fewer support cues.",
     outcome:
       "Understand and produce useful HSK 1 Mandarin across unfamiliar mixed situations.",

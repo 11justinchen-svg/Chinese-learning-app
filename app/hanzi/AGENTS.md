@@ -17,7 +17,8 @@ decision.
 
 ## Local priorities
 
-- HSK 1 and HSK 2 only.
+- Official 2025 HSK 3.0 Levels 1 and 2 only: 300 Level 1 entries and 200
+  additional Level 2 entries.
 - Short, real-life, skippable learning blocks.
 - Hanzi form, sound, meaning, component, retrieval, and use.
 - Multiple natural conversation answers evaluated by communicative intent.

@@ -104,7 +104,7 @@ export interface ExerciseBlock {
 export interface Stage {
   id: string; // "hsk1-stage-03"
   level?: 1 | 2;
-  index: number; // 1..10
+  index: number;
   title: string;
   hanziTitle: string;
   scenario: string;

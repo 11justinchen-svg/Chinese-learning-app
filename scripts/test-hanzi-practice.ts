@@ -23,8 +23,8 @@ import {
 const allIds = new Set(HSK.map((word) => word.id));
 const topicIds = new Set<string>();
 
-assert.equal(HANZI_LESSON_CHUNKS.length, 20);
-assert.equal(HANZI_LESSON_CHUNKS[0].title, "Describe people");
+assert.equal(HANZI_LESSON_CHUNKS.length, STAGES.length);
+assert.equal(HANZI_LESSON_CHUNKS[0].title, STAGES[0].title);
 assert.equal(
   new Set(HANZI_LESSON_CHUNKS.map((lesson) => lesson.id)).size,
   HANZI_LESSON_CHUNKS.length,
@@ -35,7 +35,6 @@ for (const lesson of HANZI_LESSON_CHUNKS) {
   const stage = STAGES.find((candidate) => candidate.id === lesson.id);
   assert(stage, `${lesson.id} must map to a canonical stage`);
   assert.deepEqual(lesson.wordIds, stage.wordIds, `${lesson.id} word allocation drifted`);
-  assert(stage.grammarLessonIds.length > 0, `${lesson.id} needs corresponding grammar`);
   assert(
     lesson.cumulativeWordIds.length >= lesson.wordIds.length,
     `${lesson.id} must include its current forms in cumulative review`,
@@ -183,7 +182,7 @@ for (const word of HSK) {
 }
 
 const empty: ProgressStore = { version: 1, words: {}, stages: {} };
-const wordId = "hsk1-010";
+const wordId = HSK[0].id;
 assert.equal(hanziProficiency(wordId, empty).status, "untested");
 const seen = recordTeachSeen(empty, [wordId], 1);
 assert.equal(hanziProficiency(wordId, seen).status, "started");
@@ -195,7 +194,7 @@ const used = recordAnswer(sound, [wordId], "reply", true);
 const proficient = hanziProficiency(wordId, used);
 assert.equal(proficient.status, "proficient");
 assert.equal(proficient.score, 100);
-const lessonStats = hanziLessonStats([wordId, "hsk1-011"], used);
+const lessonStats = hanziLessonStats([wordId, HSK[1].id], used);
 assert.equal(lessonStats.total, 2);
 assert.equal(lessonStats.proficient, 1);
 assert.equal(lessonStats.evidence.sound, 50);

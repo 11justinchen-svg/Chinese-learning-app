@@ -17,35 +17,8 @@ export interface HanziLessonChunk {
   stage: Stage;
 }
 
-const HSK1_FOCUS = [
-  "Describe people",
-  "Talk about family, friends, and pets",
-  "Count, give ages, and tell time",
-  "Discuss dates and your week",
-  "Order food and drinks",
-  "Shop and discuss prices",
-  "Find places and give directions",
-  "Study and use classroom language",
-  "Describe weather and make small talk",
-  "Recount your daily life",
-] as const;
-
-const HSK2_FOCUS = [
-  "Navigate to the airport",
-  "Check into a hotel",
-  "Buy clothes and compare prices",
-  "Order at a cafe",
-  "Join a birthday celebration",
-  "Handle a busy day",
-  "Get through a test",
-  "Explain illness and ask for help",
-  "Make weekend plans",
-  "Describe someone in detail",
-] as const;
-
 function focusTitle(stage: Stage): string {
-  const titles = (stage.level ?? 1) === 1 ? HSK1_FOCUS : HSK2_FOCUS;
-  return titles[stage.index - 1] ?? stage.title;
+  return stage.title;
 }
 
 function makeChunk(stage: Stage): HanziLessonChunk {

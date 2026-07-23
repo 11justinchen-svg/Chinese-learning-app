@@ -73,27 +73,33 @@ export function StageView({ stageId }: { stageId: string }) {
     if (!stage) return [];
     const sp = progress.stages[stage.id];
     const out: { id: SectionId; label: string; done: boolean }[] = [];
-    if (stage.dialogue.length > 0)
-      out.push({
-        id: "dialogue",
-        label: "Conversation",
-        done: Boolean(sp?.dialogueViewed),
-      });
     out.push({
       id: "teach",
-      label: "New words",
+      label: "1 · Learn the new words",
       done: stage.wordIds.every((id) => progress.words[id]?.seenAt),
     });
     out.push({
       id: "hanzi",
-      label: "Hanzi lab · form, sound, and use",
+      label: "2 · Hanzi lab · form, strokes, sound, and use",
       done: Boolean(sp?.blocksDone.includes(hanziLabBlockId(stage.id))),
     });
-    for (const b of stage.blocks)
+    for (const b of stage.blocks.filter((block) => block.kind === "vocab"))
       out.push({
         id: `block:${b.id}`,
         label: b.title,
         done: Boolean(sp?.blocksDone.includes(b.id)),
+      });
+    for (const b of stage.blocks.filter((block) => block.kind === "grammar"))
+      out.push({
+        id: `block:${b.id}`,
+        label: b.title,
+        done: Boolean(sp?.blocksDone.includes(b.id)),
+      });
+    if (stage.dialogue.length > 0)
+      out.push({
+        id: "dialogue",
+        label: "Use the new words · conversation",
+        done: Boolean(sp?.dialogueViewed),
       });
     out.push({
       id: "checkpoint",
@@ -277,7 +283,7 @@ export function StageView({ stageId }: { stageId: string }) {
                     )}
                     {section.id === "hanzi" && (
                       <span className="mt-0.5 block text-xs text-muted-foreground">
-                        Every lesson form · meaning, listening, and contextual use
+                        Stroke order plus meaning, listening, and contextual use
                       </span>
                     )}
                   </span>

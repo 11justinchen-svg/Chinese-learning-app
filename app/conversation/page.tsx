@@ -5,7 +5,7 @@ import type { RoleCallPersonaId } from "@/lib/role-calls";
 export const metadata: Metadata = {
   title: "Role calls | 默知 MoZhi",
   description:
-    "Practice HSK 1 and HSK 2 Mandarin with phrase warm-ups, Hanzi or pinyin replies, authored correction, and optional AI wording feedback.",
+    "Practice HSK 3.0 Level 1 and Level 2 Mandarin with phrase warm-ups, Hanzi or pinyin replies, authored correction, and optional AI wording feedback.",
 };
 
 export default async function ConversationPage({

@@ -1,24 +1,24 @@
 # 默知 MoZhi
 
-An HSK 1 and HSK 2 Mandarin learning app built around short, useful conversations,
+An official 2025 HSK 3.0 Level 1 and Level 2 Mandarin learning app built around short, useful conversations,
 retrieval practice, and character structure.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F11justinchen-svg%2FChinese-learning-app&env=GEMINI_API_KEY&envDescription=Server-only%20Gemini%20key%20for%20open-ended%20character%20calls%20and%20Live%20Translate&project-name=mozhi-mandarin)
 
 ## Features
 
-- **Open lesson courtyard** (`/lessons`): twenty HSK 1 and HSK 2 stages available in any
+- **Open lesson courtyard** (`/lessons`): topic lessons covering all 500 Level 1–2 entries, available in any
   order, with model dialogues, vocabulary teaching, grammar drills, production
   tasks, and checkpoints.
-- **Grammar repertoire** (`/grammar`): every lesson-linked HSK 1 and HSK 2
+- **Grammar repertoire** (`/grammar`): every lesson-linked HSK 3.0 Level 1 and Level 2
   pattern in one unlocked, searchable review surface with audio and practice links.
 - **Role calls** (`/conversation`): speak or type with a waiter, sales associate,
   taxi driver, hotel clerk, or teacher. Gemini Flash-Lite stays in character for
   an open-ended call; Gemini Live Translate can turn Mandarin speech into a
   checked transcript. Authored coached calls remain available without an API.
-- **Flashcards** (`/flashcards`): spaced review of HSK 1 and HSK 2 vocabulary.
+- **Flashcards** (`/flashcards`): spaced review of HSK 3.0 Level 1 and Level 2 vocabulary.
 - **Progress** (`/progress`): stage completion, productive-recall gates,
-  spaced-review status, and all 150 words in one dashboard.
+  spaced-review status, and all supported words in one dashboard.
 - **Hanzi component system** (`/hanzi`): a curated character explorer focused
   on functional components.
 

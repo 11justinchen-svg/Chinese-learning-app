@@ -167,7 +167,11 @@ export function HanziLessonPath({
     lesson: HanziLessonChunk,
   ) => void;
 }) {
-  const requestedLevel = initialLessonId?.startsWith("hsk2-") ? 2 : 1;
+  const requestedLevel =
+    initialLessonId?.startsWith("hsk2-") ||
+    initialLessonId?.startsWith("hsk3-l2-")
+      ? 2
+      : 1;
   const [level, setLevel] = useState<HskLevel>(requestedLevel);
   const lessons = useMemo(() => hanziLessonsForLevel(level), [level]);
   const [selectedId, setSelectedId] = useState(
@@ -223,7 +227,7 @@ export function HanziLessonPath({
               <span>All lessons unlocked</span><Layers3 className="h-5 w-5" />
             </div>
             <div>
-              <p className={cn("text-7xl leading-none text-primary", hanziFont)}>十门</p>
+              <p className={cn("text-7xl leading-none text-primary", hanziFont)}>{lessons.length}门</p>
               <p className="mt-3 text-2xl font-bold">{levelStats.proficient} / {levelStats.total} proficient</p>
               <p className="mt-1 text-sm opacity-70">{levelStats.tried} forms tried · {levelStats.score}% evidence</p>
             </div>
@@ -249,7 +253,7 @@ export function HanziLessonPath({
             </button>
           ))}
         </div>
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Ten open lessons · no linear gate</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{lessons.length} open lessons · no linear gate</p>
       </div>
 
       <div className="mt-9 grid gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">

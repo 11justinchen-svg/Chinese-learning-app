@@ -78,7 +78,7 @@ export function GrammarRepertoire() {
       </div>
 
       <p className="mt-5 text-sm text-muted-foreground">
-        {conceptCount} concepts across 10 open HSK {level} lessons. Every card links back to its full retrieval and reply practice.
+        {conceptCount} concepts across {stages.length} open HSK {level} lessons. Every card links back to its full retrieval and reply practice.
       </p>
 
       <div className="mt-8 space-y-12">

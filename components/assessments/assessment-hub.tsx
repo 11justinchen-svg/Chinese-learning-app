@@ -36,6 +36,12 @@ import { cn } from "@/lib/utils";
 const EMPTY_PROGRESS: ProgressStore = { version: 1, words: {}, stages: {} };
 const displayFont = "font-[family-name:var(--font-display)]";
 const hanziFont = "font-[family-name:var(--font-hanzi-display)]";
+const GROUP_ASSESSMENT_COUNT = HSK1_ASSESSMENTS.filter(
+  (assessment) => assessment.kind === "group",
+).length;
+const COMPREHENSIVE_ASSESSMENT_COUNT = HSK1_ASSESSMENTS.filter(
+  (assessment) => assessment.kind === "practice",
+).length;
 
 const KIND_LABELS: Record<ExerciseKind, string> = {
   choice: "Meaning",
@@ -191,9 +197,9 @@ export function AssessmentHub({
               HSK 1 practice tests
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
-              Test two-lesson chapters or mix the whole level. Every test is
-              open, records first-attempt evidence, and points misses back to
-              immediate practice.
+              Test one practical topic chapter or mix the whole level. Every
+              test is open, records first-attempt evidence, and points misses
+              back to immediate practice.
             </p>
           </div>
         </header>
@@ -202,7 +208,8 @@ export function AssessmentHub({
           <aside className="lg:sticky lg:top-20 lg:self-start">
             <div className="border border-foreground bg-card p-4">
               <p className="px-2 pb-3 text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                Five chapters · two full forms
+                {GROUP_ASSESSMENT_COUNT} topic chapters ·{" "}
+                {COMPREHENSIVE_ASSESSMENT_COUNT} full forms
               </p>
               <div className="grid gap-2">
                 {HSK1_ASSESSMENTS.map((item) => {
@@ -252,7 +259,7 @@ export function AssessmentHub({
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
                     {assessment.kind === "group"
-                      ? "Two-lesson cumulative check"
+                      ? "Topic-chapter cumulative check"
                       : "Whole-level comprehensive form"}
                   </p>
                   <h2 className={cn("mt-2 text-3xl font-bold sm:text-4xl", displayFont)}>

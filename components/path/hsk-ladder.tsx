@@ -1,7 +1,8 @@
 "use client";
 
 import { Check, Languages } from "lucide-react";
-import type { HskLevel } from "@/lib/hsk";
+import { wordsForLevel, type HskLevel } from "@/lib/hsk";
+import { stagesForLevel } from "@/lib/data/stages";
 import { cn } from "@/lib/utils";
 
 const hanziFont = "font-[family-name:var(--font-hanzi-display)]";
@@ -61,7 +62,7 @@ export function HskLadder({
                       {option === 1 ? "Start speaking" : "Go further"}
                     </p>
                     <p className="mt-2 max-w-[22ch] text-sm opacity-80">
-                      10 open scenes · {option === 1 ? 150 : 147} written forms
+                      {stagesForLevel(option).length} open lessons · {wordsForLevel(option).length} new words
                     </p>
                   </div>
                   {selected && (

@@ -1,0 +1,3502 @@
+[
+  {
+    "index": 1,
+    "level": 1,
+    "hanzi": "爱",
+    "pinyin": "ài",
+    "pos": "动"
+  },
+  {
+    "index": 2,
+    "level": 1,
+    "hanzi": "八",
+    "pinyin": "bā",
+    "pos": "数"
+  },
+  {
+    "index": 3,
+    "level": 1,
+    "hanzi": "爸爸",
+    "pinyin": "bàba",
+    "pos": "名"
+  },
+  {
+    "index": 4,
+    "level": 1,
+    "hanzi": "吧",
+    "pinyin": "ba",
+    "pos": "助"
+  },
+  {
+    "index": 5,
+    "level": 1,
+    "hanzi": "白天",
+    "pinyin": "báitiān",
+    "pos": "名"
+  },
+  {
+    "index": 6,
+    "level": 1,
+    "hanzi": "百",
+    "pinyin": "bǎi",
+    "pos": "数"
+  },
+  {
+    "index": 7,
+    "level": 1,
+    "hanzi": "半",
+    "pinyin": "bàn",
+    "pos": "数、（副）"
+  },
+  {
+    "index": 8,
+    "level": 1,
+    "hanzi": "包子",
+    "pinyin": "bāozi",
+    "pos": "名"
+  },
+  {
+    "index": 9,
+    "level": 1,
+    "hanzi": "杯子",
+    "pinyin": "bēizi",
+    "pos": "名"
+  },
+  {
+    "index": 10,
+    "level": 1,
+    "hanzi": "本",
+    "pinyin": "běn",
+    "pos": "量"
+  },
+  {
+    "index": 11,
+    "level": 1,
+    "hanzi": "边",
+    "pinyin": "biān",
+    "pos": "名、后缀"
+  },
+  {
+    "index": 12,
+    "level": 1,
+    "hanzi": "病",
+    "pinyin": "bìng",
+    "pos": "名、动"
+  },
+  {
+    "index": 13,
+    "level": 1,
+    "hanzi": "不",
+    "pinyin": "bù",
+    "pos": "副"
+  },
+  {
+    "index": 14,
+    "level": 1,
+    "hanzi": "不客气",
+    "pinyin": "búkèqi",
+    "pos": ""
+  },
+  {
+    "index": 15,
+    "level": 1,
+    "hanzi": "不要",
+    "pinyin": "búyào",
+    "pos": "副"
+  },
+  {
+    "index": 16,
+    "level": 1,
+    "hanzi": "菜",
+    "pinyin": "cài",
+    "pos": "名"
+  },
+  {
+    "index": 17,
+    "level": 1,
+    "hanzi": "茶",
+    "pinyin": "chá",
+    "pos": "名"
+  },
+  {
+    "index": 18,
+    "level": 1,
+    "hanzi": "唱",
+    "pinyin": "chàng",
+    "pos": "动"
+  },
+  {
+    "index": 19,
+    "level": 1,
+    "hanzi": "超市",
+    "pinyin": "chāoshì",
+    "pos": "名"
+  },
+  {
+    "index": 20,
+    "level": 1,
+    "hanzi": "车",
+    "pinyin": "chē",
+    "pos": "名"
+  },
+  {
+    "index": 21,
+    "level": 1,
+    "hanzi": "吃",
+    "pinyin": "chī",
+    "pos": "动"
+  },
+  {
+    "index": 22,
+    "level": 1,
+    "hanzi": "出租车",
+    "pinyin": "chūzūchē",
+    "pos": "名"
+  },
+  {
+    "index": 23,
+    "level": 1,
+    "hanzi": "穿",
+    "pinyin": "chuān",
+    "pos": "动"
+  },
+  {
+    "index": 24,
+    "level": 1,
+    "hanzi": "打电话",
+    "pinyin": "dǎdiànhuà",
+    "pos": ""
+  },
+  {
+    "index": 25,
+    "level": 1,
+    "hanzi": "大",
+    "pinyin": "dà",
+    "pos": "形"
+  },
+  {
+    "index": 26,
+    "level": 1,
+    "hanzi": "大家",
+    "pinyin": "dàjiā",
+    "pos": "代"
+  },
+  {
+    "index": 27,
+    "level": 1,
+    "hanzi": "大学",
+    "pinyin": "dàxué",
+    "pos": "名"
+  },
+  {
+    "index": 28,
+    "level": 1,
+    "hanzi": "大学生",
+    "pinyin": "dàxuéshēng",
+    "pos": "名"
+  },
+  {
+    "index": 29,
+    "level": 1,
+    "hanzi": "到",
+    "pinyin": "dào",
+    "pos": "动"
+  },
+  {
+    "index": 30,
+    "level": 1,
+    "hanzi": "的",
+    "pinyin": "de",
+    "pos": "助"
+  },
+  {
+    "index": 31,
+    "level": 1,
+    "hanzi": "第",
+    "pinyin": "dì",
+    "pos": "前缀"
+  },
+  {
+    "index": 32,
+    "level": 1,
+    "hanzi": "弟弟",
+    "pinyin": "dìdi",
+    "pos": "名"
+  },
+  {
+    "index": 33,
+    "level": 1,
+    "hanzi": "点",
+    "pinyin": "diǎn",
+    "pos": "量、（名）"
+  },
+  {
+    "index": 34,
+    "level": 1,
+    "hanzi": "店",
+    "pinyin": "diàn",
+    "pos": "名"
+  },
+  {
+    "index": 35,
+    "level": 1,
+    "hanzi": "电话",
+    "pinyin": "diànhuà",
+    "pos": "名"
+  },
+  {
+    "index": 36,
+    "level": 1,
+    "hanzi": "电脑",
+    "pinyin": "diànnǎo",
+    "pos": "名"
+  },
+  {
+    "index": 37,
+    "level": 1,
+    "hanzi": "电视",
+    "pinyin": "diànshì",
+    "pos": "名"
+  },
+  {
+    "index": 38,
+    "level": 1,
+    "hanzi": "电影",
+    "pinyin": "diànyǐng",
+    "pos": "名"
+  },
+  {
+    "index": 39,
+    "level": 1,
+    "hanzi": "电影院",
+    "pinyin": "diànyǐngyuàn",
+    "pos": "名"
+  },
+  {
+    "index": 40,
+    "level": 1,
+    "hanzi": "东西",
+    "pinyin": "dōngxi",
+    "pos": "名"
+  },
+  {
+    "index": 41,
+    "level": 1,
+    "hanzi": "都",
+    "pinyin": "dōu",
+    "pos": "副"
+  },
+  {
+    "index": 42,
+    "level": 1,
+    "hanzi": "读",
+    "pinyin": "dú",
+    "pos": "动"
+  },
+  {
+    "index": 43,
+    "level": 1,
+    "hanzi": "读书",
+    "pinyin": "dúshū",
+    "pos": "动"
+  },
+  {
+    "index": 44,
+    "level": 1,
+    "hanzi": "对",
+    "pinyin": "duì",
+    "pos": "形、介、（动、量）"
+  },
+  {
+    "index": 45,
+    "level": 1,
+    "hanzi": "对不起",
+    "pinyin": "duìbuqǐ",
+    "pos": "动"
+  },
+  {
+    "index": 46,
+    "level": 1,
+    "hanzi": "多",
+    "pinyin": "duō",
+    "pos": "形、动、代、（数、副）"
+  },
+  {
+    "index": 47,
+    "level": 1,
+    "hanzi": "多少",
+    "pinyin": "duōshao",
+    "pos": "代"
+  },
+  {
+    "index": 48,
+    "level": 1,
+    "hanzi": "儿子",
+    "pinyin": "érzi",
+    "pos": "名"
+  },
+  {
+    "index": 49,
+    "level": 1,
+    "hanzi": "二",
+    "pinyin": "èr",
+    "pos": "数"
+  },
+  {
+    "index": 50,
+    "level": 1,
+    "hanzi": "饭",
+    "pinyin": "fàn",
+    "pos": "名"
+  },
+  {
+    "index": 51,
+    "level": 1,
+    "hanzi": "饭店",
+    "pinyin": "fàndiàn",
+    "pos": "名"
+  },
+  {
+    "index": 52,
+    "level": 1,
+    "hanzi": "房间",
+    "pinyin": "fángjiān",
+    "pos": "名"
+  },
+  {
+    "index": 53,
+    "level": 1,
+    "hanzi": "非常",
+    "pinyin": "fēicháng",
+    "pos": "副"
+  },
+  {
+    "index": 54,
+    "level": 1,
+    "hanzi": "飞机",
+    "pinyin": "fēijī",
+    "pos": "名"
+  },
+  {
+    "index": 55,
+    "level": 1,
+    "hanzi": "分",
+    "pinyin": "fēn",
+    "pos": "量、（动、名）"
+  },
+  {
+    "index": 56,
+    "level": 1,
+    "hanzi": "分钟",
+    "pinyin": "fēnzhōng",
+    "pos": "量"
+  },
+  {
+    "index": 57,
+    "level": 1,
+    "hanzi": "高兴",
+    "pinyin": "gāoxìng",
+    "pos": "形"
+  },
+  {
+    "index": 58,
+    "level": 1,
+    "hanzi": "歌",
+    "pinyin": "gē",
+    "pos": "名"
+  },
+  {
+    "index": 59,
+    "level": 1,
+    "hanzi": "哥哥",
+    "pinyin": "gēge",
+    "pos": "名"
+  },
+  {
+    "index": 60,
+    "level": 1,
+    "hanzi": "个",
+    "pinyin": "gè",
+    "pos": "量"
+  },
+  {
+    "index": 61,
+    "level": 1,
+    "hanzi": "给",
+    "pinyin": "gěi",
+    "pos": "动、（介）"
+  },
+  {
+    "index": 62,
+    "level": 1,
+    "hanzi": "公司",
+    "pinyin": "gōngsī",
+    "pos": "名"
+  },
+  {
+    "index": 63,
+    "level": 1,
+    "hanzi": "工作",
+    "pinyin": "gōngzuò",
+    "pos": "动、名"
+  },
+  {
+    "index": 64,
+    "level": 1,
+    "hanzi": "狗",
+    "pinyin": "gǒu",
+    "pos": "名"
+  },
+  {
+    "index": 65,
+    "level": 1,
+    "hanzi": "贵",
+    "pinyin": "guì",
+    "pos": "形"
+  },
+  {
+    "index": 66,
+    "level": 1,
+    "hanzi": "国",
+    "pinyin": "guó",
+    "pos": "名"
+  },
+  {
+    "index": 67,
+    "level": 1,
+    "hanzi": "还",
+    "pinyin": "hái",
+    "pos": "副"
+  },
+  {
+    "index": 68,
+    "level": 1,
+    "hanzi": "孩子",
+    "pinyin": "háizi",
+    "pos": "名"
+  },
+  {
+    "index": 69,
+    "level": 1,
+    "hanzi": "汉语",
+    "pinyin": "Hànyǔ",
+    "pos": "名"
+  },
+  {
+    "index": 70,
+    "level": 1,
+    "hanzi": "汉字",
+    "pinyin": "Hànzì",
+    "pos": "名"
+  },
+  {
+    "index": 71,
+    "level": 1,
+    "hanzi": "好",
+    "pinyin": "hǎo",
+    "pos": "形、（副）、（动）"
+  },
+  {
+    "index": 72,
+    "level": 1,
+    "hanzi": "好吃",
+    "pinyin": "hǎochī",
+    "pos": "形"
+  },
+  {
+    "index": 73,
+    "level": 1,
+    "hanzi": "好看",
+    "pinyin": "hǎokàn",
+    "pos": "形"
+  },
+  {
+    "index": 74,
+    "level": 1,
+    "hanzi": "好听",
+    "pinyin": "hǎotīng",
+    "pos": "形"
+  },
+  {
+    "index": 75,
+    "level": 1,
+    "hanzi": "好玩儿",
+    "pinyin": "hǎowánr",
+    "pos": "形"
+  },
+  {
+    "index": 76,
+    "level": 1,
+    "hanzi": "号",
+    "pinyin": "hào",
+    "pos": "名、量"
+  },
+  {
+    "index": 77,
+    "level": 1,
+    "hanzi": "喝",
+    "pinyin": "hē",
+    "pos": "动"
+  },
+  {
+    "index": 78,
+    "level": 1,
+    "hanzi": "和",
+    "pinyin": "hé",
+    "pos": "介、连"
+  },
+  {
+    "index": 79,
+    "level": 1,
+    "hanzi": "很",
+    "pinyin": "hěn",
+    "pos": "副"
+  },
+  {
+    "index": 80,
+    "level": 1,
+    "hanzi": "后",
+    "pinyin": "hòu",
+    "pos": "名"
+  },
+  {
+    "index": 81,
+    "level": 1,
+    "hanzi": "回",
+    "pinyin": "huí",
+    "pos": "动、（量）"
+  },
+  {
+    "index": 82,
+    "level": 1,
+    "hanzi": "会",
+    "pinyin": "huì",
+    "pos": "动"
+  },
+  {
+    "index": 83,
+    "level": 1,
+    "hanzi": "火车",
+    "pinyin": "huǒchē",
+    "pos": "名"
+  },
+  {
+    "index": 84,
+    "level": 1,
+    "hanzi": "鸡蛋",
+    "pinyin": "jīdàn",
+    "pos": "名"
+  },
+  {
+    "index": 85,
+    "level": 1,
+    "hanzi": "几",
+    "pinyin": "jǐ",
+    "pos": "代、数"
+  },
+  {
+    "index": 86,
+    "level": 1,
+    "hanzi": "家",
+    "pinyin": "jiā",
+    "pos": "名、量、（后缀）"
+  },
+  {
+    "index": 87,
+    "level": 1,
+    "hanzi": "家人",
+    "pinyin": "jiārén",
+    "pos": "名"
+  },
+  {
+    "index": 88,
+    "level": 1,
+    "hanzi": "见",
+    "pinyin": "jiàn",
+    "pos": "动"
+  },
+  {
+    "index": 89,
+    "level": 1,
+    "hanzi": "件",
+    "pinyin": "jiàn",
+    "pos": "量"
+  },
+  {
+    "index": 90,
+    "level": 1,
+    "hanzi": "饺子",
+    "pinyin": "jiǎozi",
+    "pos": "名"
+  },
+  {
+    "index": 91,
+    "level": 1,
+    "hanzi": "叫",
+    "pinyin": "jiào",
+    "pos": "动、（介）"
+  },
+  {
+    "index": 92,
+    "level": 1,
+    "hanzi": "姐姐",
+    "pinyin": "jiějie",
+    "pos": "名"
+  },
+  {
+    "index": 93,
+    "level": 1,
+    "hanzi": "今年",
+    "pinyin": "jīnnián",
+    "pos": "名"
+  },
+  {
+    "index": 94,
+    "level": 1,
+    "hanzi": "今天",
+    "pinyin": "jīntiān",
+    "pos": "名"
+  },
+  {
+    "index": 95,
+    "level": 1,
+    "hanzi": "九",
+    "pinyin": "jiǔ",
+    "pos": "数"
+  },
+  {
+    "index": 96,
+    "level": 1,
+    "hanzi": "觉得",
+    "pinyin": "juéde",
+    "pos": "动"
+  },
+  {
+    "index": 97,
+    "level": 1,
+    "hanzi": "开",
+    "pinyin": "kāi",
+    "pos": "动"
+  },
+  {
+    "index": 98,
+    "level": 1,
+    "hanzi": "开车",
+    "pinyin": "kāichē",
+    "pos": "动"
+  },
+  {
+    "index": 99,
+    "level": 1,
+    "hanzi": "看",
+    "pinyin": "kàn",
+    "pos": "动"
+  },
+  {
+    "index": 100,
+    "level": 1,
+    "hanzi": "看病",
+    "pinyin": "kànbìng",
+    "pos": "动"
+  },
+  {
+    "index": 101,
+    "level": 1,
+    "hanzi": "看见",
+    "pinyin": "kànjiàn",
+    "pos": "动"
+  },
+  {
+    "index": 102,
+    "level": 1,
+    "hanzi": "可以",
+    "pinyin": "kěyǐ",
+    "pos": "动、形"
+  },
+  {
+    "index": 103,
+    "level": 1,
+    "hanzi": "课",
+    "pinyin": "kè",
+    "pos": "名"
+  },
+  {
+    "index": 104,
+    "level": 1,
+    "hanzi": "口",
+    "pinyin": "kǒu",
+    "pos": "名、量"
+  },
+  {
+    "index": 105,
+    "level": 1,
+    "hanzi": "块",
+    "pinyin": "kuài",
+    "pos": "量"
+  },
+  {
+    "index": 106,
+    "level": 1,
+    "hanzi": "来",
+    "pinyin": "lái",
+    "pos": "动"
+  },
+  {
+    "index": 107,
+    "level": 1,
+    "hanzi": "老师",
+    "pinyin": "lǎoshī",
+    "pos": "名"
+  },
+  {
+    "index": 108,
+    "level": 1,
+    "hanzi": "了",
+    "pinyin": "le",
+    "pos": "助"
+  },
+  {
+    "index": 109,
+    "level": 1,
+    "hanzi": "冷",
+    "pinyin": "lěng",
+    "pos": "形"
+  },
+  {
+    "index": 110,
+    "level": 1,
+    "hanzi": "里",
+    "pinyin": "lǐ",
+    "pos": "名"
+  },
+  {
+    "index": 111,
+    "level": 1,
+    "hanzi": "两",
+    "pinyin": "liǎng",
+    "pos": "数"
+  },
+  {
+    "index": 112,
+    "level": 1,
+    "hanzi": "零",
+    "pinyin": "líng",
+    "pos": "数"
+  },
+  {
+    "index": 113,
+    "level": 1,
+    "hanzi": "六",
+    "pinyin": "liù",
+    "pos": "数"
+  },
+  {
+    "index": 114,
+    "level": 1,
+    "hanzi": "妈妈",
+    "pinyin": "māma",
+    "pos": "名"
+  },
+  {
+    "index": 115,
+    "level": 1,
+    "hanzi": "吗",
+    "pinyin": "ma",
+    "pos": "助"
+  },
+  {
+    "index": 116,
+    "level": 1,
+    "hanzi": "买",
+    "pinyin": "mǎi",
+    "pos": "动"
+  },
+  {
+    "index": 117,
+    "level": 1,
+    "hanzi": "卖",
+    "pinyin": "mài",
+    "pos": "动"
+  },
+  {
+    "index": 118,
+    "level": 1,
+    "hanzi": "忙",
+    "pinyin": "máng",
+    "pos": "形、动"
+  },
+  {
+    "index": 119,
+    "level": 1,
+    "hanzi": "猫",
+    "pinyin": "māo",
+    "pos": "名"
+  },
+  {
+    "index": 120,
+    "level": 1,
+    "hanzi": "没关系",
+    "pinyin": "méiguānxi",
+    "pos": ""
+  },
+  {
+    "index": 121,
+    "level": 1,
+    "hanzi": "没事",
+    "pinyin": "méishì",
+    "pos": "动"
+  },
+  {
+    "index": 122,
+    "level": 1,
+    "hanzi": "没有",
+    "pinyin": "méiyǒu",
+    "pos": "动、副"
+  },
+  {
+    "index": 123,
+    "level": 1,
+    "hanzi": "妹妹",
+    "pinyin": "mèimei",
+    "pos": "名"
+  },
+  {
+    "index": 124,
+    "level": 1,
+    "hanzi": "们",
+    "pinyin": "men",
+    "pos": "后缀"
+  },
+  {
+    "index": 125,
+    "level": 1,
+    "hanzi": "米饭",
+    "pinyin": "mǐfàn",
+    "pos": "名"
+  },
+  {
+    "index": 126,
+    "level": 1,
+    "hanzi": "面包",
+    "pinyin": "miànbāo",
+    "pos": "名"
+  },
+  {
+    "index": 127,
+    "level": 1,
+    "hanzi": "面条儿",
+    "pinyin": "miàntiáor",
+    "pos": "名"
+  },
+  {
+    "index": 128,
+    "level": 1,
+    "hanzi": "明年",
+    "pinyin": "míngnián",
+    "pos": "名"
+  },
+  {
+    "index": 129,
+    "level": 1,
+    "hanzi": "明天",
+    "pinyin": "míngtiān",
+    "pos": "名"
+  },
+  {
+    "index": 130,
+    "level": 1,
+    "hanzi": "名字",
+    "pinyin": "míngzi",
+    "pos": "名"
+  },
+  {
+    "index": 131,
+    "level": 1,
+    "hanzi": "哪",
+    "pinyin": "nǎ",
+    "pos": "代"
+  },
+  {
+    "index": 132,
+    "level": 1,
+    "hanzi": "哪个",
+    "pinyin": "nǎge",
+    "pos": "代"
+  },
+  {
+    "index": 133,
+    "level": 1,
+    "hanzi": "哪里",
+    "pinyin": "nǎlǐ",
+    "pos": "代"
+  },
+  {
+    "index": 134,
+    "level": 1,
+    "hanzi": "哪儿",
+    "pinyin": "nǎr",
+    "pos": "代"
+  },
+  {
+    "index": 135,
+    "level": 1,
+    "hanzi": "哪些",
+    "pinyin": "nǎxiē",
+    "pos": "代"
+  },
+  {
+    "index": 136,
+    "level": 1,
+    "hanzi": "那",
+    "pinyin": "nà",
+    "pos": "代、（连）"
+  },
+  {
+    "index": 137,
+    "level": 1,
+    "hanzi": "那边",
+    "pinyin": "nàbiān",
+    "pos": "代"
+  },
+  {
+    "index": 138,
+    "level": 1,
+    "hanzi": "那个",
+    "pinyin": "nàge",
+    "pos": "代"
+  },
+  {
+    "index": 139,
+    "level": 1,
+    "hanzi": "那里",
+    "pinyin": "nàlǐ",
+    "pos": "代"
+  },
+  {
+    "index": 140,
+    "level": 1,
+    "hanzi": "那儿",
+    "pinyin": "nàr",
+    "pos": "代"
+  },
+  {
+    "index": 141,
+    "level": 1,
+    "hanzi": "那些",
+    "pinyin": "nàxiē",
+    "pos": "代"
+  },
+  {
+    "index": 142,
+    "level": 1,
+    "hanzi": "男",
+    "pinyin": "nán",
+    "pos": "形"
+  },
+  {
+    "index": 143,
+    "level": 1,
+    "hanzi": "男朋友",
+    "pinyin": "nánpéngyou",
+    "pos": "名"
+  },
+  {
+    "index": 144,
+    "level": 1,
+    "hanzi": "呢",
+    "pinyin": "ne",
+    "pos": "助"
+  },
+  {
+    "index": 145,
+    "level": 1,
+    "hanzi": "能",
+    "pinyin": "néng",
+    "pos": "动"
+  },
+  {
+    "index": 146,
+    "level": 1,
+    "hanzi": "你",
+    "pinyin": "nǐ",
+    "pos": "代"
+  },
+  {
+    "index": 147,
+    "level": 1,
+    "hanzi": "你好",
+    "pinyin": "nǐhǎo",
+    "pos": ""
+  },
+  {
+    "index": 148,
+    "level": 1,
+    "hanzi": "你们",
+    "pinyin": "nǐmen",
+    "pos": "代"
+  },
+  {
+    "index": 149,
+    "level": 1,
+    "hanzi": "年",
+    "pinyin": "nián",
+    "pos": "名、量"
+  },
+  {
+    "index": 150,
+    "level": 1,
+    "hanzi": "您",
+    "pinyin": "nín",
+    "pos": "代"
+  },
+  {
+    "index": 151,
+    "level": 1,
+    "hanzi": "牛奶",
+    "pinyin": "niúnǎi",
+    "pos": "名"
+  },
+  {
+    "index": 152,
+    "level": 1,
+    "hanzi": "女",
+    "pinyin": "nǚ",
+    "pos": "形"
+  },
+  {
+    "index": 153,
+    "level": 1,
+    "hanzi": "女儿",
+    "pinyin": "nǚ’ér",
+    "pos": "名"
+  },
+  {
+    "index": 154,
+    "level": 1,
+    "hanzi": "女朋友",
+    "pinyin": "nǚpéngyou",
+    "pos": "名"
+  },
+  {
+    "index": 155,
+    "level": 1,
+    "hanzi": "女士",
+    "pinyin": "nǚshì",
+    "pos": "名"
+  },
+  {
+    "index": 156,
+    "level": 1,
+    "hanzi": "朋友",
+    "pinyin": "péngyou",
+    "pos": "名"
+  },
+  {
+    "index": 157,
+    "level": 1,
+    "hanzi": "便宜",
+    "pinyin": "piányi",
+    "pos": "形"
+  },
+  {
+    "index": 158,
+    "level": 1,
+    "hanzi": "漂亮",
+    "pinyin": "piàoliang",
+    "pos": "形"
+  },
+  {
+    "index": 159,
+    "level": 1,
+    "hanzi": "苹果",
+    "pinyin": "píngguǒ",
+    "pos": "名"
+  },
+  {
+    "index": 160,
+    "level": 1,
+    "hanzi": "七",
+    "pinyin": "qī",
+    "pos": "数"
+  },
+  {
+    "index": 161,
+    "level": 1,
+    "hanzi": "起床",
+    "pinyin": "qǐchuáng",
+    "pos": "动"
+  },
+  {
+    "index": 162,
+    "level": 1,
+    "hanzi": "千",
+    "pinyin": "qiān",
+    "pos": "数"
+  },
+  {
+    "index": 163,
+    "level": 1,
+    "hanzi": "前",
+    "pinyin": "qián",
+    "pos": "名"
+  },
+  {
+    "index": 164,
+    "level": 1,
+    "hanzi": "钱",
+    "pinyin": "qián",
+    "pos": "名"
+  },
+  {
+    "index": 165,
+    "level": 1,
+    "hanzi": "请",
+    "pinyin": "qǐng",
+    "pos": "动"
+  },
+  {
+    "index": 166,
+    "level": 1,
+    "hanzi": "请问",
+    "pinyin": "qǐngwèn",
+    "pos": "动"
+  },
+  {
+    "index": 167,
+    "level": 1,
+    "hanzi": "去",
+    "pinyin": "qù",
+    "pos": "动"
+  },
+  {
+    "index": 168,
+    "level": 1,
+    "hanzi": "去年",
+    "pinyin": "qùnián",
+    "pos": "名"
+  },
+  {
+    "index": 169,
+    "level": 1,
+    "hanzi": "热",
+    "pinyin": "rè",
+    "pos": "形"
+  },
+  {
+    "index": 170,
+    "level": 1,
+    "hanzi": "人",
+    "pinyin": "rén",
+    "pos": "名"
+  },
+  {
+    "index": 171,
+    "level": 1,
+    "hanzi": "认识",
+    "pinyin": "rènshi",
+    "pos": "动"
+  },
+  {
+    "index": 172,
+    "level": 1,
+    "hanzi": "日",
+    "pinyin": "rì",
+    "pos": "量、（名）"
+  },
+  {
+    "index": 173,
+    "level": 1,
+    "hanzi": "三",
+    "pinyin": "sān",
+    "pos": "数"
+  },
+  {
+    "index": 174,
+    "level": 1,
+    "hanzi": "商店",
+    "pinyin": "shāngdiàn",
+    "pos": "名"
+  },
+  {
+    "index": 175,
+    "level": 1,
+    "hanzi": "上",
+    "pinyin": "shàng",
+    "pos": "名、动"
+  },
+  {
+    "index": 176,
+    "level": 1,
+    "hanzi": "上班",
+    "pinyin": "shàngbān",
+    "pos": "动"
+  },
+  {
+    "index": 177,
+    "level": 1,
+    "hanzi": "上课",
+    "pinyin": "shàngkè",
+    "pos": "动"
+  },
+  {
+    "index": 178,
+    "level": 1,
+    "hanzi": "上午",
+    "pinyin": "shàngwǔ",
+    "pos": "名"
+  },
+  {
+    "index": 179,
+    "level": 1,
+    "hanzi": "上学",
+    "pinyin": "shàngxué",
+    "pos": "动"
+  },
+  {
+    "index": 180,
+    "level": 1,
+    "hanzi": "少",
+    "pinyin": "shǎo",
+    "pos": "形、动"
+  },
+  {
+    "index": 181,
+    "level": 1,
+    "hanzi": "谁",
+    "pinyin": "shéi/shuí",
+    "pos": "代"
+  },
+  {
+    "index": 182,
+    "level": 1,
+    "hanzi": "什么",
+    "pinyin": "shénme",
+    "pos": "代"
+  },
+  {
+    "index": 183,
+    "level": 1,
+    "hanzi": "生病",
+    "pinyin": "shēngbìng",
+    "pos": "动"
+  },
+  {
+    "index": 184,
+    "level": 1,
+    "hanzi": "十",
+    "pinyin": "shí",
+    "pos": "数"
+  },
+  {
+    "index": 185,
+    "level": 1,
+    "hanzi": "时候",
+    "pinyin": "shíhou",
+    "pos": "名"
+  },
+  {
+    "index": 186,
+    "level": 1,
+    "hanzi": "时间",
+    "pinyin": "shíjiān",
+    "pos": "名"
+  },
+  {
+    "index": 187,
+    "level": 1,
+    "hanzi": "事",
+    "pinyin": "shì",
+    "pos": "名"
+  },
+  {
+    "index": 188,
+    "level": 1,
+    "hanzi": "是",
+    "pinyin": "shì",
+    "pos": "动"
+  },
+  {
+    "index": 189,
+    "level": 1,
+    "hanzi": "手机",
+    "pinyin": "shǒujī",
+    "pos": "名"
+  },
+  {
+    "index": 190,
+    "level": 1,
+    "hanzi": "书",
+    "pinyin": "shū",
+    "pos": "名"
+  },
+  {
+    "index": 191,
+    "level": 1,
+    "hanzi": "书店",
+    "pinyin": "shūdiàn",
+    "pos": "名"
+  },
+  {
+    "index": 192,
+    "level": 1,
+    "hanzi": "水",
+    "pinyin": "shuǐ",
+    "pos": "名"
+  },
+  {
+    "index": 193,
+    "level": 1,
+    "hanzi": "水果",
+    "pinyin": "shuǐguǒ",
+    "pos": "名"
+  },
+  {
+    "index": 194,
+    "level": 1,
+    "hanzi": "睡",
+    "pinyin": "shuì",
+    "pos": "动"
+  },
+  {
+    "index": 195,
+    "level": 1,
+    "hanzi": "睡觉",
+    "pinyin": "shuìjiào",
+    "pos": "动"
+  },
+  {
+    "index": 196,
+    "level": 1,
+    "hanzi": "说",
+    "pinyin": "shuō",
+    "pos": "动"
+  },
+  {
+    "index": 197,
+    "level": 1,
+    "hanzi": "说话",
+    "pinyin": "shuōhuà",
+    "pos": "动"
+  },
+  {
+    "index": 198,
+    "level": 1,
+    "hanzi": "四",
+    "pinyin": "sì",
+    "pos": "数"
+  },
+  {
+    "index": 199,
+    "level": 1,
+    "hanzi": "岁",
+    "pinyin": "suì",
+    "pos": "量"
+  },
+  {
+    "index": 200,
+    "level": 1,
+    "hanzi": "他",
+    "pinyin": "tā",
+    "pos": "代"
+  },
+  {
+    "index": 201,
+    "level": 1,
+    "hanzi": "它",
+    "pinyin": "tā",
+    "pos": "代"
+  },
+  {
+    "index": 202,
+    "level": 1,
+    "hanzi": "她",
+    "pinyin": "tā",
+    "pos": "代"
+  },
+  {
+    "index": 203,
+    "level": 1,
+    "hanzi": "他们",
+    "pinyin": "tāmen",
+    "pos": "代"
+  },
+  {
+    "index": 204,
+    "level": 1,
+    "hanzi": "它们",
+    "pinyin": "tāmen",
+    "pos": "代"
+  },
+  {
+    "index": 205,
+    "level": 1,
+    "hanzi": "她们",
+    "pinyin": "tāmen",
+    "pos": "代"
+  },
+  {
+    "index": 206,
+    "level": 1,
+    "hanzi": "太",
+    "pinyin": "tài",
+    "pos": "副"
+  },
+  {
+    "index": 207,
+    "level": 1,
+    "hanzi": "天",
+    "pinyin": "tiān",
+    "pos": "名、量"
+  },
+  {
+    "index": 208,
+    "level": 1,
+    "hanzi": "天气",
+    "pinyin": "tiānqì",
+    "pos": "名"
+  },
+  {
+    "index": 209,
+    "level": 1,
+    "hanzi": "听",
+    "pinyin": "tīng",
+    "pos": "动"
+  },
+  {
+    "index": 210,
+    "level": 1,
+    "hanzi": "听见",
+    "pinyin": "tīngjiàn",
+    "pos": "动"
+  },
+  {
+    "index": 211,
+    "level": 1,
+    "hanzi": "同学",
+    "pinyin": "tóngxué",
+    "pos": "名"
+  },
+  {
+    "index": 212,
+    "level": 1,
+    "hanzi": "外",
+    "pinyin": "wài",
+    "pos": "名"
+  },
+  {
+    "index": 213,
+    "level": 1,
+    "hanzi": "外边",
+    "pinyin": "wàibian",
+    "pos": "名"
+  },
+  {
+    "index": 214,
+    "level": 1,
+    "hanzi": "玩",
+    "pinyin": "wán",
+    "pos": "动"
+  },
+  {
+    "index": 215,
+    "level": 1,
+    "hanzi": "晚",
+    "pinyin": "wǎn",
+    "pos": "形"
+  },
+  {
+    "index": 216,
+    "level": 1,
+    "hanzi": "晚饭",
+    "pinyin": "wǎnfàn",
+    "pos": "名"
+  },
+  {
+    "index": 217,
+    "level": 1,
+    "hanzi": "晚上",
+    "pinyin": "wǎnshang",
+    "pos": "名"
+  },
+  {
+    "index": 218,
+    "level": 1,
+    "hanzi": "喂",
+    "pinyin": "wèi",
+    "pos": "叹"
+  },
+  {
+    "index": 219,
+    "level": 1,
+    "hanzi": "问",
+    "pinyin": "wèn",
+    "pos": "动"
+  },
+  {
+    "index": 220,
+    "level": 1,
+    "hanzi": "问题",
+    "pinyin": "wèntí",
+    "pos": "名"
+  },
+  {
+    "index": 221,
+    "level": 1,
+    "hanzi": "我",
+    "pinyin": "wǒ",
+    "pos": "代"
+  },
+  {
+    "index": 222,
+    "level": 1,
+    "hanzi": "我们",
+    "pinyin": "wǒmen",
+    "pos": "代"
+  },
+  {
+    "index": 223,
+    "level": 1,
+    "hanzi": "五",
+    "pinyin": "wǔ",
+    "pos": "数"
+  },
+  {
+    "index": 224,
+    "level": 1,
+    "hanzi": "午饭",
+    "pinyin": "wǔfàn",
+    "pos": "名"
+  },
+  {
+    "index": 225,
+    "level": 1,
+    "hanzi": "喜欢",
+    "pinyin": "xǐhuan",
+    "pos": "动"
+  },
+  {
+    "index": 226,
+    "level": 1,
+    "hanzi": "下",
+    "pinyin": "xià",
+    "pos": "名、动、量"
+  },
+  {
+    "index": 227,
+    "level": 1,
+    "hanzi": "下雨",
+    "pinyin": "xiàyǔ",
+    "pos": ""
+  },
+  {
+    "index": 228,
+    "level": 1,
+    "hanzi": "下班",
+    "pinyin": "xiàbān",
+    "pos": "动"
+  },
+  {
+    "index": 229,
+    "level": 1,
+    "hanzi": "下课",
+    "pinyin": "xiàkè",
+    "pos": "动"
+  },
+  {
+    "index": 230,
+    "level": 1,
+    "hanzi": "下午",
+    "pinyin": "xiàwǔ",
+    "pos": "名"
+  },
+  {
+    "index": 231,
+    "level": 1,
+    "hanzi": "先生",
+    "pinyin": "xiānsheng",
+    "pos": "名"
+  },
+  {
+    "index": 232,
+    "level": 1,
+    "hanzi": "现在",
+    "pinyin": "xiànzài",
+    "pos": "名"
+  },
+  {
+    "index": 233,
+    "level": 1,
+    "hanzi": "想",
+    "pinyin": "xiǎng",
+    "pos": "动"
+  },
+  {
+    "index": 234,
+    "level": 1,
+    "hanzi": "小",
+    "pinyin": "xiǎo",
+    "pos": "形、前缀"
+  },
+  {
+    "index": 235,
+    "level": 1,
+    "hanzi": "小朋友",
+    "pinyin": "xiǎopéngyǒu",
+    "pos": "名"
+  },
+  {
+    "index": 236,
+    "level": 1,
+    "hanzi": "小时",
+    "pinyin": "xiǎoshí",
+    "pos": "名"
+  },
+  {
+    "index": 237,
+    "level": 1,
+    "hanzi": "小学",
+    "pinyin": "xiǎoxué",
+    "pos": "名"
+  },
+  {
+    "index": 238,
+    "level": 1,
+    "hanzi": "小学生",
+    "pinyin": "xiǎoxuéshēng",
+    "pos": "名"
+  },
+  {
+    "index": 239,
+    "level": 1,
+    "hanzi": "些",
+    "pinyin": "xiē",
+    "pos": "量"
+  },
+  {
+    "index": 240,
+    "level": 1,
+    "hanzi": "写",
+    "pinyin": "xiě",
+    "pos": "动"
+  },
+  {
+    "index": 241,
+    "level": 1,
+    "hanzi": "谢谢",
+    "pinyin": "xièxie",
+    "pos": "动"
+  },
+  {
+    "index": 242,
+    "level": 1,
+    "hanzi": "新",
+    "pinyin": "xīn",
+    "pos": "形"
+  },
+  {
+    "index": 243,
+    "level": 1,
+    "hanzi": "星期",
+    "pinyin": "xīngqī",
+    "pos": "名"
+  },
+  {
+    "index": 244,
+    "level": 1,
+    "hanzi": "星期日",
+    "pinyin": "xīngqīrì",
+    "pos": "名"
+  },
+  {
+    "index": 245,
+    "level": 1,
+    "hanzi": "星期天",
+    "pinyin": "xīngqītiān",
+    "pos": "名"
+  },
+  {
+    "index": 246,
+    "level": 1,
+    "hanzi": "休息",
+    "pinyin": "xiūxi",
+    "pos": "动"
+  },
+  {
+    "index": 247,
+    "level": 1,
+    "hanzi": "学",
+    "pinyin": "xué",
+    "pos": "动"
+  },
+  {
+    "index": 248,
+    "level": 1,
+    "hanzi": "学生",
+    "pinyin": "xuéshēng",
+    "pos": "名"
+  },
+  {
+    "index": 249,
+    "level": 1,
+    "hanzi": "学习",
+    "pinyin": "xuéxí",
+    "pos": "动"
+  },
+  {
+    "index": 250,
+    "level": 1,
+    "hanzi": "学校",
+    "pinyin": "xuéxiào",
+    "pos": "名"
+  },
+  {
+    "index": 251,
+    "level": 1,
+    "hanzi": "雪",
+    "pinyin": "xuě",
+    "pos": "名"
+  },
+  {
+    "index": 252,
+    "level": 1,
+    "hanzi": "要",
+    "pinyin": "yào",
+    "pos": "动"
+  },
+  {
+    "index": 253,
+    "level": 1,
+    "hanzi": "也",
+    "pinyin": "yě",
+    "pos": "副"
+  },
+  {
+    "index": 254,
+    "level": 1,
+    "hanzi": "一",
+    "pinyin": "yī",
+    "pos": "数"
+  },
+  {
+    "index": 255,
+    "level": 1,
+    "hanzi": "衣服",
+    "pinyin": "yīfu",
+    "pos": "名"
+  },
+  {
+    "index": 256,
+    "level": 1,
+    "hanzi": "医生",
+    "pinyin": "yīshēng",
+    "pos": "名"
+  },
+  {
+    "index": 257,
+    "level": 1,
+    "hanzi": "医院",
+    "pinyin": "yīyuàn",
+    "pos": "名"
+  },
+  {
+    "index": 258,
+    "level": 1,
+    "hanzi": "一半",
+    "pinyin": "yíbàn",
+    "pos": "数"
+  },
+  {
+    "index": 259,
+    "level": 1,
+    "hanzi": "一下",
+    "pinyin": "yíxià",
+    "pos": "数量、（副）"
+  },
+  {
+    "index": 260,
+    "level": 1,
+    "hanzi": "椅子",
+    "pinyin": "yǐzi",
+    "pos": "名"
+  },
+  {
+    "index": 261,
+    "level": 1,
+    "hanzi": "一点儿",
+    "pinyin": "yìdiǎnr",
+    "pos": "数量"
+  },
+  {
+    "index": 262,
+    "level": 1,
+    "hanzi": "一些",
+    "pinyin": "yìxiē",
+    "pos": "数量"
+  },
+  {
+    "index": 263,
+    "level": 1,
+    "hanzi": "有",
+    "pinyin": "yǒu",
+    "pos": "动"
+  },
+  {
+    "index": 264,
+    "level": 1,
+    "hanzi": "有的",
+    "pinyin": "yǒude",
+    "pos": "代"
+  },
+  {
+    "index": 265,
+    "level": 1,
+    "hanzi": "有点儿",
+    "pinyin": "yǒudiǎnr",
+    "pos": "副"
+  },
+  {
+    "index": 266,
+    "level": 1,
+    "hanzi": "有些",
+    "pinyin": "yǒuxiē",
+    "pos": "代、（副）"
+  },
+  {
+    "index": 267,
+    "level": 1,
+    "hanzi": "雨",
+    "pinyin": "yǔ",
+    "pos": "名"
+  },
+  {
+    "index": 268,
+    "level": 1,
+    "hanzi": "元",
+    "pinyin": "yuán",
+    "pos": "量"
+  },
+  {
+    "index": 269,
+    "level": 1,
+    "hanzi": "月",
+    "pinyin": "yuè",
+    "pos": "名"
+  },
+  {
+    "index": 270,
+    "level": 1,
+    "hanzi": "再",
+    "pinyin": "zài",
+    "pos": "副"
+  },
+  {
+    "index": 271,
+    "level": 1,
+    "hanzi": "在",
+    "pinyin": "zài",
+    "pos": "动、介、副"
+  },
+  {
+    "index": 272,
+    "level": 1,
+    "hanzi": "再见",
+    "pinyin": "zàijiàn",
+    "pos": "动"
+  },
+  {
+    "index": 273,
+    "level": 1,
+    "hanzi": "早",
+    "pinyin": "zǎo",
+    "pos": "形"
+  },
+  {
+    "index": 274,
+    "level": 1,
+    "hanzi": "早饭",
+    "pinyin": "zǎofàn",
+    "pos": "名"
+  },
+  {
+    "index": 275,
+    "level": 1,
+    "hanzi": "早上",
+    "pinyin": "zǎoshang",
+    "pos": "名"
+  },
+  {
+    "index": 276,
+    "level": 1,
+    "hanzi": "怎么",
+    "pinyin": "zěnme",
+    "pos": "代"
+  },
+  {
+    "index": 277,
+    "level": 1,
+    "hanzi": "怎么样",
+    "pinyin": "zěnmeyàng",
+    "pos": "代"
+  },
+  {
+    "index": 278,
+    "level": 1,
+    "hanzi": "找",
+    "pinyin": "zhǎo",
+    "pos": "动"
+  },
+  {
+    "index": 279,
+    "level": 1,
+    "hanzi": "这",
+    "pinyin": "zhè",
+    "pos": "代"
+  },
+  {
+    "index": 280,
+    "level": 1,
+    "hanzi": "这边",
+    "pinyin": "zhèbiān",
+    "pos": "代"
+  },
+  {
+    "index": 281,
+    "level": 1,
+    "hanzi": "这个",
+    "pinyin": "zhège",
+    "pos": "代"
+  },
+  {
+    "index": 282,
+    "level": 1,
+    "hanzi": "这里",
+    "pinyin": "zhèlǐ",
+    "pos": "代"
+  },
+  {
+    "index": 283,
+    "level": 1,
+    "hanzi": "这儿",
+    "pinyin": "zhèr",
+    "pos": "代"
+  },
+  {
+    "index": 284,
+    "level": 1,
+    "hanzi": "这些",
+    "pinyin": "zhèxiē",
+    "pos": "代"
+  },
+  {
+    "index": 285,
+    "level": 1,
+    "hanzi": "真",
+    "pinyin": "zhēn",
+    "pos": "副、（形）"
+  },
+  {
+    "index": 286,
+    "level": 1,
+    "hanzi": "正在",
+    "pinyin": "zhèngzài",
+    "pos": "副"
+  },
+  {
+    "index": 287,
+    "level": 1,
+    "hanzi": "只",
+    "pinyin": "zhī",
+    "pos": "量"
+  },
+  {
+    "index": 288,
+    "level": 1,
+    "hanzi": "知道",
+    "pinyin": "zhīdào",
+    "pos": "动"
+  },
+  {
+    "index": 289,
+    "level": 1,
+    "hanzi": "中国",
+    "pinyin": "Zhōngguó",
+    "pos": "名"
+  },
+  {
+    "index": 290,
+    "level": 1,
+    "hanzi": "中文",
+    "pinyin": "Zhōngwén",
+    "pos": "名"
+  },
+  {
+    "index": 291,
+    "level": 1,
+    "hanzi": "中午",
+    "pinyin": "zhōngwǔ",
+    "pos": "名"
+  },
+  {
+    "index": 292,
+    "level": 1,
+    "hanzi": "中学",
+    "pinyin": "zhōngxué",
+    "pos": "名"
+  },
+  {
+    "index": 293,
+    "level": 1,
+    "hanzi": "中学生",
+    "pinyin": "zhōngxuéshēng",
+    "pos": "名"
+  },
+  {
+    "index": 294,
+    "level": 1,
+    "hanzi": "住",
+    "pinyin": "zhù",
+    "pos": "动"
+  },
+  {
+    "index": 295,
+    "level": 1,
+    "hanzi": "桌子",
+    "pinyin": "zhuōzi",
+    "pos": "名"
+  },
+  {
+    "index": 296,
+    "level": 1,
+    "hanzi": "字",
+    "pinyin": "zì",
+    "pos": "名"
+  },
+  {
+    "index": 297,
+    "level": 1,
+    "hanzi": "昨天",
+    "pinyin": "zuótiān",
+    "pos": "名"
+  },
+  {
+    "index": 298,
+    "level": 1,
+    "hanzi": "坐",
+    "pinyin": "zuò",
+    "pos": "动"
+  },
+  {
+    "index": 299,
+    "level": 1,
+    "hanzi": "做",
+    "pinyin": "zuò",
+    "pos": "动"
+  },
+  {
+    "index": 300,
+    "level": 1,
+    "hanzi": "做饭",
+    "pinyin": "zuòfàn",
+    "pos": ""
+  },
+  {
+    "index": 301,
+    "level": 2,
+    "hanzi": "啊",
+    "pinyin": "a",
+    "pos": "助"
+  },
+  {
+    "index": 302,
+    "level": 2,
+    "hanzi": "爱好",
+    "pinyin": "àihào",
+    "pos": "动、名"
+  },
+  {
+    "index": 303,
+    "level": 2,
+    "hanzi": "白色",
+    "pinyin": "báisè",
+    "pos": "名"
+  },
+  {
+    "index": 304,
+    "level": 2,
+    "hanzi": "班",
+    "pinyin": "bān",
+    "pos": "名、（量）"
+  },
+  {
+    "index": 305,
+    "level": 2,
+    "hanzi": "帮",
+    "pinyin": "bāng",
+    "pos": "动"
+  },
+  {
+    "index": 306,
+    "level": 2,
+    "hanzi": "帮忙",
+    "pinyin": "bāngmáng",
+    "pos": "动"
+  },
+  {
+    "index": 307,
+    "level": 2,
+    "hanzi": "包",
+    "pinyin": "bāo",
+    "pos": "动、名、量"
+  },
+  {
+    "index": 308,
+    "level": 2,
+    "hanzi": "本子",
+    "pinyin": "běnzi",
+    "pos": "名"
+  },
+  {
+    "index": 309,
+    "level": 2,
+    "hanzi": "比",
+    "pinyin": "bǐ",
+    "pos": "动、介"
+  },
+  {
+    "index": 310,
+    "level": 2,
+    "hanzi": "笔",
+    "pinyin": "bǐ",
+    "pos": "名、（量）"
+  },
+  {
+    "index": 311,
+    "level": 2,
+    "hanzi": "别",
+    "pinyin": "bié",
+    "pos": "副"
+  },
+  {
+    "index": 312,
+    "level": 2,
+    "hanzi": "不错",
+    "pinyin": "búcuò",
+    "pos": "形"
+  },
+  {
+    "index": 313,
+    "level": 2,
+    "hanzi": "不好意思",
+    "pinyin": "bùhǎoyìsi",
+    "pos": ""
+  },
+  {
+    "index": 314,
+    "level": 2,
+    "hanzi": "长",
+    "pinyin": "cháng",
+    "pos": "形"
+  },
+  {
+    "index": 315,
+    "level": 2,
+    "hanzi": "车站",
+    "pinyin": "chēzhàn",
+    "pos": "名"
+  },
+  {
+    "index": 316,
+    "level": 2,
+    "hanzi": "出",
+    "pinyin": "chū",
+    "pos": "动"
+  },
+  {
+    "index": 317,
+    "level": 2,
+    "hanzi": "出国",
+    "pinyin": "chūguó",
+    "pos": "动"
+  },
+  {
+    "index": 318,
+    "level": 2,
+    "hanzi": "出来",
+    "pinyin": "chūlái",
+    "pos": "动"
+  },
+  {
+    "index": 319,
+    "level": 2,
+    "hanzi": "出门",
+    "pinyin": "chūmén",
+    "pos": "动"
+  },
+  {
+    "index": 320,
+    "level": 2,
+    "hanzi": "出去",
+    "pinyin": "chūqù",
+    "pos": "动"
+  },
+  {
+    "index": 321,
+    "level": 2,
+    "hanzi": "床",
+    "pinyin": "chuáng",
+    "pos": "名"
+  },
+  {
+    "index": 322,
+    "level": 2,
+    "hanzi": "词",
+    "pinyin": "cí",
+    "pos": "名"
+  },
+  {
+    "index": 323,
+    "level": 2,
+    "hanzi": "次",
+    "pinyin": "cì",
+    "pos": "量、（形）"
+  },
+  {
+    "index": 324,
+    "level": 2,
+    "hanzi": "从",
+    "pinyin": "cóng",
+    "pos": "介、（副）"
+  },
+  {
+    "index": 325,
+    "level": 2,
+    "hanzi": "从小",
+    "pinyin": "cóngxiǎo",
+    "pos": "副"
+  },
+  {
+    "index": 326,
+    "level": 2,
+    "hanzi": "错",
+    "pinyin": "cuò",
+    "pos": "形"
+  },
+  {
+    "index": 327,
+    "level": 2,
+    "hanzi": "打",
+    "pinyin": "dǎ",
+    "pos": "动"
+  },
+  {
+    "index": 328,
+    "level": 2,
+    "hanzi": "打车",
+    "pinyin": "dǎchē",
+    "pos": "动"
+  },
+  {
+    "index": 329,
+    "level": 2,
+    "hanzi": "打开",
+    "pinyin": "dǎkāi",
+    "pos": "动"
+  },
+  {
+    "index": 330,
+    "level": 2,
+    "hanzi": "但",
+    "pinyin": "dàn",
+    "pos": "连、（副）"
+  },
+  {
+    "index": 331,
+    "level": 2,
+    "hanzi": "但是",
+    "pinyin": "dànshì",
+    "pos": "连"
+  },
+  {
+    "index": 332,
+    "level": 2,
+    "hanzi": "得",
+    "pinyin": "de",
+    "pos": "助"
+  },
+  {
+    "index": 333,
+    "level": 2,
+    "hanzi": "地",
+    "pinyin": "de",
+    "pos": "助"
+  },
+  {
+    "index": 334,
+    "level": 2,
+    "hanzi": "等",
+    "pinyin": "děng",
+    "pos": "动、（介）"
+  },
+  {
+    "index": 335,
+    "level": 2,
+    "hanzi": "地铁",
+    "pinyin": "dìtiě",
+    "pos": "名"
+  },
+  {
+    "index": 336,
+    "level": 2,
+    "hanzi": "点",
+    "pinyin": "diǎn",
+    "pos": "动、（名、量）"
+  },
+  {
+    "index": 337,
+    "level": 2,
+    "hanzi": "懂",
+    "pinyin": "dǒng",
+    "pos": "动"
+  },
+  {
+    "index": 338,
+    "level": 2,
+    "hanzi": "动",
+    "pinyin": "dòng",
+    "pos": "动"
+  },
+  {
+    "index": 339,
+    "level": 2,
+    "hanzi": "饭馆",
+    "pinyin": "fànguǎn",
+    "pos": "名"
+  },
+  {
+    "index": 340,
+    "level": 2,
+    "hanzi": "飞",
+    "pinyin": "fēi",
+    "pos": "动"
+  },
+  {
+    "index": 341,
+    "level": 2,
+    "hanzi": "高",
+    "pinyin": "gāo",
+    "pos": "形、名"
+  },
+  {
+    "index": 342,
+    "level": 2,
+    "hanzi": "高中",
+    "pinyin": "gāozhōng",
+    "pos": "名"
+  },
+  {
+    "index": 343,
+    "level": 2,
+    "hanzi": "告诉",
+    "pinyin": "gàosu",
+    "pos": "动"
+  },
+  {
+    "index": 344,
+    "level": 2,
+    "hanzi": "个子",
+    "pinyin": "gèzi",
+    "pos": "名"
+  },
+  {
+    "index": 345,
+    "level": 2,
+    "hanzi": "跟",
+    "pinyin": "gēn",
+    "pos": "介、连、（名、动）"
+  },
+  {
+    "index": 346,
+    "level": 2,
+    "hanzi": "公交车",
+    "pinyin": "gōngjiāochē",
+    "pos": "名"
+  },
+  {
+    "index": 347,
+    "level": 2,
+    "hanzi": "过",
+    "pinyin": "guò",
+    "pos": "动"
+  },
+  {
+    "index": 348,
+    "level": 2,
+    "hanzi": "过来",
+    "pinyin": "guòlái",
+    "pos": "动"
+  },
+  {
+    "index": 349,
+    "level": 2,
+    "hanzi": "过年",
+    "pinyin": "guònián",
+    "pos": "动"
+  },
+  {
+    "index": 350,
+    "level": 2,
+    "hanzi": "过去",
+    "pinyin": "guòqù",
+    "pos": "动"
+  },
+  {
+    "index": 351,
+    "level": 2,
+    "hanzi": "过",
+    "pinyin": "guo",
+    "pos": "助"
+  },
+  {
+    "index": 352,
+    "level": 2,
+    "hanzi": "还是",
+    "pinyin": "háishi",
+    "pos": "副、连"
+  },
+  {
+    "index": 353,
+    "level": 2,
+    "hanzi": "黑色",
+    "pinyin": "hēisè",
+    "pos": "名"
+  },
+  {
+    "index": 354,
+    "level": 2,
+    "hanzi": "红茶",
+    "pinyin": "hóngchá",
+    "pos": "名"
+  },
+  {
+    "index": 355,
+    "level": 2,
+    "hanzi": "红色",
+    "pinyin": "hóngsè",
+    "pos": "名"
+  },
+  {
+    "index": 356,
+    "level": 2,
+    "hanzi": "后面",
+    "pinyin": "hòumiàn",
+    "pos": "名"
+  },
+  {
+    "index": 357,
+    "level": 2,
+    "hanzi": "花",
+    "pinyin": "huā",
+    "pos": "动"
+  },
+  {
+    "index": 358,
+    "level": 2,
+    "hanzi": "花",
+    "pinyin": "huā",
+    "pos": "名、（形）"
+  },
+  {
+    "index": 359,
+    "level": 2,
+    "hanzi": "画",
+    "pinyin": "huà",
+    "pos": "动、名"
+  },
+  {
+    "index": 360,
+    "level": 2,
+    "hanzi": "坏",
+    "pinyin": "huài",
+    "pos": "形"
+  },
+  {
+    "index": 361,
+    "level": 2,
+    "hanzi": "回来",
+    "pinyin": "huílái",
+    "pos": "动"
+  },
+  {
+    "index": 362,
+    "level": 2,
+    "hanzi": "回去",
+    "pinyin": "huíqù",
+    "pos": "动"
+  },
+  {
+    "index": 363,
+    "level": 2,
+    "hanzi": "机场",
+    "pinyin": "jīchǎng",
+    "pos": "名"
+  },
+  {
+    "index": 364,
+    "level": 2,
+    "hanzi": "机票",
+    "pinyin": "jīpiào",
+    "pos": "名"
+  },
+  {
+    "index": 365,
+    "level": 2,
+    "hanzi": "记得",
+    "pinyin": "jìde",
+    "pos": "动"
+  },
+  {
+    "index": 366,
+    "level": 2,
+    "hanzi": "间",
+    "pinyin": "jiān",
+    "pos": "量、（名）"
+  },
+  {
+    "index": 367,
+    "level": 2,
+    "hanzi": "教",
+    "pinyin": "jiāo",
+    "pos": "动"
+  },
+  {
+    "index": 368,
+    "level": 2,
+    "hanzi": "教室",
+    "pinyin": "jiàoshì",
+    "pos": "名"
+  },
+  {
+    "index": 369,
+    "level": 2,
+    "hanzi": "介绍",
+    "pinyin": "jièshào",
+    "pos": "动"
+  },
+  {
+    "index": 370,
+    "level": 2,
+    "hanzi": "进",
+    "pinyin": "jìn",
+    "pos": "动"
+  },
+  {
+    "index": 371,
+    "level": 2,
+    "hanzi": "近",
+    "pinyin": "jìn",
+    "pos": "形"
+  },
+  {
+    "index": 372,
+    "level": 2,
+    "hanzi": "进来",
+    "pinyin": "jìnlái",
+    "pos": "动"
+  },
+  {
+    "index": 373,
+    "level": 2,
+    "hanzi": "进去",
+    "pinyin": "jìnqù",
+    "pos": "动"
+  },
+  {
+    "index": 374,
+    "level": 2,
+    "hanzi": "经常",
+    "pinyin": "jīngcháng",
+    "pos": "副"
+  },
+  {
+    "index": 375,
+    "level": 2,
+    "hanzi": "酒店",
+    "pinyin": "jiǔdiàn",
+    "pos": "名"
+  },
+  {
+    "index": 376,
+    "level": 2,
+    "hanzi": "就",
+    "pinyin": "jiù",
+    "pos": "副、（介）"
+  },
+  {
+    "index": 377,
+    "level": 2,
+    "hanzi": "咖啡",
+    "pinyin": "kāfēi",
+    "pos": "名"
+  },
+  {
+    "index": 378,
+    "level": 2,
+    "hanzi": "开始",
+    "pinyin": "kāishǐ",
+    "pos": "动、名"
+  },
+  {
+    "index": 379,
+    "level": 2,
+    "hanzi": "开学",
+    "pinyin": "kāixué",
+    "pos": "动"
+  },
+  {
+    "index": 380,
+    "level": 2,
+    "hanzi": "考",
+    "pinyin": "kǎo",
+    "pos": "动"
+  },
+  {
+    "index": 381,
+    "level": 2,
+    "hanzi": "考试",
+    "pinyin": "kǎoshì",
+    "pos": "动、名"
+  },
+  {
+    "index": 382,
+    "level": 2,
+    "hanzi": "可能",
+    "pinyin": "kěnéng",
+    "pos": "形、名、动"
+  },
+  {
+    "index": 383,
+    "level": 2,
+    "hanzi": "裤子",
+    "pinyin": "kùzi",
+    "pos": "名"
+  },
+  {
+    "index": 384,
+    "level": 2,
+    "hanzi": "快",
+    "pinyin": "kuài",
+    "pos": "形、副"
+  },
+  {
+    "index": 385,
+    "level": 2,
+    "hanzi": "快乐",
+    "pinyin": "kuàilè",
+    "pos": "形"
+  },
+  {
+    "index": 386,
+    "level": 2,
+    "hanzi": "快要",
+    "pinyin": "kuàiyào",
+    "pos": "副"
+  },
+  {
+    "index": 387,
+    "level": 2,
+    "hanzi": "篮球",
+    "pinyin": "lánqiú",
+    "pos": "名"
+  },
+  {
+    "index": 388,
+    "level": 2,
+    "hanzi": "累",
+    "pinyin": "lèi",
+    "pos": "形、动"
+  },
+  {
+    "index": 389,
+    "level": 2,
+    "hanzi": "离",
+    "pinyin": "lí",
+    "pos": "动"
+  },
+  {
+    "index": 390,
+    "level": 2,
+    "hanzi": "里面",
+    "pinyin": "lǐmiàn",
+    "pos": "名"
+  },
+  {
+    "index": 391,
+    "level": 2,
+    "hanzi": "楼",
+    "pinyin": "lóu",
+    "pos": "名"
+  },
+  {
+    "index": 392,
+    "level": 2,
+    "hanzi": "路",
+    "pinyin": "lù",
+    "pos": "名"
+  },
+  {
+    "index": 393,
+    "level": 2,
+    "hanzi": "路上",
+    "pinyin": "lùshang",
+    "pos": "名"
+  },
+  {
+    "index": 394,
+    "level": 2,
+    "hanzi": "旅游",
+    "pinyin": "lǚyóu",
+    "pos": "动"
+  },
+  {
+    "index": 395,
+    "level": 2,
+    "hanzi": "绿茶",
+    "pinyin": "lǜchá",
+    "pos": "名"
+  },
+  {
+    "index": 396,
+    "level": 2,
+    "hanzi": "绿色",
+    "pinyin": "lǜsè",
+    "pos": "名、（形）"
+  },
+  {
+    "index": 397,
+    "level": 2,
+    "hanzi": "慢",
+    "pinyin": "màn",
+    "pos": "形"
+  },
+  {
+    "index": 398,
+    "level": 2,
+    "hanzi": "没意思",
+    "pinyin": "méiyìsi",
+    "pos": ""
+  },
+  {
+    "index": 399,
+    "level": 2,
+    "hanzi": "每",
+    "pinyin": "měi",
+    "pos": "代、（副）"
+  },
+  {
+    "index": 400,
+    "level": 2,
+    "hanzi": "门",
+    "pinyin": "mén",
+    "pos": "名"
+  },
+  {
+    "index": 401,
+    "level": 2,
+    "hanzi": "门口",
+    "pinyin": "ménkǒu",
+    "pos": "名"
+  },
+  {
+    "index": 402,
+    "level": 2,
+    "hanzi": "门票",
+    "pinyin": "ménpiào",
+    "pos": "名"
+  },
+  {
+    "index": 403,
+    "level": 2,
+    "hanzi": "面",
+    "pinyin": "miàn",
+    "pos": "后缀、（动、名、量）"
+  },
+  {
+    "index": 404,
+    "level": 2,
+    "hanzi": "名",
+    "pinyin": "míng",
+    "pos": "名、量"
+  },
+  {
+    "index": 405,
+    "level": 2,
+    "hanzi": "拿",
+    "pinyin": "ná",
+    "pos": "动"
+  },
+  {
+    "index": 406,
+    "level": 2,
+    "hanzi": "那么",
+    "pinyin": "nàme",
+    "pos": "代、连"
+  },
+  {
+    "index": 407,
+    "level": 2,
+    "hanzi": "那样",
+    "pinyin": "nàyàng",
+    "pos": "代"
+  },
+  {
+    "index": 408,
+    "level": 2,
+    "hanzi": "奶茶",
+    "pinyin": "nǎichá",
+    "pos": "名"
+  },
+  {
+    "index": 409,
+    "level": 2,
+    "hanzi": "奶奶",
+    "pinyin": "nǎinai",
+    "pos": "名"
+  },
+  {
+    "index": 410,
+    "level": 2,
+    "hanzi": "男孩儿",
+    "pinyin": "nánháir",
+    "pos": "名"
+  },
+  {
+    "index": 411,
+    "level": 2,
+    "hanzi": "鸟",
+    "pinyin": "niǎo",
+    "pos": "名"
+  },
+  {
+    "index": 412,
+    "level": 2,
+    "hanzi": "女孩儿",
+    "pinyin": "nǚháir",
+    "pos": "名"
+  },
+  {
+    "index": 413,
+    "level": 2,
+    "hanzi": "旁边",
+    "pinyin": "pángbiān",
+    "pos": "名"
+  },
+  {
+    "index": 414,
+    "level": 2,
+    "hanzi": "跑",
+    "pinyin": "pǎo",
+    "pos": "动"
+  },
+  {
+    "index": 415,
+    "level": 2,
+    "hanzi": "跑步",
+    "pinyin": "pǎobù",
+    "pos": "动"
+  },
+  {
+    "index": 416,
+    "level": 2,
+    "hanzi": "票",
+    "pinyin": "piào",
+    "pos": "名"
+  },
+  {
+    "index": 417,
+    "level": 2,
+    "hanzi": "妻子",
+    "pinyin": "qīzi",
+    "pos": "名"
+  },
+  {
+    "index": 418,
+    "level": 2,
+    "hanzi": "起来",
+    "pinyin": "qǐlái",
+    "pos": "动"
+  },
+  {
+    "index": 419,
+    "level": 2,
+    "hanzi": "前面",
+    "pinyin": "qiánmiàn",
+    "pos": "名"
+  },
+  {
+    "index": 420,
+    "level": 2,
+    "hanzi": "晴",
+    "pinyin": "qíng",
+    "pos": "形"
+  },
+  {
+    "index": 421,
+    "level": 2,
+    "hanzi": "球",
+    "pinyin": "qiú",
+    "pos": "名"
+  },
+  {
+    "index": 422,
+    "level": 2,
+    "hanzi": "让",
+    "pinyin": "ràng",
+    "pos": "动、（介）"
+  },
+  {
+    "index": 423,
+    "level": 2,
+    "hanzi": "肉",
+    "pinyin": "ròu",
+    "pos": "名"
+  },
+  {
+    "index": 424,
+    "level": 2,
+    "hanzi": "商场",
+    "pinyin": "shāngchǎng",
+    "pos": "名"
+  },
+  {
+    "index": 425,
+    "level": 2,
+    "hanzi": "上来",
+    "pinyin": "shànglái",
+    "pos": "动"
+  },
+  {
+    "index": 426,
+    "level": 2,
+    "hanzi": "上面",
+    "pinyin": "shàngmiàn",
+    "pos": "名"
+  },
+  {
+    "index": 427,
+    "level": 2,
+    "hanzi": "上去",
+    "pinyin": "shàngqù",
+    "pos": "动"
+  },
+  {
+    "index": 428,
+    "level": 2,
+    "hanzi": "上网",
+    "pinyin": "shàngwǎng",
+    "pos": "动"
+  },
+  {
+    "index": 429,
+    "level": 2,
+    "hanzi": "身体",
+    "pinyin": "shēntǐ",
+    "pos": "名"
+  },
+  {
+    "index": 430,
+    "level": 2,
+    "hanzi": "生日",
+    "pinyin": "shēngrì",
+    "pos": "名"
+  },
+  {
+    "index": 431,
+    "level": 2,
+    "hanzi": "时",
+    "pinyin": "shí",
+    "pos": "名、（量）"
+  },
+  {
+    "index": 432,
+    "level": 2,
+    "hanzi": "事情",
+    "pinyin": "shìqing",
+    "pos": "名"
+  },
+  {
+    "index": 433,
+    "level": 2,
+    "hanzi": "手",
+    "pinyin": "shǒu",
+    "pos": "名"
+  },
+  {
+    "index": 434,
+    "level": 2,
+    "hanzi": "手表",
+    "pinyin": "shǒubiǎo",
+    "pos": "名"
+  },
+  {
+    "index": 435,
+    "level": 2,
+    "hanzi": "书包",
+    "pinyin": "shūbāo",
+    "pos": "名"
+  },
+  {
+    "index": 436,
+    "level": 2,
+    "hanzi": "舒服",
+    "pinyin": "shūfu",
+    "pos": "形"
+  },
+  {
+    "index": 437,
+    "level": 2,
+    "hanzi": "送",
+    "pinyin": "sòng",
+    "pos": "动"
+  },
+  {
+    "index": 438,
+    "level": 2,
+    "hanzi": "虽然",
+    "pinyin": "suīrán",
+    "pos": "连"
+  },
+  {
+    "index": 439,
+    "level": 2,
+    "hanzi": "所以",
+    "pinyin": "suǒyǐ",
+    "pos": "连"
+  },
+  {
+    "index": 440,
+    "level": 2,
+    "hanzi": "疼",
+    "pinyin": "téng",
+    "pos": "形、（动）"
+  },
+  {
+    "index": 441,
+    "level": 2,
+    "hanzi": "踢",
+    "pinyin": "tī",
+    "pos": "动"
+  },
+  {
+    "index": 442,
+    "level": 2,
+    "hanzi": "题",
+    "pinyin": "tí",
+    "pos": "名"
+  },
+  {
+    "index": 443,
+    "level": 2,
+    "hanzi": "条",
+    "pinyin": "tiáo",
+    "pos": "量、（名）"
+  },
+  {
+    "index": 444,
+    "level": 2,
+    "hanzi": "跳舞",
+    "pinyin": "tiàowǔ",
+    "pos": "动"
+  },
+  {
+    "index": 445,
+    "level": 2,
+    "hanzi": "头",
+    "pinyin": "tóu",
+    "pos": "名、（量）、（形）"
+  },
+  {
+    "index": 446,
+    "level": 2,
+    "hanzi": "外国",
+    "pinyin": "wàiguó",
+    "pos": "名"
+  },
+  {
+    "index": 447,
+    "level": 2,
+    "hanzi": "外面",
+    "pinyin": "wàimiàn",
+    "pos": "名"
+  },
+  {
+    "index": 448,
+    "level": 2,
+    "hanzi": "完",
+    "pinyin": "wán",
+    "pos": "动"
+  },
+  {
+    "index": 449,
+    "level": 2,
+    "hanzi": "万",
+    "pinyin": "wàn",
+    "pos": "数"
+  },
+  {
+    "index": 450,
+    "level": 2,
+    "hanzi": "往",
+    "pinyin": "wǎng",
+    "pos": "动、介"
+  },
+  {
+    "index": 451,
+    "level": 2,
+    "hanzi": "网上",
+    "pinyin": "wǎngshang",
+    "pos": "名"
+  },
+  {
+    "index": 452,
+    "level": 2,
+    "hanzi": "忘",
+    "pinyin": "wàng",
+    "pos": "动"
+  },
+  {
+    "index": 453,
+    "level": 2,
+    "hanzi": "位",
+    "pinyin": "wèi",
+    "pos": "量"
+  },
+  {
+    "index": 454,
+    "level": 2,
+    "hanzi": "为什么",
+    "pinyin": "wèishénme",
+    "pos": ""
+  },
+  {
+    "index": 455,
+    "level": 2,
+    "hanzi": "希望",
+    "pinyin": "xīwàng",
+    "pos": "动"
+  },
+  {
+    "index": 456,
+    "level": 2,
+    "hanzi": "洗",
+    "pinyin": "xǐ",
+    "pos": "动"
+  },
+  {
+    "index": 457,
+    "level": 2,
+    "hanzi": "洗手间",
+    "pinyin": "xǐshǒujiān",
+    "pos": "名"
+  },
+  {
+    "index": 458,
+    "level": 2,
+    "hanzi": "下来",
+    "pinyin": "xiàlái",
+    "pos": "动"
+  },
+  {
+    "index": 459,
+    "level": 2,
+    "hanzi": "下面",
+    "pinyin": "xiàmiàn",
+    "pos": "名"
+  },
+  {
+    "index": 460,
+    "level": 2,
+    "hanzi": "下去",
+    "pinyin": "xiàqù",
+    "pos": "动"
+  },
+  {
+    "index": 461,
+    "level": 2,
+    "hanzi": "小孩儿",
+    "pinyin": "xiǎoháir",
+    "pos": "名"
+  },
+  {
+    "index": 462,
+    "level": 2,
+    "hanzi": "小时候",
+    "pinyin": "xiǎoshíhou",
+    "pos": "名"
+  },
+  {
+    "index": 463,
+    "level": 2,
+    "hanzi": "笑",
+    "pinyin": "xiào",
+    "pos": "动"
+  },
+  {
+    "index": 464,
+    "level": 2,
+    "hanzi": "姓",
+    "pinyin": "xìng",
+    "pos": "名、动"
+  },
+  {
+    "index": 465,
+    "level": 2,
+    "hanzi": "姓名",
+    "pinyin": "xìngmíng",
+    "pos": "名"
+  },
+  {
+    "index": 466,
+    "level": 2,
+    "hanzi": "颜色",
+    "pinyin": "yánsè",
+    "pos": "名"
+  },
+  {
+    "index": 467,
+    "level": 2,
+    "hanzi": "眼睛",
+    "pinyin": "yǎnjing",
+    "pos": "名"
+  },
+  {
+    "index": 468,
+    "level": 2,
+    "hanzi": "药",
+    "pinyin": "yào",
+    "pos": "名"
+  },
+  {
+    "index": 469,
+    "level": 2,
+    "hanzi": "药店",
+    "pinyin": "yàodiàn",
+    "pos": "名"
+  },
+  {
+    "index": 470,
+    "level": 2,
+    "hanzi": "爷爷",
+    "pinyin": "yéye",
+    "pos": "名"
+  },
+  {
+    "index": 471,
+    "level": 2,
+    "hanzi": "一会儿",
+    "pinyin": "yíhuìr",
+    "pos": "数量、（副）"
+  },
+  {
+    "index": 472,
+    "level": 2,
+    "hanzi": "已经",
+    "pinyin": "yǐjīng",
+    "pos": "副"
+  },
+  {
+    "index": 473,
+    "level": 2,
+    "hanzi": "一起",
+    "pinyin": "yìqǐ",
+    "pos": "副"
+  },
+  {
+    "index": 474,
+    "level": 2,
+    "hanzi": "意思",
+    "pinyin": "yìsi",
+    "pos": "名"
+  },
+  {
+    "index": 475,
+    "level": 2,
+    "hanzi": "阴",
+    "pinyin": "yīn",
+    "pos": "形"
+  },
+  {
+    "index": 476,
+    "level": 2,
+    "hanzi": "因为",
+    "pinyin": "yīnwèi",
+    "pos": "介、连"
+  },
+  {
+    "index": 477,
+    "level": 2,
+    "hanzi": "游",
+    "pinyin": "yóu",
+    "pos": "动"
+  },
+  {
+    "index": 478,
+    "level": 2,
+    "hanzi": "游泳",
+    "pinyin": "yóuyǒng",
+    "pos": "动"
+  },
+  {
+    "index": 479,
+    "level": 2,
+    "hanzi": "有意思",
+    "pinyin": "yǒuyìsi",
+    "pos": ""
+  },
+  {
+    "index": 480,
+    "level": 2,
+    "hanzi": "有时",
+    "pinyin": "yǒushí",
+    "pos": "副"
+  },
+  {
+    "index": 481,
+    "level": 2,
+    "hanzi": "右",
+    "pinyin": "yòu",
+    "pos": "名"
+  },
+  {
+    "index": 482,
+    "level": 2,
+    "hanzi": "右边",
+    "pinyin": "yòubian",
+    "pos": "名"
+  },
+  {
+    "index": 483,
+    "level": 2,
+    "hanzi": "鱼",
+    "pinyin": "yú",
+    "pos": "名"
+  },
+  {
+    "index": 484,
+    "level": 2,
+    "hanzi": "远",
+    "pinyin": "yuǎn",
+    "pos": "形"
+  },
+  {
+    "index": 485,
+    "level": 2,
+    "hanzi": "运动",
+    "pinyin": "yùndòng",
+    "pos": "动、名"
+  },
+  {
+    "index": 486,
+    "level": 2,
+    "hanzi": "站",
+    "pinyin": "zhàn",
+    "pos": "名"
+  },
+  {
+    "index": 487,
+    "level": 2,
+    "hanzi": "丈夫",
+    "pinyin": "zhàngfu",
+    "pos": "名"
+  },
+  {
+    "index": 488,
+    "level": 2,
+    "hanzi": "这么",
+    "pinyin": "zhème",
+    "pos": "代"
+  },
+  {
+    "index": 489,
+    "level": 2,
+    "hanzi": "这样",
+    "pinyin": "zhèyàng",
+    "pos": "代"
+  },
+  {
+    "index": 490,
+    "level": 2,
+    "hanzi": "着",
+    "pinyin": "zhe",
+    "pos": "助"
+  },
+  {
+    "index": 491,
+    "level": 2,
+    "hanzi": "正",
+    "pinyin": "zhèng",
+    "pos": "副、（形）"
+  },
+  {
+    "index": 492,
+    "level": 2,
+    "hanzi": "周",
+    "pinyin": "zhōu",
+    "pos": "名、（量）"
+  },
+  {
+    "index": 493,
+    "level": 2,
+    "hanzi": "准备",
+    "pinyin": "zhǔnbèi",
+    "pos": "动"
+  },
+  {
+    "index": 494,
+    "level": 2,
+    "hanzi": "自己",
+    "pinyin": "zìjǐ",
+    "pos": "代"
+  },
+  {
+    "index": 495,
+    "level": 2,
+    "hanzi": "走",
+    "pinyin": "zǒu",
+    "pos": "动"
+  },
+  {
+    "index": 496,
+    "level": 2,
+    "hanzi": "走路",
+    "pinyin": "zǒulù",
+    "pos": "动"
+  },
+  {
+    "index": 497,
+    "level": 2,
+    "hanzi": "足球",
+    "pinyin": "zúqiú",
+    "pos": "名"
+  },
+  {
+    "index": 498,
+    "level": 2,
+    "hanzi": "最",
+    "pinyin": "zuì",
+    "pos": "副"
+  },
+  {
+    "index": 499,
+    "level": 2,
+    "hanzi": "左",
+    "pinyin": "zuǒ",
+    "pos": "名"
+  },
+  {
+    "index": 500,
+    "level": 2,
+    "hanzi": "左边",
+    "pinyin": "zuǒbian",
+    "pos": "名"
+  }
+]

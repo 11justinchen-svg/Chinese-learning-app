@@ -1,4 +1,4 @@
-// Build a static, API-free HSK 2.0 level dataset.
+// Build a static, API-free HSK vocabulary dataset.
 //
 //   source word list : scripts/sources/hsk{level}-words.json
 //                      (drkameleon/complete-hsk-vocabulary, exclusive old level)
@@ -9,6 +9,7 @@
 //
 // Run with:  node scripts/build-hsk1.mjs 1
 //            node scripts/build-hsk1.mjs 2
+//            node scripts/build-hsk1.mjs 3.0
 
 import { createRequire } from "node:module";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -20,11 +21,29 @@ const hanzi = require("hanzi");
 hanzi.start();
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
-const level = Number(process.argv[2] || 1);
-if (level !== 1 && level !== 2) throw new Error("Expected HSK level 1 or 2");
+const requested = process.argv[2] || "1";
+const buildingHsk3 = requested === "3.0";
+const level = buildingHsk3 ? null : Number(requested);
+if (!buildingHsk3 && level !== 1 && level !== 2)
+  throw new Error("Expected HSK level 1, 2, or 3.0");
 const words = JSON.parse(
-  readFileSync(join(root, `scripts/sources/hsk${level}-words.json`), "utf8"),
+  readFileSync(
+    join(
+      root,
+      buildingHsk3
+        ? "scripts/sources/hsk3-2025-words.json"
+        : `scripts/sources/hsk${level}-words.json`,
+    ),
+    "utf8",
+  ),
 );
+const legacyWords = buildingHsk3
+  ? [
+      ...JSON.parse(readFileSync(join(root, "lib/data/hsk1.json"), "utf8")),
+      ...JSON.parse(readFileSync(join(root, "lib/data/hsk2.json"), "utf8")),
+    ]
+  : [];
+const claimedLegacyIds = new Set();
 
 // Curated meanings for components — especially the bound "radical" forms that are
 // not standalone characters (亻讠氵饣 …) and the high-frequency semantic radicals.
@@ -40,6 +59,7 @@ const COMPONENT = {
   "犭": { meaning: "animal, beast", role: "semantic", variantOf: "犬" },
   "钅": { meaning: "metal", role: "semantic", variantOf: "金" },
   "礻": { meaning: "spirit, ritual", role: "semantic", variantOf: "示" },
+  "衤": { meaning: "clothing", role: "semantic", variantOf: "衣" },
   "纟": { meaning: "silk, thread", role: "semantic", variantOf: "糸" },
   "艹": { meaning: "grass, plant", role: "semantic", variantOf: "艸" },
   "宀": { meaning: "roof, house", role: "semantic" },
@@ -204,6 +224,15 @@ function numericToMarks(syllable) {
   return base.slice(0, idx) + marked + base.slice(idx + 1);
 }
 
+function barePinyin(value) {
+  return value
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replaceAll("ü", "v")
+    .replace(/[^a-zv]/gi, "")
+    .toLowerCase();
+}
+
 const JUNK = /^(surname|variant|old variant|CL:|abbr)/i;
 
 function conciseGloss(def) {
@@ -256,6 +285,7 @@ const WORD_OVERRIDE = {
   还: { pinyin: "hái / huán", meaning: "still; also; to return" },
   过: { pinyin: "guo", meaning: "(past-experience particle); to pass" },
   着: { pinyin: "zhe", meaning: "(ongoing-state particle)" },
+  第: { pinyin: "dì", meaning: "ordinal-number prefix" },
 };
 
 function componentInfo(comp) {
@@ -305,17 +335,41 @@ function pickForm(w) {
 }
 
 const out = words.map((w, i) => {
-  const hanziStr = w.simplified;
-  const form = pickForm(w);
-  let pinyin = form.transcriptions?.pinyin || "";
-  let meanings = (form.meanings || []).map((m) => m.replace(/\s*\(.*?\)\s*/g, " ").trim());
+  const hanziStr = buildingHsk3 ? w.hanzi : w.simplified;
+  const form = buildingHsk3 ? {} : pickForm(w);
+  let pinyin = buildingHsk3 ? w.pinyin : form.transcriptions?.pinyin || "";
+  let meanings = buildingHsk3
+    ? []
+    : (form.meanings || []).map((m) =>
+        m.replace(/\s*\(.*?\)\s*/g, " ").trim(),
+      );
+
+  const legacy = buildingHsk3
+    ? legacyWords.find(
+        (candidate) =>
+          candidate.hanzi === hanziStr &&
+          !claimedLegacyIds.has(candidate.id) &&
+          (barePinyin(candidate.pinyin).includes(barePinyin(pinyin)) ||
+            barePinyin(pinyin).includes(barePinyin(candidate.pinyin))),
+      ) ??
+      legacyWords.find(
+        (candidate) =>
+          candidate.hanzi === hanziStr &&
+          !claimedLegacyIds.has(candidate.id),
+      )
+    : null;
+  if (legacy) {
+    claimedLegacyIds.add(legacy.id);
+    meanings = legacy.meanings;
+  }
   // If the best sense is still junk (水 "surname Shui", 和 "old variant"), pull the
   // common gloss AND its reading from CEDICT, but keep real proper nouns.
   if (!meanings.length || JUNK.test(meanings[0])) {
     const best = bestDef(hanziStr);
     if (best && best.gloss && !JUNK.test(best.gloss)) {
       meanings = [best.gloss, ...meanings];
-      if (best.pinyin) pinyin = best.pinyin.split(" ").map(numericToMarks).join(" ");
+      if (!buildingHsk3 && best.pinyin)
+        pinyin = best.pinyin.split(" ").map(numericToMarks).join(" ");
     }
   }
   // Hand-verified final say for tricky high-frequency words.
@@ -323,23 +377,52 @@ const out = words.map((w, i) => {
     pinyin = WORD_OVERRIDE[hanziStr].pinyin;
     meanings = [WORD_OVERRIDE[hanziStr].meaning];
   }
-  const characters = [...hanziStr]
-    .filter((c) => /[一-鿿]/.test(c))
-    .map((c) => ({ char: c, pinyin: charPinyin(c), ...breakdown(c) }));
+  const legacyCharactersComplete = legacy?.characters?.every((character) =>
+    character.components.every(
+      (component) => component.meaning && component.meaning !== "(component)",
+    ),
+  );
+  const characters =
+    (legacyCharactersComplete ? legacy.characters : null) ??
+    [...hanziStr]
+      .filter((c) => /[一-鿿]/.test(c))
+      .map((c) => ({ char: c, pinyin: charPinyin(c), ...breakdown(c) }));
   return {
-    id: `hsk${level}-${String(i + 1).padStart(3, "0")}`,
+    id:
+      legacy?.id ??
+      (buildingHsk3
+        ? `hsk3-2025-${String(w.index).padStart(3, "0")}`
+        : `hsk${level}-${String(i + 1).padStart(3, "0")}`),
     hanzi: hanziStr,
     pinyin,
     meaning: meanings[0] || "",
     meanings,
-    pos: w.pos || [],
-    frequency: w.frequency ?? null,
+    pos: buildingHsk3
+      ? w.pos
+          .replace(/[（）]/g, "")
+          .split("、")
+          .filter(Boolean)
+      : w.pos || [],
+    frequency: legacy?.frequency ?? w.frequency ?? null,
     characters,
+    ...(buildingHsk3
+      ? {
+          syllabus: "HSK 3.0 (2025)",
+          syllabusIndex: w.index,
+          syllabusLevel: w.level,
+        }
+      : {}),
   };
 });
 
-const dest = join(root, `lib/data/hsk${level}.json`);
-writeFileSync(dest, JSON.stringify(out, null, 2) + "\n", "utf8");
+const destinations = buildingHsk3
+  ? [
+      [join(root, "lib/data/hsk1.json"), out.filter((word) => word.syllabusLevel === 1)],
+      [join(root, "lib/data/hsk2.json"), out.filter((word) => word.syllabusLevel === 2)],
+    ]
+  : [[join(root, `lib/data/hsk${level}.json`), out]];
+for (const [dest, rows] of destinations)
+  writeFileSync(dest, JSON.stringify(rows, null, 2) + "\n", "utf8");
 
 // Coverage report so component-gloss gaps are visible, not silent.
 const fallbacks = new Map();
@@ -349,7 +432,19 @@ for (const w of out)
       if (comp.role === "part" && comp.meaning === "(component)")
         fallbacks.set(comp.char, (fallbacks.get(comp.char) || 0) + 1);
 
-console.log(`Wrote ${out.length} words -> ${dest}`);
+console.log(
+  buildingHsk3
+    ? `Wrote ${out.length} official HSK 3.0 words -> ${destinations
+        .map(([dest, rows]) => `${dest} (${rows.length})`)
+        .join(", ")}`
+    : `Wrote ${out.length} words -> ${destinations[0][0]}`,
+);
+if (buildingHsk3)
+  console.log(
+    `Preserved ${claimedLegacyIds.size} legacy word IDs; created ${
+      out.length - claimedLegacyIds.size
+    } deterministic HSK 3.0 IDs.`,
+  );
 console.log(`Distinct components glossed from curated map: ${Object.keys(COMPONENT).length}`);
 if (fallbacks.size) {
   console.log(`\nComponents with no meaning (add to COMPONENT map): ${fallbacks.size}`);

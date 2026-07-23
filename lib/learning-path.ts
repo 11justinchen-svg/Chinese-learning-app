@@ -11,7 +11,7 @@ export interface LearningGroup {
   hanziTitle: string;
   description: string;
   outcome: string;
-  stageIds: [string, string];
+  stageIds: string[];
   assessmentId?: string;
 }
 
@@ -31,112 +31,40 @@ export interface NextLearningAction {
   href: string;
 }
 
+function groupsForLevel(level: HskLevel): LearningGroup[] {
+  const groups: LearningGroup[] = [];
+  for (const stage of stagesForLevel(level)) {
+    const previous = groups.at(-1);
+    if (previous?.hanziTitle === stage.hanziTitle) {
+      previous.stageIds.push(stage.id);
+      continue;
+    }
+    const index = groups.length + 1;
+    const slug = stage.hanziTitle
+      .split("")
+      .map((character) => character.codePointAt(0)?.toString(16))
+      .join("-");
+    groups.push({
+      id: `hsk3-l${level}-group-${String(index).padStart(2, "0")}-${slug}`,
+      level,
+      index,
+      title: stage.title.replace(/\s·\s\d+$/u, ""),
+      hanziTitle: stage.hanziTitle,
+      description: stage.scenario,
+      outcome: stage.goal ?? stage.scenario,
+      stageIds: [stage.id],
+      assessmentId:
+        level === 1
+          ? `hsk3-l1-group-${String(index).padStart(2, "0")}`
+          : undefined,
+    });
+  }
+  return groups;
+}
+
 export const LEARNING_GROUPS: LearningGroup[] = [
-  {
-    id: "hsk1-people",
-    level: 1,
-    index: 1,
-    title: "People",
-    hanziTitle: "认识人",
-    description: "Meet someone, identify people, and talk about family.",
-    outcome: "Introduce yourself and describe the people around you.",
-    stageIds: ["hsk1-stage-01", "hsk1-stage-02"],
-    assessmentId: "hsk1-group-people",
-  },
-  {
-    id: "hsk1-time",
-    level: 1,
-    index: 2,
-    title: "Numbers and time",
-    hanziTitle: "数字时间",
-    description: "Count, give ages, tell time, and discuss dates.",
-    outcome: "Arrange a simple time and understand when something happens.",
-    stageIds: ["hsk1-stage-03", "hsk1-stage-04"],
-    assessmentId: "hsk1-group-time",
-  },
-  {
-    id: "hsk1-daily-needs",
-    level: 1,
-    index: 3,
-    title: "Daily needs",
-    hanziTitle: "日常需要",
-    description: "Order food, choose items, and handle simple prices.",
-    outcome: "Complete a short restaurant or shopping exchange.",
-    stageIds: ["hsk1-stage-05", "hsk1-stage-06"],
-    assessmentId: "hsk1-group-daily-needs",
-  },
-  {
-    id: "hsk1-places-study",
-    level: 1,
-    index: 4,
-    title: "Places and study",
-    hanziTitle: "地点学习",
-    description: "Find places, ask where things are, and use classroom language.",
-    outcome: "Navigate a place and handle a basic classroom interaction.",
-    stageIds: ["hsk1-stage-07", "hsk1-stage-08"],
-    assessmentId: "hsk1-group-places-study",
-  },
-  {
-    id: "hsk1-everyday-life",
-    level: 1,
-    index: 5,
-    title: "Everyday life",
-    hanziTitle: "日常生活",
-    description: "Talk about weather, plans, and completed daily activities.",
-    outcome: "Keep small talk moving and recount a simple day.",
-    stageIds: ["hsk1-stage-09", "hsk1-stage-10"],
-    assessmentId: "hsk1-group-everyday-life",
-  },
-  {
-    id: "hsk2-arrival",
-    level: 2,
-    index: 1,
-    title: "Arrival",
-    hanziTitle: "到达",
-    description: "Navigate airport travel and check into a hotel.",
-    outcome: "Reach a destination and complete a basic check-in.",
-    stageIds: ["hsk2-stage-01", "hsk2-stage-02"],
-  },
-  {
-    id: "hsk2-shopping-dining",
-    level: 2,
-    index: 2,
-    title: "Shopping and dining",
-    hanziTitle: "买东西吃饭",
-    description: "Compare clothes and manage a longer café order.",
-    outcome: "Make choices, compare options, and clarify what you want.",
-    stageIds: ["hsk2-stage-03", "hsk2-stage-04"],
-  },
-  {
-    id: "hsk2-social-work",
-    level: 2,
-    index: 3,
-    title: "Social life and work",
-    hanziTitle: "社交工作",
-    description: "Join a celebration and explain a busy working day.",
-    outcome: "Participate socially and describe what is happening now.",
-    stageIds: ["hsk2-stage-05", "hsk2-stage-06"],
-  },
-  {
-    id: "hsk2-study-health",
-    level: 2,
-    index: 4,
-    title: "Study and health",
-    hanziTitle: "学习健康",
-    description: "Handle a test and explain when you need medical help.",
-    outcome: "Ask for clarification and communicate a simple health problem.",
-    stageIds: ["hsk2-stage-07", "hsk2-stage-08"],
-  },
-  {
-    id: "hsk2-plans-people",
-    level: 2,
-    index: 5,
-    title: "Plans and people",
-    hanziTitle: "计划人物",
-    description: "Make weekend plans and describe someone in more detail.",
-    outcome: "Coordinate an activity and give a useful personal description.",
-    stageIds: ["hsk2-stage-09", "hsk2-stage-10"],
-  },
+  ...groupsForLevel(1),
+  ...groupsForLevel(2),
 ];
 
 export function learningGroupsForLevel(level: HskLevel): LearningGroup[] {
