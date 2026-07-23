@@ -3,7 +3,8 @@ export type RoleCallPersonaId =
   | "shopkeeper"
   | "taxi-driver"
   | "hotel-clerk"
-  | "teacher";
+  | "teacher"
+  | "oral-examiner";
 
 export interface RoleCallLine {
   hanzi: string;
@@ -337,6 +338,110 @@ export const ROLE_CALL_SCENARIOS: RoleCallScenario[] = [
         response: { hanzi: "好，我们开始吧！", pinyin: "Hǎo, wǒmen kāishǐ ba!", english: "Great, let’s begin!" },
         hints: ["Say what you want to do.", "Use 我想 + 学习.", "Say: 我想学习。"],
         correction: "Use 想 before 学习 to express what you want to do.",
+      },
+    ],
+  },
+  {
+    id: "oral-examiner",
+    role: "Oral examiner",
+    roleHanzi: "口试老师",
+    setting: "A fresh, learner-directed HSK interview",
+    description:
+      "Tell the examiner HSK 1 or HSK 2 and a topic. Answer changing questions, then type SCORING for your report.",
+    goal: "Set up and complete a graded conversation",
+    accent: "from-fuchsia-500/20 to-rose-500/5",
+    recommendedStage: 1,
+    grammarLessonIds: [],
+    opening: {
+      hanzi: "你好！先告诉我：HSK一级还是二级？你想练什么话题？",
+      pinyin:
+        "Nǐ hǎo! Xiān gàosu wǒ: HSK yī jí háishi èr jí? Nǐ xiǎng liàn shénme huàtí?",
+      english:
+        "Hello! First tell me: HSK 1 or HSK 2, and what topic would you like to practice?",
+    },
+    steps: [
+      {
+        id: "oral-examiner-level",
+        goal: "Choose HSK 1 or HSK 2 and name a topic.",
+        wordIds: ["hsk1-121", "hsk1-129"],
+        acceptedAnswers: [
+          "我想练HSK一级",
+          "我想练HSK二级",
+          "HSK一级",
+          "HSK二级",
+        ],
+        intentGroups: [["一级", "二级", "HSK1", "HSK2"]],
+        target: {
+          hanzi: "我想练HSK一级，话题是旅行。",
+          pinyin: "Wǒ xiǎng liàn HSK yī jí, huàtí shì lǚxíng.",
+          english: "I want to practice HSK 1; the topic is travel.",
+        },
+        response: {
+          hanzi: "好。你为什么想去中国？",
+          pinyin: "Hǎo. Nǐ wèishénme xiǎng qù Zhōngguó?",
+          english: "Okay. Why do you want to go to China?",
+        },
+        hints: [
+          "Name the level first.",
+          "Say HSK一级 or HSK二级, then add a topic.",
+          "Model: 我想练HSK一级，话题是旅行。",
+        ],
+        correction: "State HSK一级 or HSK二级 so the examiner can set the level.",
+      },
+      {
+        id: "oral-examiner-topic",
+        goal: "Give a short personal answer about the topic.",
+        wordIds: ["hsk1-005", "hsk1-121"],
+        acceptedAnswers: [
+          "我想去北京",
+          "我想去中国",
+          "因为我想去北京",
+          "因为我想去中国",
+        ],
+        intentGroups: [["想", "要"], ["去"], ["北京", "中国"]],
+        target: {
+          hanzi: "因为我想去北京。",
+          pinyin: "Yīnwèi wǒ xiǎng qù Běijīng.",
+          english: "Because I want to go to Beijing.",
+        },
+        response: {
+          hanzi: "你想和谁一起去？",
+          pinyin: "Nǐ xiǎng hé shéi yìqǐ qù?",
+          english: "Who would you like to go with?",
+        },
+        hints: [
+          "Give one short reason.",
+          "Use 因为 + 我想去 + place.",
+          "Model: 因为我想去北京。",
+        ],
+        correction: "A short 因为… reason makes the answer complete.",
+      },
+      {
+        id: "oral-examiner-detail",
+        goal: "Add one personal detail and keep the interview moving.",
+        wordIds: ["hsk1-121", "hsk1-085"],
+        acceptedAnswers: [
+          "我想和朋友一起去",
+          "我和朋友一起去",
+          "想和朋友去",
+        ],
+        intentGroups: [["朋友"], ["去"]],
+        target: {
+          hanzi: "我想和朋友一起去。",
+          pinyin: "Wǒ xiǎng hé péngyou yìqǐ qù.",
+          english: "I would like to go with a friend.",
+        },
+        response: {
+          hanzi: "很好。你们到北京以后想做什么？",
+          pinyin: "Hěn hǎo. Nǐmen dào Běijīng yǐhòu xiǎng zuò shénme?",
+          english: "Very good. What would you like to do after arriving in Beijing?",
+        },
+        hints: [
+          "Name the person who will join you.",
+          "Use 和 + person + 一起去.",
+          "Model: 我想和朋友一起去。",
+        ],
+        correction: "Use 和…一起 to say who joins you.",
       },
     ],
   },

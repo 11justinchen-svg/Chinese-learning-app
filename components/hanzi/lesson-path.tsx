@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import {
   ArrowRight,
   BookOpenText,
+  Check,
   ClipboardCheck,
   Headphones,
   Layers3,
@@ -14,6 +15,7 @@ import {
   Volume2,
 } from "lucide-react";
 import { findWord, type HskLevel } from "@/lib/hsk";
+import type { HanziLessonTask } from "@/lib/hanzi-practice";
 import {
   hanziLessonsForLevel,
   type HanziLessonChunk,
@@ -32,6 +34,28 @@ export type HanziLessonPractice =
   | "use"
   | "test"
   | "review";
+
+const LESSON_TASKS: ReadonlyArray<{
+  id: HanziLessonTask;
+  label: string;
+  note: string;
+}> = [
+  {
+    id: "match",
+    label: "Match",
+    note: "Form, meaning, and pinyin",
+  },
+  {
+    id: "sound",
+    label: "Hear",
+    note: "Spoken Mandarin to form",
+  },
+  {
+    id: "use",
+    label: "Use",
+    note: "Sentences and replies",
+  },
+];
 
 const hanziFont = "font-[family-name:var(--font-hanzi-display)]";
 const displayFont = "font-[family-name:var(--font-display)]";
@@ -138,7 +162,10 @@ export function HanziLessonPath({
 }: {
   progress: ProgressStore;
   initialLessonId?: string;
-  onPractice: (kind: HanziLessonPractice, lesson: HanziLessonChunk) => void;
+  onPractice: (
+    kind: HanziLessonPractice | HanziLessonTask[],
+    lesson: HanziLessonChunk,
+  ) => void;
 }) {
   const requestedLevel = initialLessonId?.startsWith("hsk2-") ? 2 : 1;
   const [level, setLevel] = useState<HskLevel>(requestedLevel);
@@ -148,6 +175,11 @@ export function HanziLessonPath({
       ? initialLessonId
       : lessons[0].id,
   );
+  const [selectedTasks, setSelectedTasks] = useState<HanziLessonTask[]>([
+    "match",
+    "sound",
+    "use",
+  ]);
   const selected = lessons.find((lesson) => lesson.id === selectedId) ?? lessons[0];
   const levelStats = hanziLessonStats(
     lessons.flatMap((lesson) => lesson.wordIds),
@@ -162,6 +194,14 @@ export function HanziLessonPath({
     const nextLessons = hanziLessonsForLevel(next);
     setLevel(next);
     setSelectedId(nextLessons[0].id);
+  }
+
+  function toggleTask(task: HanziLessonTask) {
+    setSelectedTasks((current) =>
+      current.includes(task)
+        ? current.filter((candidate) => candidate !== task)
+        : [...current, task],
+    );
   }
 
   return (
@@ -213,7 +253,11 @@ export function HanziLessonPath({
       </div>
 
       <div className="mt-9 grid gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-        <aside className="lg:sticky lg:top-20 lg:self-start">
+        <aside
+          aria-label={`Lesson ${selected.index} overview and practice tasks`}
+          className="scroll-mt-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:pr-2"
+          tabIndex={0}
+        >
           <ScrollReveal>
             <div className="eave-panel overflow-hidden p-6 sm:p-8">
               <div className="flex items-start justify-between gap-5">
@@ -261,6 +305,83 @@ export function HanziLessonPath({
                 </div>
               </div>
 
+              <div className="mt-6 border-y border-foreground py-5">
+                <div className="flex flex-wrap items-end justify-between gap-3">
+                  <div>
+                    <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">
+                      Lesson overview
+                    </p>
+                    <h4 className="mt-1 text-lg font-bold">
+                      Practice every form, or choose the evidence you need.
+                    </h4>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {selected.wordIds.length} forms · {grammarLessons.length} grammar pattern{grammarLessons.length === 1 ? "" : "s"}
+                  </p>
+                </div>
+
+                <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                  {LESSON_TASKS.map((task) => {
+                    const checked = selectedTasks.includes(task.id);
+                    return (
+                      <button
+                        key={task.id}
+                        type="button"
+                        aria-pressed={checked}
+                        onClick={() => toggleTask(task.id)}
+                        className={cn(
+                          "min-h-20 border p-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                          checked
+                            ? "border-foreground bg-[oklch(var(--poster-yellow)/0.28)]"
+                            : "border-foreground/20 bg-background hover:border-foreground",
+                        )}
+                      >
+                        <span className="flex items-center justify-between gap-2">
+                          <strong className="text-sm">{task.label}</strong>
+                          <span
+                            aria-hidden="true"
+                            className={cn(
+                              "grid h-5 w-5 place-items-center border",
+                              checked
+                                ? "border-foreground bg-foreground text-background"
+                                : "border-foreground/40",
+                            )}
+                          >
+                            {checked && <Check className="h-3 w-3" />}
+                          </span>
+                        </span>
+                        <small className="mt-1 block text-[0.68rem] leading-4 text-muted-foreground">
+                          {task.note}
+                        </small>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onPractice(["match", "sound", "use"], selected)
+                    }
+                    className="stamp-button min-h-11 justify-center"
+                  >
+                    Practice everything
+                  </button>
+                  <button
+                    type="button"
+                    disabled={selectedTasks.length === 0}
+                    onClick={() => onPractice(selectedTasks, selected)}
+                    className="inline-flex min-h-11 items-center justify-center border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    Practice selected ({selectedTasks.length})
+                  </button>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-muted-foreground">
+                  Complete practice includes matching, listening, and contextual use for every form. Misses retry without inflating first-try evidence.
+                </p>
+              </div>
+
               <ol className="mt-6 grid gap-x-5 gap-y-3 sm:grid-cols-2">
                 {STEPS.map(([number, label, description]) => (
                   <li key={number} className="grid grid-cols-[2rem_1fr] gap-2 border-t border-foreground/15 pt-3">
@@ -270,25 +391,35 @@ export function HanziLessonPath({
                 ))}
               </ol>
 
-              <div className="mt-7 grid gap-2 sm:grid-cols-2">
-                <Link href={`/flashcards?stage=${selected.id}`} className="hanzi-practice-action">
-                  <BookOpenText className="h-4 w-4" /><span><strong>Flashcards</strong><small>Recall before reveal</small></span>
-                </Link>
-                <button type="button" onClick={() => onPractice("match", selected)} className="hanzi-practice-action">
-                  <Shuffle className="h-4 w-4" /><span><strong>Match every form</strong><small>{selected.wordIds.length} forms · meaning + pinyin</small></span>
-                </button>
-                <button type="button" onClick={() => onPractice("sound", selected)} className="hanzi-practice-action">
-                  <Headphones className="h-4 w-4" /><span><strong>Hear every form</strong><small>{selected.wordIds.length} listening checks</small></span>
-                </button>
-                <button type="button" onClick={() => onPractice("use", selected)} className="hanzi-practice-action">
-                  <MessageSquareText className="h-4 w-4" /><span><strong>Use every form</strong><small>{selected.wordIds.length} contextual tasks</small></span>
-                </button>
-                <button type="button" onClick={() => onPractice("test", selected)} className="hanzi-practice-action">
-                  <ClipboardCheck className="h-4 w-4" /><span><strong>Lesson test</strong><small>Form, sound, and use · first try</small></span>
-                </button>
-                <button type="button" onClick={() => onPractice("review", selected)} className="hanzi-practice-action">
-                  <Volume2 className="h-4 w-4" /><span><strong>Cumulative review</strong><small>Earlier forms return</small></span>
-                </button>
+              <div className="mt-7">
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">
+                    Six practice presets
+                  </p>
+                  <span className="text-xs text-muted-foreground">
+                    Open any one directly
+                  </span>
+                </div>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <Link href={`/flashcards?stage=${selected.id}`} className="hanzi-practice-action">
+                    <BookOpenText className="h-4 w-4" /><span><strong>Flashcards</strong><small>Recall before reveal</small></span>
+                  </Link>
+                  <button type="button" onClick={() => onPractice("match", selected)} className="hanzi-practice-action">
+                    <Shuffle className="h-4 w-4" /><span><strong>Match every form</strong><small>{selected.wordIds.length} forms · meaning + pinyin</small></span>
+                  </button>
+                  <button type="button" onClick={() => onPractice("sound", selected)} className="hanzi-practice-action">
+                    <Headphones className="h-4 w-4" /><span><strong>Hear every form</strong><small>{selected.wordIds.length} listening checks</small></span>
+                  </button>
+                  <button type="button" onClick={() => onPractice("use", selected)} className="hanzi-practice-action">
+                    <MessageSquareText className="h-4 w-4" /><span><strong>Use every form</strong><small>{selected.wordIds.length} contextual tasks</small></span>
+                  </button>
+                  <button type="button" onClick={() => onPractice("test", selected)} className="hanzi-practice-action">
+                    <ClipboardCheck className="h-4 w-4" /><span><strong>Lesson test</strong><small>Form, sound, and use · first try</small></span>
+                  </button>
+                  <button type="button" onClick={() => onPractice("review", selected)} className="hanzi-practice-action">
+                    <Volume2 className="h-4 w-4" /><span><strong>Cumulative review</strong><small>Earlier forms return</small></span>
+                  </button>
+                </div>
               </div>
               <Link href={`/lessons/${selected.id}`} className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-primary hover:underline">
                 Continue into the full conversation <ArrowRight className="h-4 w-4" />

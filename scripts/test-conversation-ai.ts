@@ -1,12 +1,61 @@
 import assert from "node:assert/strict";
 import {
   conversationAiProviderOrder,
+  detectExamHskLevel,
+  isScoringCommand,
   parseCoachPayload,
+  parseConversationExamScore,
   parseOpenCoachPayload,
   runConversationAiProviders,
   toneMarkedPinyinForHanzi,
   type ConversationAiProvider,
 } from "../lib/conversation-ai";
+
+assert.equal(detectExamHskLevel("Please instruct at HSK-1"), "HSK 1");
+assert.equal(detectExamHskLevel("我想练HSK二级，话题是旅行"), "HSK 2");
+assert.equal(detectExamHskLevel("surprise me"), null);
+assert(isScoringCommand("  scoring  "));
+assert(!isScoringCommand("please score me"));
+
+const examScore = parseConversationExamScore(
+  JSON.stringify({
+    communicativeSuccess: 36,
+    vocabularyControl: 22,
+    grammarClarity: 20,
+    interaction: 8,
+    summary: "You answered the questions directly and added useful details.",
+    strengths: ["Clear answers", "Good topic vocabulary"],
+    nextStep: "Connect two details with 因为 and 所以.",
+  }),
+  "HSK 2",
+  4,
+);
+assert.equal(examScore.total, 86);
+assert.equal(examScore.level, "HSK 2");
+assert.match(examScore.disclaimer, /text only/i);
+
+const safeExamScore = parseConversationExamScore(
+  JSON.stringify({
+    communicativeSuccess: 99,
+    vocabularyControl: -3,
+    grammarClarity: 25,
+    interaction: 20,
+    summary: "Your tones and pronunciation sound natural.",
+    strengths: ["Excellent accent"],
+    nextStep: "Keep speaking.",
+  }),
+  "HSK 1",
+  1,
+);
+assert.equal(
+  safeExamScore.total,
+  41,
+  "A one-answer interview must be capped as limited evidence",
+);
+assert.equal(safeExamScore.assessedTurns, 1);
+assert.match(safeExamScore.summary, /Limited evidence/);
+assert.doesNotMatch(safeExamScore.summary, /pronunciation/i);
+assert.doesNotMatch(safeExamScore.strengths.join(" "), /accent/i);
 
 const target = {
   hanzi: "我想买这个。",

@@ -26,6 +26,10 @@ import {
   type RoleCallLine,
   type RoleCallPersonaId,
 } from "@/lib/role-calls";
+import type {
+  ConversationExamScore,
+  ExamHskLevel,
+} from "@/lib/conversation-ai";
 import { LiveTranslateAssist } from "@/components/conversation/live-translate-assist";
 import { canSpeakChinese, onVoicesReady, speak } from "@/lib/speech";
 import {
@@ -46,6 +50,7 @@ const ROLE_SPANS = [
   "lg:col-span-4",
   "lg:col-span-4",
   "lg:col-span-4",
+  "lg:col-span-12",
 ];
 
 const ROLE_FIELDS = [
@@ -54,6 +59,7 @@ const ROLE_FIELDS = [
   "bg-[oklch(var(--poster-cyan)/0.42)]",
   "bg-[oklch(var(--poster-blue)/0.16)]",
   "bg-[oklch(var(--poster-green)/0.28)]",
+  "bg-[oklch(var(--poster-pink)/0.32)]",
 ];
 
 interface TranscriptTurn extends RoleCallLine {
@@ -72,6 +78,8 @@ interface AiRoleResponse {
   feedback: AiCoachFeedback | null;
   provider: AiProvider | null;
   openEnded: boolean;
+  examLevel: ExamHskLevel | null;
+  score: ConversationExamScore | null;
 }
 
 interface SpeechRecognitionResultLike {
@@ -143,6 +151,7 @@ async function readAiResponse(
     continueOpen?: boolean;
     history?: readonly TranscriptTurn[];
     mode?: "authored" | "open";
+    sessionSeed?: string;
   } = {},
 ): Promise<AiRoleResponse> {
   const response = await fetch("/api/conversation", {
@@ -154,17 +163,25 @@ async function readAiResponse(
       learnerText,
       supportLevel,
       continueOpen: options.continueOpen,
-      history: options.history?.slice(-10).map(({ speaker, hanzi, english }) => ({
+      history: options.history?.slice(-24).map(({ speaker, hanzi, english }) => ({
         speaker,
         hanzi,
         english,
       })),
       mode: options.mode,
+      sessionSeed: options.sessionSeed,
     }),
     signal,
   });
   if (!response.ok || !response.body)
-    return { turn: null, feedback: null, provider: null, openEnded: false };
+    return {
+      turn: null,
+      feedback: null,
+      provider: null,
+      openEnded: false,
+      examLevel: null,
+      score: null,
+    };
 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
@@ -173,6 +190,8 @@ async function readAiResponse(
   let feedback: AiCoachFeedback | null = null;
   let provider: AiProvider | null = null;
   let openEnded = false;
+  let examLevel: ExamHskLevel | null = null;
+  let score: ConversationExamScore | null = null;
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
@@ -188,11 +207,15 @@ async function readAiResponse(
           feedback?: AiCoachFeedback;
           provider?: string;
           openEnded?: boolean;
+          examLevel?: ExamHskLevel | null;
+          score?: ConversationExamScore;
         };
         if (event.type === "turn" && event.turn) {
           line = event.turn;
           openEnded = event.openEnded === true;
+          examLevel = event.examLevel ?? examLevel;
         }
+        if (event.type === "score" && event.score) score = event.score;
         if (event.type === "feedback" && event.feedback) {
           feedback = event.feedback;
           if (
@@ -207,7 +230,7 @@ async function readAiResponse(
       }
     }
   }
-  return { turn: line, feedback, provider, openEnded };
+  return { turn: line, feedback, provider, openEnded, examLevel, score };
 }
 
 function formatAiFeedback(feedback: AiCoachFeedback): string {
@@ -252,12 +275,15 @@ export function RoleCallStudio({
   const [openEndedAvailable, setOpenEndedAvailable] = useState(false);
   const [liveTranslateAvailable, setLiveTranslateAvailable] = useState(false);
   const [openEnded, setOpenEnded] = useState(false);
+  const [examLevel, setExamLevel] = useState<ExamHskLevel | null>(null);
+  const [examScore, setExamScore] = useState<ConversationExamScore | null>(null);
   const [aiFallback, setAiFallback] = useState(false);
   const [attemptedSteps, setAttemptedSteps] = useState<Set<string>>(new Set());
   const [firstAttemptCorrect, setFirstAttemptCorrect] = useState(0);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const callGenerationRef = useRef(0);
   const aiAbortRef = useRef<AbortController | null>(null);
+  const sessionSeedRef = useRef("initial");
   const transcriptEndRef = useRef<HTMLDivElement | null>(null);
   const scenario = findRoleCallScenario(selectedId) ?? ROLE_CALL_SCENARIOS[0];
   const currentStep = scenario.steps[stepIndex];
@@ -324,6 +350,8 @@ export function RoleCallStudio({
     setIsListening(false);
     setAiFallback(false);
     setOpenEnded(false);
+    setExamLevel(null);
+    setExamScore(null);
     setAttemptedSteps(new Set());
     setFirstAttemptCorrect(0);
   }
@@ -332,6 +360,9 @@ export function RoleCallStudio({
     const beginOpen =
       conversationMode === "free" && openEndedAvailable && !grammarLessonId;
     resetCall("connecting");
+    sessionSeedRef.current =
+      globalThis.crypto?.randomUUID?.() ??
+      `${Date.now()}-${Math.random().toString(36).slice(2)}`;
     const generation = callGenerationRef.current;
     window.setTimeout(() => {
       if (generation !== callGenerationRef.current) return;
@@ -569,12 +600,23 @@ export function RoleCallStudio({
         text,
         supportLevel,
         controller.signal,
-        { history: nextHistory, mode: "open" },
+        {
+          history: nextHistory,
+          mode: "open",
+          sessionSeed: sessionSeedRef.current,
+        },
       );
       if (generation !== callGenerationRef.current) return;
       aiAbortRef.current = null;
+      if (generated.score) {
+        setExamScore(generated.score);
+        setExamLevel(generated.score.level);
+        setCallState("complete");
+        return;
+      }
       if (!generated.turn) throw new Error("Open conversation returned no role line");
       const roleLine = generated.turn;
+      setExamLevel(generated.examLevel);
       if (generated.feedback) {
         setFeedback(formatAiFeedback(generated.feedback));
         setFeedbackSource("ai");
@@ -624,7 +666,9 @@ export function RoleCallStudio({
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <h2 id="role-heading" className="text-lg font-semibold">Choose who answers</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Five everyday calls, about two minutes each.</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Five everyday characters plus a fresh graded oral interview.
+              </p>
             </div>
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               {aiAvailable ? <Sparkles className="h-3.5 w-3.5 text-primary" /> : <WifiOff className="h-3.5 w-3.5" />}
@@ -646,6 +690,8 @@ export function RoleCallStudio({
                   onClick={() => {
                     setSelectedId(option.id);
                     setWarmupOpen(false);
+                    if (option.id === "oral-examiner")
+                      setConversationMode("free");
                   }}
                   className={cn(
                     "group min-h-48 border border-foreground p-5 text-left shadow-[3px_3px_0_oklch(var(--foreground))] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -661,7 +707,13 @@ export function RoleCallStudio({
                   <p className="mt-4 font-semibold">{option.role}</p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{option.description}</p>
                   <p className="mt-3 text-[0.68rem] font-bold uppercase tracking-wide text-muted-foreground">
-                    {openEndedAvailable ? "Open character · no turn limit" : `Open now · ${option.steps.length} coached turns`}
+                    {option.id === "oral-examiner"
+                      ? openEndedAvailable
+                        ? "New questions each call · type SCORING to finish"
+                        : "Gemini is needed for the adaptive interview"
+                      : openEndedAvailable
+                        ? "Open character · no turn limit"
+                        : `Open now · ${option.steps.length} coached turns`}
                   </p>
                 </button>
               );
@@ -671,7 +723,7 @@ export function RoleCallStudio({
 
         <section className="poster-panel mt-8 grid gap-6 p-5 sm:grid-cols-[1fr_auto] sm:items-end sm:p-7">
           <div>
-            {!grammarLessonId && (
+            {!grammarLessonId && scenario.id !== "oral-examiner" && (
               <fieldset className="mb-5">
                 <legend className="text-sm font-semibold">Choose the call style</legend>
                 <div className="mt-2 grid max-w-xl gap-2 sm:grid-cols-2">
@@ -707,6 +759,17 @@ export function RoleCallStudio({
                 </div>
               </fieldset>
             )}
+            {scenario.id === "oral-examiner" && (
+              <div className="mb-5 max-w-xl border border-foreground bg-[oklch(var(--poster-pink)/0.18)] p-4">
+                <p className="text-xs font-bold uppercase tracking-wide">
+                  Adaptive graded interview
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  Begin by telling the examiner “HSK 1” or “HSK 2” and a topic.
+                  The examiner builds a different interview from your answers.
+                </p>
+              </div>
+            )}
             <label htmlFor="call-support" className="text-sm font-semibold">Choose your support</label>
             <select
               id="call-support"
@@ -723,15 +786,19 @@ export function RoleCallStudio({
             </p>
           </div>
           <div className="flex flex-wrap gap-2 sm:justify-end">
-            <button type="button" aria-expanded={warmupOpen} onClick={() => setWarmupOpen((value) => !value)} className="inline-flex min-h-12 items-center gap-2 border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary">
-              <Volume2 className="h-4 w-4" /> Warm up phrases
-            </button>
+            {scenario.id !== "oral-examiner" && (
+              <button type="button" aria-expanded={warmupOpen} onClick={() => setWarmupOpen((value) => !value)} className="inline-flex min-h-12 items-center gap-2 border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary">
+                <Volume2 className="h-4 w-4" /> Warm up phrases
+              </button>
+            )}
             <button
               type="button"
               onClick={startCall}
+              disabled={scenario.id === "oral-examiner" && !openEndedAvailable}
               className="stamp-button min-h-12"
             >
-              <Phone className="h-4 w-4" /> Call {scenario.role}
+              <Phone className="h-4 w-4" />{" "}
+              {scenario.id === "oral-examiner" ? "Start oral interview" : `Call ${scenario.role}`}
             </button>
           </div>
         </section>
@@ -780,7 +847,23 @@ export function RoleCallStudio({
                 <h1 className="truncate font-semibold">{scenario.role} · {scenario.roleHanzi}</h1>
                 <div className="mt-0.5 flex items-center gap-1.5 text-xs text-muted-foreground">
                   <Signal className="h-3 w-3" />
-                  {callState === "connecting" ? "Connecting…" : callState === "thinking" ? "Thinking…" : callState === "complete" ? "Call complete" : openEnded ? "Open conversation" : "On the call"}
+                  {callState === "connecting"
+                    ? "Connecting…"
+                    : callState === "thinking"
+                      ? examScore
+                        ? "Preparing score…"
+                        : "Thinking…"
+                      : callState === "complete"
+                        ? examScore
+                          ? `${examScore.level} score ready`
+                          : "Call complete"
+                        : scenario.id === "oral-examiner" && openEnded
+                          ? examLevel
+                            ? `${examLevel} interview`
+                            : "Interview setup"
+                          : openEnded
+                            ? "Open conversation"
+                            : "On the call"}
                 </div>
               </div>
             </div>
@@ -790,8 +873,17 @@ export function RoleCallStudio({
           </div>
           {openEnded ? (
             <div className="mt-4 flex items-center justify-between border-t border-foreground/20 pt-3 text-[0.68rem] font-bold uppercase tracking-wider">
-              <span className="flex items-center gap-2"><span className="h-2 w-2 animate-pulse rounded-full bg-emerald-600" />Free character conversation</span>
-              <span>No turn limit</span>
+              <span className="flex items-center gap-2">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-600" />
+                {scenario.id === "oral-examiner"
+                  ? examLevel
+                    ? `${examLevel} graded interview`
+                    : "Set level and topic"
+                  : "Free character conversation"}
+              </span>
+              <span>
+                {scenario.id === "oral-examiner" ? "End with SCORING" : "No turn limit"}
+              </span>
             </div>
           ) : (
             <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-background/60" aria-label={`${Math.round(progress * 100)}% complete`}>
@@ -829,7 +921,62 @@ export function RoleCallStudio({
               <div ref={transcriptEndRef} />
             </div>
 
-            {callState === "complete" ? (
+            {callState === "complete" && examScore ? (
+              <div className="border-t border-foreground bg-[oklch(var(--poster-yellow)/0.28)] p-5 sm:p-6">
+                <div className="flex flex-wrap items-end justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wide text-primary">
+                      {examScore.level} text assessment
+                    </p>
+                    <h2 className="mt-1 text-2xl font-bold">Interview score</h2>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Based on {examScore.assessedTurns} interview{" "}
+                      {examScore.assessedTurns === 1 ? "answer" : "answers"}
+                    </p>
+                  </div>
+                  <p className="font-[family-name:var(--font-hanzi-display)] text-5xl leading-none">
+                    {examScore.total}
+                    <span className="ml-1 font-sans text-sm font-semibold">/100</span>
+                  </p>
+                </div>
+                <div className="mt-5 grid gap-2 text-left sm:grid-cols-2">
+                  {[
+                    ["Communicative success", examScore.communicativeSuccess, 40],
+                    ["Vocabulary control", examScore.vocabularyControl, 25],
+                    ["Grammar & clarity", examScore.grammarClarity, 25],
+                    ["Interaction", examScore.interaction, 10],
+                  ].map(([label, value, maximum]) => (
+                    <div key={String(label)} className="border border-foreground bg-card px-3 py-2">
+                      <p className="text-xs text-muted-foreground">{label}</p>
+                      <p className="mt-1 text-lg font-bold">
+                        {value}
+                        <span className="text-xs font-medium text-muted-foreground">
+                          {" "}/ {maximum}
+                        </span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-4 text-sm leading-6">{examScore.summary}</p>
+                <div className="mt-4 border-l-4 border-primary pl-3 text-left">
+                  <p className="text-xs font-bold uppercase tracking-wide text-primary">
+                    Next attempt
+                  </p>
+                  <p className="mt-1 text-sm">{examScore.nextStep}</p>
+                </div>
+                <p className="mt-4 text-xs leading-5 text-muted-foreground">
+                  {examScore.disclaimer}
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <button type="button" onClick={startCall} className="inline-flex min-h-11 items-center gap-2 border border-foreground bg-card px-4 py-2 text-sm font-bold hover:bg-secondary">
+                    <RotateCcw className="h-4 w-4" /> New interview
+                  </button>
+                  <button type="button" onClick={endCall} className="stamp-button min-h-11">
+                    <CircleStop className="h-4 w-4" /> Choose another role
+                  </button>
+                </div>
+              </div>
+            ) : callState === "complete" ? (
               <div className="border-t border-border bg-secondary/30 p-5 text-center">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"><Check className="h-6 w-6" /></div>
                 <h2 className="mt-3 text-lg font-semibold">Call goal complete</h2>
@@ -862,7 +1009,7 @@ export function RoleCallStudio({
                   </button>
                   <div className="min-w-0 flex-1">
                     <label htmlFor="learner-reply" className="sr-only">Your Mandarin reply</label>
-                    <input id="learner-reply" value={learnerText} onChange={(event) => setLearnerText(event.target.value)} disabled={callState !== "active"} autoComplete="off" placeholder={isListening ? "Listening in Mandarin…" : "Hanzi or pinyin…"} className="h-11 w-full rounded-xl border border-input bg-background px-3 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60" />
+                    <input id="learner-reply" value={learnerText} onChange={(event) => setLearnerText(event.target.value)} disabled={callState !== "active"} autoComplete="off" placeholder={isListening ? "Listening in Mandarin…" : scenario.id === "oral-examiner" ? "HSK 1 or 2, your answer, or SCORING…" : "Hanzi or pinyin…"} className="h-11 w-full rounded-xl border border-input bg-background px-3 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60" />
                   </div>
                   <button type="submit" disabled={!learnerText.trim() || callState !== "active"} aria-label="Send reply" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"><Send className="h-4 w-4" /></button>
                 </div>
@@ -881,9 +1028,31 @@ export function RoleCallStudio({
             <p className="mt-2 text-sm font-medium">{scenario.goal}</p>
             {openEnded && callState !== "complete" && (
               <div className="mt-6 border border-foreground bg-[oklch(var(--poster-yellow)/0.35)] p-4">
-                <p className="text-xs font-bold uppercase tracking-wide text-primary">Open conversation</p>
-                <p className="mt-2 text-sm">There is no script or required answer. Respond naturally, change the details, ask questions, and end the call whenever you are done.</p>
-                <p className="mt-3 text-xs text-muted-foreground">Only the latest 10 turns are sent for context. Open talk does not inflate mastery progress.</p>
+                <p className="text-xs font-bold uppercase tracking-wide text-primary">
+                  {scenario.id === "oral-examiner"
+                    ? "How the interview works"
+                    : "Open conversation"}
+                </p>
+                {scenario.id === "oral-examiner" ? (
+                  <>
+                    <ol className="mt-2 space-y-2 text-sm">
+                      <li>1. Tell the instructor HSK 1 or HSK 2 and a topic.</li>
+                      <li>2. Answer one fresh question at a time.</li>
+                      <li>3. Type <strong>SCORING</strong> when you want the report.</li>
+                    </ol>
+                    <p className="mt-3 text-xs text-muted-foreground">
+                      {examLevel
+                        ? `${examLevel} is active.`
+                        : "The instructor is waiting for your level."}{" "}
+                      Your recognized text is scored; audio pronunciation is not.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="mt-2 text-sm">There is no script or required answer. Respond naturally, change the details, ask questions, and end the call whenever you are done.</p>
+                    <p className="mt-3 text-xs text-muted-foreground">Only the latest 24 turns are sent for context. Open talk does not inflate mastery progress.</p>
+                  </>
+                )}
               </div>
             )}
             {!openEnded && currentStep && callState !== "complete" && (

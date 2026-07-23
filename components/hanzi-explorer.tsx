@@ -27,12 +27,14 @@ import {
   HANZI_TOPIC_SETS,
   findHanziTopic,
   makeHanziLessonMatchPractice,
+  makeHanziLessonSelectedPractice,
   makeHanziLessonSoundPractice,
   makeHanziLessonTest,
   makeHanziLessonUsePractice,
   makeHanziSetTest,
   makeHanziWordTest,
   wordsForTopic,
+  type HanziLessonTask,
   type HanziTopicId,
 } from "@/lib/hanzi-practice";
 import { stageForWord } from "@/lib/data/stages";
@@ -62,7 +64,13 @@ import {
 
 type CollectionId = "hsk1" | "hsk2" | HanziTopicId;
 type HanziView = "lessons" | "overview" | "sets";
-type PracticeKind = "standard" | "match" | "sound" | "use" | "test";
+type PracticeKind =
+  | "standard"
+  | "match"
+  | "sound"
+  | "use"
+  | "test"
+  | "lesson-selection";
 
 const hanziFont = "font-[family-name:var(--font-hanzi-display)]";
 const readingHanziFont = "font-[family-name:var(--font-hanzi)]";
@@ -310,6 +318,9 @@ export function HanziExplorer({
   );
   const [testStageId, setTestStageId] = useState<string | null>(null);
   const [practiceKind, setPracticeKind] = useState<PracticeKind>("standard");
+  const [lessonTaskSelection, setLessonTaskSelection] = useState<
+    HanziLessonTask[]
+  >(["match", "sound", "use"]);
   const [playerMode, setPlayerMode] = useState<"practice" | "quiz">(
     requestedGrammar ? "practice" : "quiz",
   );
@@ -353,11 +364,23 @@ export function HanziExplorer({
         return makeHanziLessonUsePractice(testStageId, testSeed);
       if (practiceKind === "test" && testStageId)
         return makeHanziLessonTest(testStageId, testSeed);
+      if (practiceKind === "lesson-selection" && testStageId)
+        return makeHanziLessonSelectedPractice(
+          testStageId,
+          lessonTaskSelection,
+          testSeed,
+        );
       return testWordIds.length === 1
         ? makeHanziWordTest(testWordIds[0], testSeed)
         : makeHanziSetTest(testWordIds, testSeed);
     },
-    [practiceKind, testSeed, testStageId, testWordIds],
+    [
+      lessonTaskSelection,
+      practiceKind,
+      testSeed,
+      testStageId,
+      testWordIds,
+    ],
   );
   const topic = grammarFocus ? undefined : findHanziTopic(collectionId);
   const activeCollectionTitle = grammarFocus
@@ -403,17 +426,40 @@ export function HanziExplorer({
   }
 
   function startLessonPractice(
-    kind: HanziLessonPractice,
+    kind: HanziLessonPractice | HanziLessonTask[],
     lesson: HanziLessonChunk,
   ) {
+    const selectedTasks = Array.isArray(kind) ? kind : null;
     setTestWordIds(
-      kind === "review" ? lesson.cumulativeWordIds : lesson.wordIds,
+      !selectedTasks && kind === "review"
+        ? lesson.cumulativeWordIds
+        : lesson.wordIds,
     );
     setTestStageId(lesson.id);
-    setPracticeKind(kind === "review" ? "standard" : kind);
-    setPlayerMode(kind === "test" ? "quiz" : "practice");
+    if (selectedTasks) {
+      setLessonTaskSelection(selectedTasks);
+      setPracticeKind("lesson-selection");
+    } else {
+      const singleKind = kind as HanziLessonPractice;
+      setPracticeKind(singleKind === "review" ? "standard" : singleKind);
+    }
+    setPlayerMode(!selectedTasks && kind === "test" ? "quiz" : "practice");
     setTestTitle(
-      kind === "match"
+      selectedTasks
+        ? `Lesson ${lesson.index}: ${
+            selectedTasks.length === 3
+              ? "complete practice"
+              : selectedTasks
+                  .map((task) =>
+                    task === "match"
+                      ? "match"
+                      : task === "sound"
+                        ? "listen"
+                        : "use",
+                  )
+                  .join(" + ")
+          }`
+        : kind === "match"
         ? `Lesson ${lesson.index}: match every form and meaning`
         : kind === "sound"
           ? `Lesson ${lesson.index}: hear every form`
@@ -506,7 +552,13 @@ export function HanziExplorer({
               </div>
             </div>
           ) : (
-            <ExercisePlayer key={`${practiceKind}-${testStageId}-${testSeed}`} title={testTitle} exercises={test} mode={playerMode} onFinish={finishTest} />
+            <ExercisePlayer
+              key={`${practiceKind}-${lessonTaskSelection.join("-")}-${testStageId}-${testSeed}`}
+              title={testTitle}
+              exercises={test}
+              mode={playerMode}
+              onFinish={finishTest}
+            />
           )}
         </section>
       )}

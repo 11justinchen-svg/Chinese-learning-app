@@ -24,6 +24,136 @@ export interface SafeOpenCoachPayload extends SafeCoachPayload {
   accepted: boolean;
 }
 
+export type ExamHskLevel = "HSK 1" | "HSK 2";
+
+export interface ConversationExamScore {
+  level: ExamHskLevel;
+  assessedTurns: number;
+  total: number;
+  communicativeSuccess: number;
+  vocabularyControl: number;
+  grammarClarity: number;
+  interaction: number;
+  summary: string;
+  strengths: string[];
+  nextStep: string;
+  disclaimer: string;
+}
+
+const ACOUSTIC_CLAIM =
+  /pronunc|\btone(?:s|d)?\b|accent|fluenc|sounds? (?:good|natural|correct)|发音|声调|口音|流利/i;
+
+export function isScoringCommand(value: string): boolean {
+  return value.trim().toUpperCase() === "SCORING";
+}
+
+export function detectExamHskLevel(value: string): ExamHskLevel | null {
+  const normalized = value
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/\s+/g, "");
+  if (/(?:hsk-?2|hsk二|二级|2级|level2)/i.test(normalized)) return "HSK 2";
+  if (/(?:hsk-?1|hsk一|一级|1级|level1)/i.test(normalized)) return "HSK 1";
+  return null;
+}
+
+function safeScoreText(value: unknown, fallback: string, maxLength: number): string {
+  const text = typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+  if (!text || ACOUSTIC_CLAIM.test(text)) return fallback;
+  return text;
+}
+
+function boundedInteger(value: unknown, maximum: number): number {
+  const number = typeof value === "number" && Number.isFinite(value) ? value : 0;
+  return Math.max(0, Math.min(maximum, Math.round(number)));
+}
+
+export function parseConversationExamScore(
+  raw: string,
+  expectedLevel: ExamHskLevel,
+  assessedTurns = 4,
+): ConversationExamScore {
+  const parsed = JSON.parse(raw.replace(/^```json\s*|\s*```$/g, "")) as {
+    communicativeSuccess?: unknown;
+    vocabularyControl?: unknown;
+    grammarClarity?: unknown;
+    interaction?: unknown;
+    summary?: unknown;
+    strengths?: unknown;
+    nextStep?: unknown;
+  };
+  const evidenceCaps =
+    assessedTurns <= 0
+      ? [8, 5, 5, 1]
+      : assessedTurns === 1
+        ? [22, 15, 15, 4]
+        : assessedTurns === 2
+          ? [30, 20, 20, 6]
+          : assessedTurns === 3
+            ? [36, 23, 23, 8]
+            : [40, 25, 25, 10];
+  const communicativeSuccess = boundedInteger(
+    parsed.communicativeSuccess,
+    evidenceCaps[0],
+  );
+  const vocabularyControl = boundedInteger(
+    parsed.vocabularyControl,
+    evidenceCaps[1],
+  );
+  const grammarClarity = boundedInteger(
+    parsed.grammarClarity,
+    evidenceCaps[2],
+  );
+  const interaction = boundedInteger(parsed.interaction, evidenceCaps[3]);
+  const strengths = Array.isArray(parsed.strengths)
+    ? parsed.strengths
+        .slice(0, 2)
+        .map((value) =>
+          safeScoreText(
+            value,
+            "You kept the exchange moving with understandable text.",
+            120,
+          ),
+        )
+    : [];
+  return {
+    level: expectedLevel,
+    assessedTurns,
+    total:
+      communicativeSuccess +
+      vocabularyControl +
+      grammarClarity +
+      interaction,
+    communicativeSuccess,
+    vocabularyControl,
+    grammarClarity,
+    interaction,
+    summary:
+      assessedTurns < 3
+        ? `Limited evidence from ${assessedTurns} interview ${assessedTurns === 1 ? "answer" : "answers"}. ${safeScoreText(
+            parsed.summary,
+            "Your recognized text shows emerging control at the selected level.",
+            180,
+          )}`
+        : safeScoreText(
+            parsed.summary,
+            "Your recognized text shows emerging control at the selected level.",
+            220,
+          ),
+    strengths:
+      strengths.length > 0
+        ? strengths
+        : ["You produced a meaningful reply in the conversation."],
+    nextStep: safeScoreText(
+      parsed.nextStep,
+      "Retake the interview and add one more detail to each answer.",
+      180,
+    ),
+    disclaimer:
+      "This score uses typed or recognized text only. It does not grade pronunciation, tones, accent, or acoustic fluency.",
+  };
+}
+
 export function toneMarkedPinyinForHanzi(hanzi: string): string {
   return pinyin(hanzi, { toneType: "symbol", type: "string" })
     .replace(/\s+([，。！？；：,.!?;:])/gu, "$1")
@@ -84,11 +214,7 @@ function safeGeneratedFeedback(
   const candidate = value as Record<string, unknown>;
   let note = typeof candidate.note === "string" ? candidate.note.trim() : "";
   if (!note || note.length > 220) return null;
-  if (
-    /pronunc|\btone(?:s|d)?\b|accent|fluenc|sounds? (?:good|natural|correct)|发音|声调|口音|流利/i.test(
-      note,
-    )
-  )
+  if (ACOUSTIC_CLAIM.test(note))
     note = accepted
       ? "Your intended meaning is understandable in the recognized text."
       : "The recognized words do not yet complete this turn’s goal.";
@@ -148,11 +274,7 @@ export function parseOpenCoachPayload(raw: string): SafeOpenCoachPayload {
     throw new Error("Unsafe or malformed open coaching feedback");
   if (note.length > 220 || betterHanzi.length > 64 || betterPinyin.length > 180)
     throw new Error("Open coaching feedback exceeded its safe size");
-  if (
-    /pronunc|\btone(?:s|d)?\b|accent|fluenc|sounds? (?:good|natural|correct)|发音|声调|口音|流利/i.test(
-      note,
-    )
-  )
+  if (ACOUSTIC_CLAIM.test(note))
     note = parsed.accepted
       ? "Your intended meaning is understandable in the recognized text."
       : "The recognized text is not fully clear yet; compare it with the model and try the next turn.";

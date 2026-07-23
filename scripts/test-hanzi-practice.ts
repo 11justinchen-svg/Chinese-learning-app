@@ -3,6 +3,7 @@ import { HSK } from "../lib/hsk";
 import {
   HANZI_TOPIC_SETS,
   makeHanziLessonMatchPractice,
+  makeHanziLessonSelectedPractice,
   makeHanziLessonSoundPractice,
   makeHanziLessonTest,
   makeHanziLessonUsePractice,
@@ -110,6 +111,31 @@ for (const lesson of HANZI_LESSON_CHUNKS) {
     assert(evidence.some((exercise) => exercise.kind === "listen"), `${lesson.id}/${wordId} needs sound evidence`);
     assert(evidence.some((exercise) => ["cloze", "order", "reply"].includes(exercise.kind)), `${lesson.id}/${wordId} needs contextual-use evidence`);
   }
+
+  const selectedPractice = makeHanziLessonSelectedPractice(
+    lesson.id,
+    ["match", "use"],
+    5,
+  );
+  assert(
+    selectedPractice.some((exercise) => exercise.kind === "match"),
+    `${lesson.id} selected practice must include requested matching`,
+  );
+  assert(
+    selectedPractice.some((exercise) =>
+      ["cloze", "order", "reply"].includes(exercise.kind),
+    ),
+    `${lesson.id} selected practice must include requested contextual use`,
+  );
+  assert(
+    selectedPractice.every((exercise) => exercise.kind !== "listen"),
+    `${lesson.id} selected practice must exclude unselected listening`,
+  );
+  assert.equal(
+    new Set(selectedPractice.map((exercise) => exercise.id)).size,
+    selectedPractice.length,
+    `${lesson.id} selected practice repeats an exercise ID`,
+  );
 }
 
 assert(HANZI_TOPIC_SETS.some((topic) => topic.id === "shopping"));

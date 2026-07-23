@@ -10,7 +10,11 @@ const scenarioIds = new Set();
 const stepIds = new Set();
 const grammarIds = new Set(GRAMMAR_LESSONS.map((lesson) => lesson.id));
 
-assert.equal(ROLE_CALL_SCENARIOS.length, 5, "Expected five launch roles");
+assert.equal(
+  ROLE_CALL_SCENARIOS.length,
+  6,
+  "Expected five everyday roles and one adaptive oral examiner",
+);
 
 for (const scenario of ROLE_CALL_SCENARIOS) {
   assert(!scenarioIds.has(scenario.id), `Duplicate scenario ID: ${scenario.id}`);
@@ -94,6 +98,13 @@ assert(
   !evaluateRoleCallAnswer(thanksStep, "bu xiexie"),
   "A contradictory pinyin thank-you must not pass",
 );
+
+const oralExam = ROLE_CALL_SCENARIOS.find(
+  (scenario) => scenario.id === "oral-examiner",
+);
+assert(oralExam, "Adaptive oral examiner preset must remain directly reachable");
+assert.match(oralExam.opening.hanzi, /HSK一级还是二级/);
+assert.match(oralExam.description, /SCORING/);
 
 console.log(
   `Role-call validation passed: ${scenarioIds.size} scenarios, ${stepIds.size} learner turns.`,

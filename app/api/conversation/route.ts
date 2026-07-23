@@ -4,10 +4,14 @@ import {
 } from "@/lib/role-calls";
 import {
   conversationAiProviderOrder,
+  detectExamHskLevel,
+  isScoringCommand,
   parseCoachPayload,
+  parseConversationExamScore,
   parseOpenCoachPayload,
   runConversationAiProviders,
   type ConversationAiProvider,
+  type ExamHskLevel,
 } from "@/lib/conversation-ai";
 
 export const runtime = "nodejs";
@@ -50,12 +54,12 @@ function allowAiTurn(request: Request): boolean {
 function sanitizeHistory(value: unknown): HistoryTurn[] {
   if (!Array.isArray(value)) return [];
   return value
-    .slice(-10)
+    .slice(-24)
     .map((item) => {
       const turn = item as Record<string, unknown>;
       const speaker: HistoryTurn["speaker"] =
         turn.speaker === "learner" ? "learner" : "persona";
-      const hanzi = typeof turn.hanzi === "string" ? turn.hanzi.trim().slice(0, 80) : "";
+      const hanzi = typeof turn.hanzi === "string" ? turn.hanzi.trim().slice(0, 160) : "";
       const english =
         typeof turn.english === "string" ? turn.english.trim().slice(0, 160) : "";
       return { speaker, hanzi, english };
@@ -115,10 +119,48 @@ function openSystemPrompt(
   scenario: NonNullable<ReturnType<typeof findRoleCallScenario>>,
   supportLevel: string,
   history: readonly HistoryTurn[],
+  sessionSeed: string,
 ): string {
   const compactHistory = history
     .map((turn) => `${turn.speaker === "learner" ? "LEARNER" : "ROLE"}: ${turn.hanzi}`)
     .join("\n");
+  if (scenario.id === "oral-examiner") {
+    const level =
+      detectExamHskLevel(history.map((turn) => turn.hanzi).join("\n")) ?? null;
+    const variationCards = [
+      "travel plans and an unexpected change",
+      "meeting a new classmate and making weekend plans",
+      "ordering food while one item is unavailable",
+      "shopping for a gift with a budget",
+      "asking for directions after missing a stop",
+      "describing a daily routine and solving a schedule conflict",
+      "checking into a hotel and requesting help",
+      "talking about weather and changing an activity",
+    ];
+    let hash = 0;
+    for (const character of sessionSeed)
+      hash = (hash * 31 + character.charCodeAt(0)) >>> 0;
+    const variation = variationCards[hash % variationCards.length];
+    return [
+      "You are a warm but rigorous Mandarin oral examiner.",
+      "The learner sets up the exam by telling you HSK 1 or HSK 2 and optionally a topic in the opening exchange.",
+      level
+        ? `The selected difficulty is ${level}. Keep every question and model answer within ${level} expectations.`
+        : "The level is not set. Ask the learner to choose HSK 1 or HSK 2 before beginning the interview.",
+      `Fresh variation card for this call: ${variation}. Session seed: ${sessionSeed}.`,
+      "If the learner named a topic, honor it and use the variation card only to add a realistic twist.",
+      "Conduct an open oral interview. Ask exactly one short interrogative question in simplified Chinese per turn and wait for the learner.",
+      "Vary question types across the interview: who, what, where, when, how many, choice, yes/no, and a simple reason when appropriate.",
+      "Do not repeat a question already visible in the transcript. Build the next question from a detail in the learner's last answer.",
+      "At HSK 1, favor short concrete questions and canonical HSK 1 vocabulary. At HSK 2, allow connected time, place, comparison, experience, and reason questions using HSK 1 plus HSK 2 vocabulary.",
+      "Evaluate communicative meaning from recognized text only. Never claim to hear pronunciation, tones, accent, or fluency.",
+      "Give at most one concise wording correction, then continue with the next question.",
+      "The learner ends the assessment by sending the exact command SCORING. Never ask them to say it aloud.",
+      `Learner support: ${supportLevel}.`,
+      "Recent bounded transcript:",
+      compactHistory || "(No previous turns supplied.)",
+    ].join("\n");
+  }
   return [
     `Stay in character as a ${scenario.role} in ${scenario.setting}.`,
     `The learner is studying HSK 1 or HSK 2 Mandarin with ${supportLevel} support.`,
@@ -129,6 +171,27 @@ function openSystemPrompt(
     "Even after a weak reply, keep the roleplay moving with a simple clarifying question.",
     "Recent bounded transcript:",
     compactHistory || "(No previous turns supplied.)",
+  ].join("\n");
+}
+
+function examScoringPrompt(
+  level: ExamHskLevel,
+  history: readonly HistoryTurn[],
+): string {
+  const transcript = history
+    .filter((turn) => !isScoringCommand(turn.hanzi))
+    .map((turn) => `${turn.speaker === "learner" ? "LEARNER" : "EXAMINER"}: ${turn.hanzi}`)
+    .join("\n");
+  return [
+    `You are scoring a ${level} Mandarin oral-interview transcript.`,
+    "Assess only the learner's typed or speech-recognized text. Do not score or discuss pronunciation, tones, accent, or acoustic fluency.",
+    "Use these exact maximums: communicativeSuccess 40, vocabularyControl 25, grammarClarity 25, interaction 10.",
+    "Reward answers that accomplish the question's intent even when wording is imperfect.",
+    "Calibrate expectations to the selected HSK level. Do not penalize an HSK 1 learner for not using HSK 2 grammar.",
+    "Give a concise, evidence-based summary, at most two strengths, and one immediately useful next step.",
+    "Return only the requested JSON object.",
+    "Transcript:",
+    transcript || "(No assessable learner turns.)",
   ].join("\n");
 }
 
@@ -232,6 +295,34 @@ const openCoachSchema = {
   required: ["accepted", "feedback", "turn"],
 };
 
+const examScoreSchema = {
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    communicativeSuccess: { type: "integer", minimum: 0, maximum: 40 },
+    vocabularyControl: { type: "integer", minimum: 0, maximum: 25 },
+    grammarClarity: { type: "integer", minimum: 0, maximum: 25 },
+    interaction: { type: "integer", minimum: 0, maximum: 10 },
+    summary: { type: "string" },
+    strengths: {
+      type: "array",
+      items: { type: "string" },
+      minItems: 1,
+      maxItems: 2,
+    },
+    nextStep: { type: "string" },
+  },
+  required: [
+    "communicativeSuccess",
+    "vocabularyControl",
+    "grammarClarity",
+    "interaction",
+    "summary",
+    "strengths",
+    "nextStep",
+  ],
+};
+
 async function readGeminiRaw(
   apiKey: string,
   system: string,
@@ -260,6 +351,7 @@ async function readGeminiRaw(
         ],
         generationConfig: {
           maxOutputTokens: 320,
+          temperature: openEnded ? 0.8 : 0.25,
           responseFormat: {
             text: {
               mimeType: "APPLICATION_JSON",
@@ -286,6 +378,56 @@ async function readGeminiRaw(
   if (!raw) throw new Error("Gemini returned no text response");
   if (geminiCache.size >= 100) geminiCache.delete(geminiCache.keys().next().value ?? "");
   geminiCache.set(cacheKey, { raw, expiresAt: Date.now() + 30_000 });
+  return raw;
+}
+
+async function readGeminiExamScoreRaw(
+  apiKey: string,
+  system: string,
+): Promise<string> {
+  const upstream = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(GEMINI_MODEL)}:generateContent`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: system }] },
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: "SCORING" }],
+          },
+        ],
+        generationConfig: {
+          maxOutputTokens: 420,
+          temperature: 0.15,
+          responseFormat: {
+            text: {
+              mimeType: "APPLICATION_JSON",
+              schema: examScoreSchema,
+            },
+          },
+        },
+      }),
+      signal: AbortSignal.timeout(12_000),
+    },
+  );
+  if (!upstream.ok) {
+    const detail = (await upstream.json().catch(() => null)) as {
+      error?: { message?: string };
+    } | null;
+    throw new Error(
+      `Gemini scoring returned ${upstream.status}: ${detail?.error?.message?.slice(0, 320) ?? "unknown error"}`,
+    );
+  }
+  const result = (await upstream.json()) as {
+    candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+  };
+  const raw = result.candidates?.[0]?.content?.parts?.find((part) => part.text)?.text;
+  if (!raw) throw new Error("Gemini returned no scoring response");
   return raw;
 }
 
@@ -350,6 +492,10 @@ export async function POST(request: Request) {
     : "guided";
   const mode = input.mode === "open" ? "open" : "authored";
   const history = sanitizeHistory(input.history);
+  const sessionSeed =
+    typeof input.sessionSeed === "string"
+      ? input.sessionSeed.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 80)
+      : "default";
 
   if (!scenario || !learnerText || learnerText.length > 160)
     return Response.json({ error: "Invalid role-call turn." }, { status: 400 });
@@ -364,7 +510,44 @@ export async function POST(request: Request) {
       async start(controller) {
         controller.enqueue(event({ type: "status", status: "thinking" }));
         try {
-          const system = openSystemPrompt(scenario, supportLevel, history);
+          if (
+            scenario.id === "oral-examiner" &&
+            isScoringCommand(learnerText)
+          ) {
+            const level =
+              detectExamHskLevel(history.map((turn) => turn.hanzi).join("\n")) ??
+              "HSK 1";
+            const raw = await readGeminiExamScoreRaw(
+              process.env.GEMINI_API_KEY as string,
+              examScoringPrompt(level, history),
+            );
+            const assessedTurns = Math.max(
+              0,
+              history.filter(
+                (turn) =>
+                  turn.speaker === "learner" &&
+                  !isScoringCommand(turn.hanzi),
+              ).length - 1,
+            );
+            controller.enqueue(
+              event({
+                type: "score",
+                provider: "gemini",
+                score: parseConversationExamScore(
+                  raw,
+                  level,
+                  assessedTurns,
+                ),
+              }),
+            );
+            return;
+          }
+          const system = openSystemPrompt(
+            scenario,
+            supportLevel,
+            history,
+            sessionSeed,
+          );
           const raw = await readGeminiRaw(
             process.env.GEMINI_API_KEY as string,
             system,
@@ -384,6 +567,12 @@ export async function POST(request: Request) {
               type: "turn",
               provider: "gemini",
               openEnded: true,
+              examLevel:
+                scenario.id === "oral-examiner"
+                  ? detectExamHskLevel(
+                      history.map((turn) => turn.hanzi).join("\n"),
+                    )
+                  : null,
               turn: generated.turn,
             }),
           );
@@ -418,7 +607,12 @@ export async function POST(request: Request) {
       controller.enqueue(event({ type: "status", status: "thinking" }));
       try {
         if (continueOpen) {
-          const system = openSystemPrompt(scenario, supportLevel, history);
+          const system = openSystemPrompt(
+            scenario,
+            supportLevel,
+            history,
+            sessionSeed,
+          );
           const raw = await readGeminiRaw(
             process.env.GEMINI_API_KEY as string,
             system,

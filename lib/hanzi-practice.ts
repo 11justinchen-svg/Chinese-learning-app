@@ -26,6 +26,8 @@ export interface HanziTopicSet {
   scenarioId?: string;
 }
 
+export type HanziLessonTask = "match" | "sound" | "use";
+
 export const HANZI_TOPIC_SETS: HanziTopicSet[] = [
   {
     id: "shopping",
@@ -433,12 +435,31 @@ export function makeHanziLessonTest(
   stageId: string,
   seed: number,
 ): Exercise[] {
+  return makeHanziLessonSelectedPractice(
+    stageId,
+    ["match", "sound", "use"],
+    seed,
+  );
+}
+
+export function makeHanziLessonSelectedPractice(
+  stageId: string,
+  tasks: HanziLessonTask[],
+  seed: number,
+): Exercise[] {
   const stage = STAGES.find((candidate) => candidate.id === stageId);
   if (!stage) return [];
+  const selected = new Set(tasks);
   return [
-    ...makeHanziLessonMatchPractice(stage.wordIds, seed),
-    ...makeHanziLessonSoundPractice(stage.wordIds, seed),
-    ...makeHanziLessonUsePractice(stage.id, seed),
+    ...(selected.has("match")
+      ? makeHanziLessonMatchPractice(stage.wordIds, seed)
+      : []),
+    ...(selected.has("sound")
+      ? makeHanziLessonSoundPractice(stage.wordIds, seed)
+      : []),
+    ...(selected.has("use")
+      ? makeHanziLessonUsePractice(stage.id, seed)
+      : []),
   ];
 }
 
