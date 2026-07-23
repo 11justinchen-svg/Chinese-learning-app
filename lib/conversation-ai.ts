@@ -58,9 +58,23 @@ export function detectExamHskLevel(value: string): ExamHskLevel | null {
 }
 
 function safeScoreText(value: unknown, fallback: string, maxLength: number): string {
-  const text = typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+  const text = typeof value === "string" ? value.trim() : "";
   if (!text || ACOUSTIC_CLAIM.test(text)) return fallback;
-  return text;
+  if (text.length <= maxLength) return text;
+  const clipped = text.slice(0, maxLength - 1);
+  const boundaries = [
+    clipped.lastIndexOf(" "),
+    clipped.lastIndexOf("。"),
+    clipped.lastIndexOf("！"),
+    clipped.lastIndexOf("？"),
+    clipped.lastIndexOf("."),
+  ];
+  const boundary = Math.max(...boundaries);
+  const clean =
+    boundary >= Math.floor(maxLength * 0.65)
+      ? clipped.slice(0, boundary)
+      : clipped;
+  return `${clean.trimEnd()}…`;
 }
 
 function boundedInteger(value: unknown, maximum: number): number {

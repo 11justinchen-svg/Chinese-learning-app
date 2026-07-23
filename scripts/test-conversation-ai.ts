@@ -57,6 +57,25 @@ assert.match(safeExamScore.summary, /Limited evidence/);
 assert.doesNotMatch(safeExamScore.summary, /pronunciation/i);
 assert.doesNotMatch(safeExamScore.strengths.join(" "), /accent/i);
 
+const longExamScore = parseConversationExamScore(
+  JSON.stringify({
+    communicativeSuccess: 30,
+    vocabularyControl: 20,
+    grammarClarity: 20,
+    interaction: 8,
+    summary:
+      "The learner answered the questions directly and added useful personal details throughout the exchange. " +
+      "The response remained understandable while using level-appropriate vocabulary and clear sentence patterns. " +
+      "The learner also carried information forward from earlier questions.",
+    strengths: ["Clear answers"],
+    nextStep: "Keep practicing.",
+  }),
+  "HSK 2",
+  4,
+);
+assert(longExamScore.summary.endsWith("…"));
+assert(longExamScore.summary.length <= 220);
+
 const target = {
   hanzi: "我想买这个。",
   pinyin: "Wǒ xiǎng mǎi zhège.",
