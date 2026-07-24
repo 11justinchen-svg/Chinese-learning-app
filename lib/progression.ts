@@ -3,6 +3,7 @@
 
 import { MASTERED_BOX, type SrsStore } from "@/lib/srs";
 import type { ExerciseKind, Stage } from "@/lib/data/stages/types";
+import { markLocalLearningDataChanged } from "@/lib/account/events";
 
 export type WordStatus = "new" | "seen" | "learning" | "learned" | "mastered";
 export type HanziProficiencyStatus =
@@ -109,6 +110,7 @@ export function loadProgress(): ProgressStore {
 export function saveProgress(p: ProgressStore) {
   try {
     window.localStorage.setItem(KEY, JSON.stringify(p));
+    markLocalLearningDataChanged();
   } catch {
     // Storage full or unavailable — progress just won't persist.
   }

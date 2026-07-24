@@ -18,6 +18,7 @@ import {
   type SrsStore,
 } from "@/lib/srs";
 import { cn } from "@/lib/utils";
+import { markLocalLearningDataChanged } from "@/lib/account/events";
 
 const hanziFont = "font-[family-name:var(--font-hanzi)]";
 const displayFont = "font-[family-name:var(--font-display)]";
@@ -191,6 +192,7 @@ export function Flashcards({
     setCustom(next);
     try {
       localStorage.setItem(CARDS_KEY, JSON.stringify(next));
+      markLocalLearningDataChanged();
     } catch {
       // ignore
     }

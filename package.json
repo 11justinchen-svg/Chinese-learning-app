@@ -20,14 +20,17 @@
     "test:speech": "tsx scripts/test-speech.ts",
     "test:ai": "tsx scripts/test-conversation-ai.ts",
     "test:progression": "tsx scripts/test-progression.ts",
-    "test:hanzi": "tsx scripts/test-hanzi-practice.ts"
+    "test:hanzi": "tsx scripts/test-hanzi-practice.ts",
+    "test:account": "tsx scripts/test-account-sync.ts"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.3",
+    "@supabase/supabase-js": "^2.110.8",
     "clsx": "^2.1.1",
     "hanzi-writer": "^3.7.3",
     "hanzi-writer-data": "^2.0.1",
     "lucide-react": "^0.456.0",
-    "next": "^15.5.18",
+    "next": "^15.5.21",
     "pinyin-pro": "^3.28.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

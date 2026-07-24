@@ -32,6 +32,7 @@ import {
 } from "@/lib/progression";
 import { isDue, loadSrs, type SrsStore } from "@/lib/srs";
 import { cn } from "@/lib/utils";
+import { ProgressSyncBanner } from "@/components/account/progress-sync-banner";
 
 const hanziFont = "font-[family-name:var(--font-hanzi-display)]";
 const displayFont = "font-[family-name:var(--font-display)]";
@@ -171,6 +172,7 @@ export function ProgressDashboard() {
             </div>
           </div>
         </header>
+        <ProgressSyncBanner />
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-y border-foreground py-4">
           <div

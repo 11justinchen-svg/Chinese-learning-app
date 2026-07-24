@@ -1,6 +1,7 @@
 "use client";
 
 // Tiny Leitner spaced-repetition store, persisted in localStorage. No backend.
+import { markLocalLearningDataChanged } from "@/lib/account/events";
 
 export interface CardState {
   box: number; // 0 = new/lapsed … 5 = mastered
@@ -27,6 +28,7 @@ export function loadSrs(): SrsStore {
 export function saveSrs(store: SrsStore) {
   try {
     localStorage.setItem(KEY, JSON.stringify(store));
+    markLocalLearningDataChanged();
   } catch {
     // ignore storage failures
   }

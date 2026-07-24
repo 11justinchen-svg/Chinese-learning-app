@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { BarChart3, BookOpenText, ClipboardCheck, Headphones, Layers, Library, Route } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { AccountNav } from "@/components/account/account-nav";
 
 const links = [
   { href: "/lessons", label: "Lessons", hanzi: "课", icon: Route },
@@ -30,7 +31,7 @@ export function Nav() {
           <span className="seal h-9 w-9 text-lg transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
             默
           </span>
-          <span className="leading-tight">
+          <span className="hidden leading-tight sm:block">
             <span className="block text-base font-bold tracking-tight">MoZhi</span>
             <span className="hidden text-[0.62rem] tracking-[0.22em] text-muted-foreground sm:block">
               默知 · LEARN BY SPEAKING
@@ -60,6 +61,7 @@ export function Nav() {
           <div className="ml-1 border-l border-border pl-1">
             <ThemeToggle />
           </div>
+          <AccountNav current={pathname.startsWith("/account")} />
         </nav>
       </div>
     </header>

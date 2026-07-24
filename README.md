@@ -19,6 +19,8 @@ retrieval practice, and character structure.
 - **Flashcards** (`/flashcards`): spaced review of HSK 3.0 Level 1 and Level 2 vocabulary.
 - **Progress** (`/progress`): stage completion, productive-recall gates,
   spaced-review status, and all supported words in one dashboard.
+- **Accounts** (`/account`): email/password sessions with local-first guest
+  progress, safe guest-to-account migration, and cross-device evidence sync.
 - **Hanzi component system** (`/hanzi`): a curated character explorer focused
   on functional components.
 
@@ -26,6 +28,7 @@ retrieval practice, and character structure.
 
 - Next.js 15 (App Router) with TypeScript
 - Tailwind CSS and local React components
+- Supabase Auth, Postgres, and Row Level Security for optional accounts
 - Gemini 3.5 Flash-Lite REST calls for structured character turns and feedback
 - Gemini 3.5 Live Translate with one-use, short-lived browser tokens
 
@@ -44,6 +47,19 @@ character calls and Live Translate. Keep this key server-side; the browser only
 receives a short-lived, one-use Live API token. Anthropic and local Ollama are
 optional fallback providers.
 
+### Enable accounts
+
+1. Create a Supabase project.
+2. Run `supabase/migrations/202607240001_accounts.sql` in the Supabase SQL
+   editor. It creates one progress row per learner and policies that restrict
+   every read and write to that learner.
+3. Add your site URL plus `/auth/callback` to the Supabase Auth redirect URLs.
+4. Set `NEXT_PUBLIC_SUPABASE_URL` and
+   `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in `.env.local`.
+
+Without those variables, all lessons still work in guest mode and progress
+stays in the browser.
+
 ## Deploy to Vercel
 
 Import the GitHub repository in Vercel with the repository root (`./`) as the
@@ -58,11 +74,17 @@ The committed defaults use `gemini-3.5-flash-lite` for the character and
 `GEMINI_MODEL`, `GEMINI_TRANSLATE_MODEL`, and `AI_FEEDBACK_PROVIDER=gemini`
 explicitly. Ollama is local-only and is disabled in Vercel functions.
 
+For accounts, add `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` to Vercel, then add the production
+`/auth/callback` URL to Supabase Auth. The app builds without them and keeps its
+local guest path.
+
 Before deploying, run the same gates used for this repository:
 
 ```bash
 npm ci
 npm run validate
+npm run test:account
 npm run test:progression
 npm run test:speech
 npm run build
@@ -72,24 +94,28 @@ npm run build
 
 Each stage follows the same durable-learning sequence:
 
-1. Tap through a short comprehensible dialogue with Mandarin speech.
-2. Learn the stage vocabulary in context.
-3. Retrieve it through choice, listening, matching, cloze, ordering, and reply
+1. Learn the stage vocabulary in context, with sound, meaning, and strokes.
+2. Retrieve it through choice, listening, matching, cloze, ordering, and reply
    tasks.
-4. Retrieve one or two focused grammar functions through ordering, cloze, and
+3. Retrieve one or two focused grammar functions through ordering, cloze, and
    scenario-reply tasks, then review them any time in `/grammar`.
-5. Pass the checkpoint with at least 80% first-try accuracy, learn at least 80%
+4. Use the new words in the lesson conversation.
+5. Take the five-item fast test or continue to the full checkpoint.
+6. Pass the checkpoint with at least 80% first-try accuracy, learn at least 80%
    of the stage words, and use at least half in sentence or reply practice.
-6. Review any HSK 1 or HSK 2 vocabulary with the local Leitner schedule.
+7. Review any HSK 1 or HSK 2 vocabulary with the local Leitner schedule.
 
 Progress stays on the device in `mozhi.progress.v1`, SRS scheduling in
-`mozhi.srs.v1`, and custom cards in `mozhi.cards.v1`.
+`mozhi.srs.v1`, and custom cards in `mozhi.cards.v1`. When signed in, those
+stores merge into the learner's private cloud row without changing mastery
+rules or stable content IDs.
 
 ## Verification
 
 ```bash
 npm run test:speech
 npm run test:progression
+npm run test:account
 npm run validate
 npm run build
 ```
@@ -101,6 +127,8 @@ shape and learnability, plus all authored role-call paths.
 
 ```
 app/
+  account/page.tsx             sign-in, profile, password, and sync status
+  auth/callback/route.ts       secure confirmation and recovery exchange
   lessons/                     HSK 1 and HSK 2 learning paths
   grammar/page.tsx             unlocked grammar repertoire
   conversation/page.tsx       open character and coached role calls
@@ -108,11 +136,14 @@ app/
   api/conversation/live-token short-lived Gemini Live tokens
   hanzi/page.tsx              character component explorer
 components/
+  account/                         session, forms, nav, and sync status
   conversation/role-call-studio.tsx  guided voice/text calls
   exercises/                       lesson exercise renderers
   progress/                        learner progress dashboard
   stage/                           stage dialogue and teaching UI
 lib/
+  account/            conservative local/cloud merge and guest restoration
+  supabase/           browser/server clients and cookie refresh
   role-calls.ts       authored personas, steps, and local evaluation
   speech.ts           browser Mandarin text-to-speech
   progression.ts      learning evidence, completion, and open stage access

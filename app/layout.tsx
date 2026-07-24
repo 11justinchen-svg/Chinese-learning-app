@@ -3,6 +3,7 @@ import "./globals.css";
 import { Nav } from "@/components/nav";
 import { ArchitecturalFrame } from "@/components/architectural-frame";
 import { display, hand, hanziDisplay } from "@/lib/fonts";
+import { AccountProvider } from "@/components/account/account-provider";
 
 export const metadata: Metadata = {
   title: "默知 MoZhi | Fast HSK 1 & 2 Chinese",
@@ -28,9 +29,11 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-screen antialiased">
-        <Nav />
-        <ArchitecturalFrame />
-        <div className="relative z-10">{children}</div>
+        <AccountProvider>
+          <Nav />
+          <ArchitecturalFrame />
+          <div className="relative z-10">{children}</div>
+        </AccountProvider>
       </body>
     </html>
   );
