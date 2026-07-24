@@ -208,6 +208,58 @@ function Breakdown({
       </div>
 
       {word.meanings.length > 1 && <p className="mt-4 text-sm text-muted-foreground">{word.meanings.join(" · ")}</p>}
+      {(word.usageNote || (word.examples?.length ?? 0) > 0) && (
+        <section className="mt-5 border border-foreground bg-card p-4" aria-labelledby={`usage-${word.id}`}>
+          <p
+            id={`usage-${word.id}`}
+            className="text-xs font-bold uppercase tracking-[0.16em] text-primary"
+          >
+            Meaning in use
+          </p>
+          {word.usageNote && (
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              {word.usageNote}
+            </p>
+          )}
+          {word.examples && word.examples.length > 0 && (
+            <div className="mt-3 grid gap-2">
+              {word.examples.map((example) => (
+                <div
+                  key={`${word.id}-${example.hanzi}`}
+                  className="grid gap-2 border-t border-border pt-3 sm:grid-cols-[1fr_auto] sm:items-start"
+                >
+                  <div>
+                    {example.label && (
+                      <p className="text-[0.65rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                        {example.label}
+                      </p>
+                    )}
+                    <p className={cn("mt-1 text-xl", readingHanziFont)}>
+                      {example.hanzi}
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {example.pinyin}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {example.english}
+                    </p>
+                  </div>
+                  {speech === "ready" && (
+                    <button
+                      type="button"
+                      onClick={() => speak(example.hanzi, { rate: 0.72 })}
+                      aria-label={`Hear example: ${example.hanzi}`}
+                      className="grid h-11 w-11 place-items-center border border-foreground bg-[oklch(var(--poster-cyan))] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      <Volume2 className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
       <div className="mt-5 bg-[oklch(var(--poster-yellow)/0.2)] px-4 py-3">
         <p className="font-[family-name:var(--font-hand)] text-lg">memory hook, not etymology</p>
         <p className="mt-1 text-sm leading-6 text-muted-foreground">
@@ -265,12 +317,13 @@ export function HanziExplorer({
         .filter((wordId) => Boolean(findWord(wordId)))
     : [];
   const requestedGrammarFirstWord = findWord(requestedGrammarWordIds[0]);
+  const requestedWord = findWord(initialWordId ?? "");
   const initialCollection: CollectionId =
-    requestedGrammarFirstWord?.id.startsWith("hsk2-")
+    requestedGrammarFirstWord?.syllabusLevel === 2
       ? "hsk2"
       : initialSetId && (initialSetId === "hsk1" || initialSetId === "hsk2" || findHanziTopic(initialSetId))
       ? (initialSetId as CollectionId)
-      : initialWordId?.startsWith("hsk2-")
+      : requestedWord?.syllabusLevel === 2
         ? "hsk2"
         : "hsk1";
   const [collectionId, setCollectionId] = useState<CollectionId>(initialCollection);
@@ -500,7 +553,7 @@ export function HanziExplorer({
       chooseCollection("shopping");
     }
     if (next === "overview" && findHanziTopic(collectionId)) {
-      chooseCollection(initialWordId?.startsWith("hsk2-") ? "hsk2" : "hsk1");
+      chooseCollection(requestedWord?.syllabusLevel === 2 ? "hsk2" : "hsk1");
     }
   }
 

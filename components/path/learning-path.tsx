@@ -71,11 +71,13 @@ export function LearningPath() {
   return (
     <section
       className={cn(
-        "min-h-screen overflow-hidden pb-32 pt-10 text-foreground sm:pt-14",
+        "min-h-screen overflow-x-clip pb-32 pt-10 text-foreground sm:pt-14",
         level === 1 ? "level-hsk1" : "level-hsk2",
       )}
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <HskLadder level={level} practiced={practiceByLevel} onSelect={chooseLevel} />
+
         <header className="poster-hero relative overflow-hidden border border-foreground bg-card">
           <span
             aria-hidden="true"
@@ -315,8 +317,6 @@ export function LearningPath() {
             </Link>
           </section>
         )}
-
-        <HskLadder level={level} practiced={practiceByLevel} onSelect={chooseLevel} />
       </div>
     </section>
   );

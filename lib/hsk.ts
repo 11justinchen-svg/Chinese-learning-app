@@ -17,12 +17,21 @@ export interface HanziChar {
   components: HanziComponent[];
 }
 
+export interface HskUsageExample {
+  hanzi: string;
+  pinyin: string;
+  english: string;
+  label?: string;
+}
+
 export interface HskWord {
   id: string;
   hanzi: string;
   pinyin: string;
   meaning: string;
   meanings: string[];
+  usageNote?: string;
+  examples?: HskUsageExample[];
   pos: string[];
   frequency: number | null;
   characters: HanziChar[];

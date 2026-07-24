@@ -286,6 +286,40 @@ const WORD_OVERRIDE = {
   过: { pinyin: "guo", meaning: "(past-experience particle); to pass" },
   着: { pinyin: "zhe", meaning: "(ongoing-state particle)" },
   第: { pinyin: "dì", meaning: "ordinal-number prefix" },
+  爱好: {
+    pinyin: "àihào",
+    meaning: "hobby; interest; to be fond of an activity",
+  },
+};
+
+// Short usage contrasts for words whose bare dictionary gloss can lead a
+// beginner to the wrong everyday choice. These fields are rendered by both
+// lesson teach cards and the Hanzi explorer.
+const WORD_GUIDANCE = {
+  爱好: {
+    usageNote:
+      "As a noun, 爱好 means a hobby or interest. As a verb, it means to be fond of an activity or field. For an everyday “like,” use 喜欢. 爱 is the stronger “love,” often used for people, but also for things or activities.",
+    examples: [
+      {
+        label: "hobby",
+        hanzi: "我的爱好是游泳。",
+        pinyin: "Wǒ de àihào shì yóuyǒng.",
+        english: "My hobby is swimming.",
+      },
+      {
+        label: "fond of",
+        hanzi: "他爱好音乐。",
+        pinyin: "Tā àihào yīnyuè.",
+        english: "He is fond of music.",
+      },
+      {
+        label: "contrast with 爱",
+        hanzi: "我爱妈妈。",
+        pinyin: "Wǒ ài māma.",
+        english: "I love Mom.",
+      },
+    ],
+  },
 };
 
 function componentInfo(comp) {
@@ -397,6 +431,7 @@ const out = words.map((w, i) => {
     pinyin,
     meaning: meanings[0] || "",
     meanings,
+    ...(WORD_GUIDANCE[hanziStr] ?? {}),
     pos: buildingHsk3
       ? w.pos
           .replace(/[（）]/g, "")

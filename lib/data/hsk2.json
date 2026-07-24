@@ -38,9 +38,30 @@
     "id": "hsk3-2025-302",
     "hanzi": "爱好",
     "pinyin": "àihào",
-    "meaning": "to like",
+    "meaning": "hobby; interest; to be fond of an activity",
     "meanings": [
-      "to like"
+      "hobby; interest; to be fond of an activity"
+    ],
+    "usageNote": "As a noun, 爱好 means a hobby or interest. As a verb, it means to be fond of an activity or field. For an everyday “like,” use 喜欢. 爱 is the stronger “love,” often used for people, but also for things or activities.",
+    "examples": [
+      {
+        "label": "hobby",
+        "hanzi": "我的爱好是游泳。",
+        "pinyin": "Wǒ de àihào shì yóuyǒng.",
+        "english": "My hobby is swimming."
+      },
+      {
+        "label": "fond of",
+        "hanzi": "他爱好音乐。",
+        "pinyin": "Tā àihào yīnyuè.",
+        "english": "He is fond of music."
+      },
+      {
+        "label": "contrast with 爱",
+        "hanzi": "我爱妈妈。",
+        "pinyin": "Wǒ ài māma.",
+        "english": "I love Mom."
+      }
     ],
     "pos": [
       "动",

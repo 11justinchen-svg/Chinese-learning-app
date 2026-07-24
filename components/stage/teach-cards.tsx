@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Volume2 } from "lucide-react";
 import type { TeachCard } from "@/lib/data/stages/types";
-import { findWord } from "@/lib/hsk";
+import { findWord, type HskUsageExample } from "@/lib/hsk";
 import { speak } from "@/lib/speech";
 import {
   speechFallbackMessage,
@@ -39,6 +39,10 @@ export function TeachCards({
 
   if (!card || !word) return null;
   const last = pos === cards.length - 1;
+  const usageNote = card.note ?? word.usageNote;
+  const examples: HskUsageExample[] = card.example
+    ? [card.example]
+    : (word.examples ?? []).slice(0, 3);
 
   return (
     <div>
@@ -80,34 +84,46 @@ export function TeachCards({
           {word.pinyin}
         </p>
         <p className="mt-1 text-lg font-semibold">{word.meaning}</p>
-        {card.note && (
+        {usageNote && (
           <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
-            {card.note}
+            {usageNote}
           </p>
         )}
-        {card.example && (
-          <div className="mx-auto mt-4 max-w-md rounded-xl border border-border bg-card px-4 py-3">
-            <div className="flex items-center justify-center gap-2">
-              <p className={cn("text-xl", hanziFont)}>{card.example.hanzi}</p>
-              {tts && (
-                <button
-                  type="button"
-                  aria-label="Play example"
-                  className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                  onClick={() => speak(card.example!.hanzi)}
+        {examples.length > 0 && (
+          <div className="mx-auto mt-4 grid max-w-lg gap-2 text-left">
+            {examples.map((example) => (
+              <div
+                key={`${example.hanzi}-${example.pinyin}`}
+                className="border border-border bg-card px-4 py-3"
+              >
+                {example.label && (
+                  <p className="mb-1 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-primary">
+                    {example.label}
+                  </p>
+                )}
+                <div className="flex items-center gap-2">
+                  <p className={cn("text-xl", hanziFont)}>{example.hanzi}</p>
+                  {tts && (
+                    <button
+                      type="button"
+                      aria-label={`Play example: ${example.hanzi}`}
+                      className="grid h-9 w-9 shrink-0 place-items-center border border-border text-muted-foreground transition-colors hover:border-primary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      onClick={() => speak(example.hanzi)}
+                    >
+                      <Volume2 className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                </div>
+                <p
+                  className={cn("mt-1 text-sm text-muted-foreground", displayFont)}
                 >
-                  <Volume2 className="h-3.5 w-3.5" />
-                </button>
-              )}
-            </div>
-            <p
-              className={cn("mt-1 text-xs text-muted-foreground", displayFont)}
-            >
-              {card.example.pinyin}
-            </p>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              {card.example.english}
-            </p>
+                  {example.pinyin}
+                </p>
+                <p className="mt-0.5 text-sm text-muted-foreground">
+                  {example.english}
+                </p>
+              </div>
+            ))}
           </div>
         )}
 

@@ -1,11 +1,9 @@
 "use client";
 
-import { Check, Languages } from "lucide-react";
-import { wordsForLevel, type HskLevel } from "@/lib/hsk";
+import { Check } from "lucide-react";
 import { stagesForLevel } from "@/lib/data/stages";
+import { wordsForLevel, type HskLevel } from "@/lib/hsk";
 import { cn } from "@/lib/utils";
-
-const hanziFont = "font-[family-name:var(--font-hanzi-display)]";
 
 export function HskLadder({
   level,
@@ -17,68 +15,48 @@ export function HskLadder({
   onSelect: (level: HskLevel) => void;
 }) {
   return (
-    <section className="poster-panel mt-20 overflow-hidden" aria-labelledby="level-heading">
-      <div className="grid lg:grid-cols-[0.7fr_1.3fr]">
-        <div className="bg-foreground p-7 text-background sm:p-9">
-          <Languages className="h-6 w-6" />
-          <p className="mt-8 font-[family-name:var(--font-hand)] text-xl">
-            two levels, no locked gates
-          </p>
-          <h2 id="level-heading" className="mt-2 text-3xl font-bold">
-            Pick the Chinese you need now.
-          </h2>
-        </div>
-        <div className="grid sm:grid-cols-2">
-          {([1, 2] as const).map((option) => {
-            const selected = level === option;
-            return (
-              <button
-                key={option}
-                type="button"
-                aria-pressed={selected}
-                onClick={() => onSelect(option)}
-                className={cn(
-                  "group relative min-h-48 overflow-hidden border-t border-foreground p-7 text-left transition-colors focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:border-t-0 sm:border-l",
-                  option === 1
-                    ? "bg-[oklch(var(--poster-green))] text-[oklch(var(--poster-ink))]"
-                    : "bg-[oklch(var(--poster-blue))] text-[oklch(var(--poster-paper))]",
-                )}
-              >
-                <span
-                  aria-hidden="true"
+    <nav
+      className="sticky top-16 z-30 -mx-5 mb-5 border-y border-foreground bg-background/95 px-5 py-3 sm:-mx-8 sm:px-8"
+      aria-label="Choose HSK level"
+    >
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span className="hidden text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground sm:inline">
+            Study level
+          </span>
+          <div className="inline-flex border border-foreground" role="group">
+            {([1, 2] as const).map((option) => {
+              const selected = level === option;
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => onSelect(option)}
                   className={cn(
-                    "absolute -bottom-10 -right-4 text-[10rem] leading-none opacity-20 transition-transform duration-200 group-hover:-translate-y-1",
-                    hanziFont,
+                    "inline-flex min-h-11 items-center gap-2 px-4 text-sm font-bold focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    option === 2 && "border-l border-foreground",
+                    selected
+                      ? option === 1
+                        ? "bg-[oklch(var(--poster-green))] text-[oklch(var(--poster-paper))]"
+                        : "bg-[oklch(var(--poster-blue))] text-[oklch(var(--poster-paper))]"
+                      : "bg-card hover:bg-secondary",
                   )}
                 >
-                  {option === 1 ? "一" : "二"}
-                </span>
-                <div className="relative flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.2em]">
-                      HSK {option}
-                    </p>
-                    <p className="mt-3 text-2xl font-bold">
-                      {option === 1 ? "Start speaking" : "Go further"}
-                    </p>
-                    <p className="mt-2 max-w-[22ch] text-sm opacity-80">
-                      {stagesForLevel(option).length} open lessons · {wordsForLevel(option).length} new words
-                    </p>
-                  </div>
+                  HSK {option}
                   {selected && (
-                    <span className="grid h-9 w-9 place-items-center border border-current" aria-label="Selected level">
-                      <Check className="h-4 w-4" />
-                    </span>
+                    <Check className="h-3.5 w-3.5" aria-hidden="true" />
                   )}
-                </div>
-                <p className="relative mt-10 text-xs font-semibold">
-                  {practiced[option]}% tried · open level
-                </p>
-              </button>
-            );
-          })}
+                </button>
+              );
+            })}
+          </div>
         </div>
+        <p className="text-xs font-semibold text-muted-foreground">
+          HSK {level}: {wordsForLevel(level).length} new words ·{" "}
+          {stagesForLevel(level).length} open lessons · {practiced[level]}% tried
+        </p>
       </div>
-    </section>
+    </nav>
   );
 }
